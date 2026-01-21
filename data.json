@@ -14,15 +14,6 @@
     "discount": "-3%",
     "logo": "ERlogo.png",
     "note": "Int & Dom Flights",
-    "notification": "Currently Closed",
-    "validity": "2025-06-01"
-  },
-  {
-    "category": "cash",
-    "airline": "Serene Air",
-    "discount": "-3%",
-    "logo": "ERlogo.png",
-    "note": "Int & Dom Flights",
     "notification": "Currently Suspend",
     "validity": "2025-06-01"
   }
