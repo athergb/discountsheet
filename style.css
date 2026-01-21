@@ -76,7 +76,7 @@ body {
 }
 
 #sheet {
-  width: 1100px;
+  width: 1100px; /* Fixed Width */
   background: #ffffff;
   padding: 40px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.1);
@@ -97,7 +97,7 @@ body {
 }
 
 /* =========================
-   GDS LOGOS (FIXED SIZES)
+   GDS LOGOS
 ========================= */
 .gds-logos {
   display: flex;
@@ -149,24 +149,31 @@ h3 {
 }
 
 /* =========================
-   GRID & CARDS
+   GRID (CHANGED TO 5 COLUMNS)
 ========================= */
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  grid-template-columns: repeat(5, 1fr); /* 5 Columns */
+  gap: 10px; /* Tighter gap to fit more */
   margin-bottom: 30px;
 }
 
+/* =========================
+   CARDS (COMPACT SIZING)
+========================= */
 .card {
   background: #fff;
   border: 1px solid #e0e0e0;
-  border-radius: 10px;
-  padding: 20px;
+  border-radius: 6px; /* Slightly smaller radius */
+  padding: 10px;       /* Reduced padding */
   text-align: center;
-  position: relative; /* Important for absolute positioning of buttons */
+  position: relative;
   box-shadow: 0 2px 5px rgba(0,0,0,0.05);
   transition: transform 0.2s;
+  min-height: 180px; /* Ensures consistent height for buttons */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .card:hover {
@@ -175,21 +182,21 @@ h3 {
 }
 
 .card img {
-  max-height: 60px;
-  margin-bottom: 10px;
+  max-height: 40px; /* Smaller logo for 5 cols */
+  margin-bottom: 8px;
   object-fit: contain;
 }
 
 .discount {
   position: absolute;
-  top: -10px;
+  top: -8px;
   left: 50%;
   transform: translateX(-50%);
   background: #ffeb3b;
   color: #333;
-  padding: 4px 12px;
+  padding: 2px 8px;
   font-weight: bold;
-  font-size: 14px;
+  font-size: 10px; /* Smaller font */
   border-radius: 20px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
@@ -197,17 +204,18 @@ h3 {
 .notice {
   background: #ff9800;
   color: white;
-  font-size: 11px;
-  padding: 2px 6px;
+  font-size: 10px;
+  padding: 1px 4px;
   border-radius: 4px;
-  margin-left: 5px;
+  margin-left: 3px;
   vertical-align: middle;
 }
 
 .validity {
-  font-size: 12px;
+  font-size: 10px;
   color: #777;
-  margin-top: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .expired {
@@ -215,25 +223,31 @@ h3 {
   font-weight: bold;
 }
 
-/* Paragraph Spacing Fix */
+/* Text adjustments for 5 columns */
 .card p {
-  margin-bottom: 10px;
-  line-height: 1.5;
-  font-size: 14px;
-  min-height: 1.5em;
+  margin-bottom: 4px;
+  line-height: 1.2;
+  font-size: 11px; /* Smaller text */
+  min-height: auto;
+}
+
+.card p b {
+  display: block;
+  font-size: 12px;
+  margin-bottom: 2px;
 }
 
 /* =========================
-   BUTTON ACTIONS (LEFT/RIGHT)
+   BUTTON ACTIONS
 ========================= */
 .actions {
   position: absolute !important;
-  bottom: 10px !important;
-  left: 0 !important;           /* Start from left edge */
-  width: 100% !important;       /* Stretch full width */
+  bottom: 8px !important;
+  left: 0 !important;
+  width: 100% !important;
   display: flex;
-  justify-content: space-between; /* Pushes Edit to Left, Delete to Right */
-  padding: 0 15px;              /* Padding from edges */
+  justify-content: space-between;
+  padding: 0 5px !important; /* Tight padding */
   box-sizing: border-box;
   z-index: 100;
 }
@@ -242,9 +256,9 @@ h3 {
   background-color: #3498db;
   color: white;
   border: none;
-  padding: 5px 8px;
-  border-radius: 4px;
-  font-size: 11px;
+  padding: 2px 5px;
+  border-radius: 3px;
+  font-size: 10px;
   cursor: pointer;
 }
 
@@ -252,9 +266,9 @@ h3 {
   background-color: #e74c3c;
   color: white;
   border: none;
-  padding: 5px 8px;
-  border-radius: 4px;
-  font-size: 11px;
+  padding: 2px 5px;
+  border-radius: 3px;
+  font-size: 10px;
   cursor: pointer;
 }
 
@@ -263,7 +277,7 @@ h3 {
 }
 
 /* =========================
-   MODALS (POPUPS)
+   MODALS
 ========================= */
 .modal {
   display: none; 
