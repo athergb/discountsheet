@@ -1,86 +1,85 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>QFC Airline Discount Sheet</title>
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <link rel="stylesheet" href="style.css">
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<!-- Google Font for Professional Look -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 
-<!-- ===== ADMIN BUTTONS ===== -->
-<div style="text-align: center; margin: 20px 0;">
-    <button id="loginBtn" onclick="showLoginModal()">Admin Login</button>
-    <button id="logoutBtn" onclick="logout()" style="display:none; background:red; color:white;">Logout</button>
-    <button id="addBtn" onclick="showAddModal()" style="display:none;">+ Add New Airline</button>
-</div>
+<body>
+
+<!-- ===== TOP HEADER ===== -->
+<header class="top-header">
+  <div class="header-content">
+    <img src="QFClogo.png" class="main-logo">
+    <div class="header-text">
+      <h1>QFC GROUP</h1>
+      <p>Discount Sheet Structure</p>
+    </div>
+  </div>
+  <div class="header-controls">
+      <button id="loginBtn" onclick="showLoginModal()">Admin Login</button>
+      <button id="logoutBtn" onclick="logout()" style="display:none;">Logout</button>
+      <button id="addBtn" onclick="showAddModal()" style="display:none;">+ Add Airline</button>
+  </div>
+</header>
 
 <!-- ===== LOGIN MODAL ===== -->
 <div id="loginModal" class="modal">
   <div class="modal-content">
-    <h3>Admin Login</h3>
+    <h2>Admin Access</h2>
+    <p style="font-size: 12px; color: #666; margin-bottom: 15px;">Restricted area</p>
     <input type="password" id="adminPassword" placeholder="Enter Password">
-    <button onclick="checkPassword()">Login</button>
-    <button onclick="closeModals()">Cancel</button>
+    <div class="modal-buttons">
+      <button class="btn-primary" onclick="checkPassword()">Login</button>
+      <button class="btn-secondary" onclick="closeModals()">Cancel</button>
+    </div>
   </div>
 </div>
 
 <!-- ===== ADD/EDIT MODAL ===== -->
 <div id="formModal" class="modal">
-  <div class="modal-content">
-    <h3 id="modalTitle">Add Airline</h3>
-    <input type="hidden" id="editIndex"> <!-- Stores index if editing -->
+  <div class="modal-content wide">
+    <h2 id="modalTitle">Manage Airline</h2>
+    <input type="hidden" id="editIndex">
     
-    <label>Category:</label>
-    <select id="inpCategory">
-        <option value="cash">Cash</option>
-        <option value="credit">Credit</option>
-    </select>
+    <div class="form-row">
+      <select id="inpCategory">
+          <option value="cash">Same Day Cash</option>
+          <option value="credit">Credit Airline</option>
+      </select>
+      <input type="text" id="inpAirline" placeholder="Airline Name (e.g., Emirates)">
+    </div>
     
-    <label>Airline Name:</label>
-    <input type="text" id="inpAirline">
-    
-    <label>Discount Text:</label>
-    <input type="text" id="inpDiscount">
-    
-    <label>Logo URL (or Filename):</label>
-    <input type="text" id="inpLogo" placeholder="e.g., 1A.png or https://...">
-    
-    <label>Note:</label>
-    <input type="text" id="inpNote">
-    
-    <label>Notification (Yellow Alert):</label>
-    <input type="text" id="inpNotice">
-    
-    <label>Validity Date:</label>
+    <div class="form-row">
+      <input type="text" id="inpDiscount" placeholder="Discount Text (e.g., PKR 500)">
+      <input type="text" id="inpLogo" placeholder="Logo Filename (e.g. 1A.png)">
+    </div>
+
+    <input type="text" id="inpNote" placeholder="Note (Optional)">
+    <input type="text" id="inpNotice" placeholder="Notification Alert (Optional)">
+    <label style="display:block; margin-top:10px; font-size: 14px; font-weight:600;">Validity Date</label>
     <input type="date" id="inpValidity">
 
-    <div class="modal-actions">
-        <button onclick="saveData()">Save</button>
-        <button onclick="closeModals()">Cancel</button>
+    <div class="modal-buttons">
+      <button class="btn-primary" onclick="saveData()">Save Changes</button>
+      <button class="btn-secondary" onclick="closeModals()">Cancel</button>
     </div>
   </div>
 </div>
 
-<body>
-
-<!-- ===== TOP HEADER (NOT IN JPG) ===== -->
-<header class="top-header">
-  <img src="QFClogo.png" class="main-logo">
-  <h2>Discount Sheet Structure</h2>
-</header>
-
-<!-- ===== SHEET (ONLY THIS IS CAPTURED) ===== -->
+<!-- ===== SHEET WRAPPER ===== -->
 <div id="sheet-wrapper">
   <div id="sheet">
 
     <!-- TOP ROW -->
     <div class="sheet-top-row">
       <div class="sheet-logo">
-        <img src="QFClogo.png" class="main-logo">
+        <img src="QFClogo.png">
       </div>
 
       <div class="gds-logos">
@@ -106,11 +105,10 @@
 
 <!-- ACTIONS -->
 <div class="bottom-actions">
-  <button onclick="saveAsJPG()">📸 Save as JPG</button>
-  <button onclick="saveForWhatsApp()">📱 WhatsApp JPG</button>
+  <button onclick="saveAsJPG()">📸 Download JPG (A4)</button>
+  <button onclick="saveForWhatsApp()">📱 Download JPG (WhatsApp)</button>
 </div>
 
 <script src="script.js"></script>
 </body>
 </html>
-
