@@ -144,3 +144,21 @@
   padding: 2px 6px;
   border-radius: 4px;
 }
+
+/* Update the Logo Box Image Rules */
+.logo-box {
+  width: 120px;
+  height: 80px;
+  background: #fff;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* Prevents image from sticking out */
+}
+
+.logo-box img {
+  width: 100% !important;       /* Force width to 100% of the box */
+  height: 100% !important;      /* Force height to 100% of the box */
+  object-fit: contain;          /* Keeps the logo proportional without stretching */
+}
