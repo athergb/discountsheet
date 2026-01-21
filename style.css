@@ -8,8 +8,8 @@
 }
 
 body {
-  font-family: 'Poppins', sans-serif; /* Modern Font */
-  background-color: #f0f2f5; /* Light grey background */
+  font-family: 'Poppins', sans-serif;
+  background-color: #f0f2f5;
   color: #333;
   padding-bottom: 50px;
 }
@@ -18,7 +18,7 @@ body {
    HEADER
 ========================= */
 .top-header {
-  background-color: #0f2e5a; /* QFC Blue */
+  background-color: #0f2e5a;
   color: white;
   padding: 15px 30px;
   display: flex;
@@ -112,14 +112,14 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden; /* Prevents overflow */
+  overflow: hidden;
   border: 1px solid #eee;
 }
 
 .logo-box img {
   max-width: 100%;
   max-height: 100%;
-  object-fit: contain; /* Keeps aspect ratio */
+  object-fit: contain;
 }
 
 /* =========================
@@ -128,11 +128,11 @@ body {
 .gds-offer-text {
   margin: 20px auto;
   padding: 12px 25px;
-  background: #fff9c4; /* Yellow */
+  background: #fff9c4;
   color: #333;
   font-size: 20px;
   font-weight: 600;
-  border-radius: 50px; /* Pill shape */
+  border-radius: 50px;
   text-align: center;
   border: 1px solid #fbc02d;
 }
@@ -164,7 +164,7 @@ h3 {
   border-radius: 10px;
   padding: 20px;
   text-align: center;
-  position: relative;
+  position: relative; /* Important for absolute positioning of buttons */
   box-shadow: 0 2px 5px rgba(0,0,0,0.05);
   transition: transform 0.2s;
 }
@@ -215,20 +215,51 @@ h3 {
   font-weight: bold;
 }
 
+/* Paragraph Spacing Fix */
+.card p {
+  margin-bottom: 10px;
+  line-height: 1.5;
+  font-size: 14px;
+  min-height: 1.5em;
+}
+
+/* =========================
+   BUTTON ACTIONS (LEFT/RIGHT)
+========================= */
 .actions {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
+  position: absolute !important;
+  bottom: 10px !important;
+  left: 0 !important;           /* Start from left edge */
+  width: 100% !important;       /* Stretch full width */
+  display: flex;
+  justify-content: space-between; /* Pushes Edit to Left, Delete to Right */
+  padding: 0 15px;              /* Padding from edges */
+  box-sizing: border-box;
+  z-index: 100;
+}
+
+.edit-btn {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 5px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  cursor: pointer;
 }
 
 .delete-btn {
+  background-color: #e74c3c;
   color: white;
-  background: #e74c3c;
   border: none;
-  padding: 5px 10px;
+  padding: 5px 8px;
   border-radius: 4px;
-  font-size: 12px;
+  font-size: 11px;
   cursor: pointer;
+}
+
+.edit-btn:hover, .delete-btn:hover {
+  opacity: 0.8;
 }
 
 /* =========================
@@ -341,7 +372,9 @@ input:focus {
   background-color: #555;
 }
 
-/* Print Settings */
+/* =========================
+   PRINT SETTINGS
+========================= */
 @media print {
   .top-header, .bottom-actions, .header-controls, #loginModal, #formModal {
     display: none !important;
@@ -352,51 +385,3 @@ input:focus {
     width: 100%;
   }
 }
-
-/* =========================
-   ACTIONS CONTAINER
-========================= */
-.actions {
-    position: absolute !important;
-    bottom: 10px !important;
-    left: 0 !important;       /* Starts at the left edge */
-    width: 100% !important;   /* Spans the whole width of the card */
-    display: flex;
-    justify-content: space-between; /* Pushes Edit to Left, Delete to Right */
-    padding: 0 15px;          /* Adds a little space from the edges */
-    box-sizing: border-box;
-    z-index: 100;
-}
-
-/* DELETE BUTTON */
-.delete-btn {
-  background-color: #e74c3c;
-  color: white;
-  border: none;
-  padding: 5px 8px;
-  border-radius: 4px;
-  font-size: 11px;
-  cursor: pointer;
-}
-
-/* EDIT BUTTON */
-.edit-btn {
-  background-color: #3498db;
-  color: white;
-  border: none;
-  padding: 5px 8px;
-  border-radius: 4px;
-  font-size: 11px;
-  cursor: pointer;
-}
-
-.edit-btn:hover, .delete-btn:hover {
-  opacity: 0.8;
-}
-
-
-
-
-
-
-
