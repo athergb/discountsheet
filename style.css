@@ -359,11 +359,13 @@ input:focus {
 .actions {
     position: absolute !important;
     bottom: 10px !important;
-    left: 10px !important;    /* Changed from 'right' to 'left' */
-    right: auto !important;   /* Resets the right positioning */
-    z-index: 100;
+    left: 0 !important;       /* Starts at the left edge */
+    width: 100% !important;   /* Spans the whole width of the card */
     display: flex;
-    gap: 5px;
+    justify-content: space-between; /* Pushes Edit to Left, Delete to Right */
+    padding: 0 15px;          /* Adds a little space from the edges */
+    box-sizing: border-box;
+    z-index: 100;
 }
 
 /* DELETE BUTTON */
@@ -386,11 +388,12 @@ input:focus {
   border-radius: 4px;
   font-size: 11px;
   cursor: pointer;
-  }
+}
 
 .edit-btn:hover, .delete-btn:hover {
   opacity: 0.8;
 }
+
 
 
 
