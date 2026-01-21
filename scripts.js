@@ -5,7 +5,7 @@ const CONFIG = {
     owner: "athergb", 
     repo: "discountsheet", 
     filePath: "data.json", 
-    adminPassword: "admin123" // Change this if you want a different password
+    adminPassword: "admin123" 
 };
 
 /* =========================
@@ -14,47 +14,38 @@ const CONFIG = {
 let data = [];
 let sha = "";
 let isEditor = false;
-let githubToken = ""; 
 
 /* =========================
-   LOAD DATA
+   LOAD DATA (AUTO FOR PUBLIC)
 ========================= */
 async function loadData() {
-    if (!githubToken) {
-        // Ask user for token to read data
-        githubToken = prompt("Enter your GitHub Token to view the sheet:");
-    }
-    
-    if (!githubToken) return; // User cancelled
-
     const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${CONFIG.filePath}`;
     
     try {
-        const res = await fetch(url, {
-            headers: { 'Authorization': `token ${githubToken}` }
-        });
+        // Try fetching WITHOUT token first (since repo is public)
+        const res = await fetch(url);
         
         if (!res.ok) throw new Error("Failed to load");
         
         const json = await res.json();
-        sha = json.sha; // Save SHA for future updates
+        sha = json.sha; 
         const content = atob(json.content);
         data = JSON.parse(content);
         
         render();
     } catch (error) {
         console.error("Error loading data:", error);
-        alert("Error loading data. Please check your Token and Internet connection.");
+        alert("Error loading data. Ensure 'data.json' exists in your repo.");
     }
 }
 
 /* =========================
-   SAVE DATA
+   SAVE DATA (ASKS TOKEN)
 ========================= */
 async function saveToGitHub() {
-    // Ask for token again for security on save
-    const tokenInput = prompt("Enter Token to Save Changes:");
-    if (!tokenInput) return;
+    // Ask for token ONLY when saving
+    const token = prompt("Enter GitHub Token to Save Changes:");
+    if (!token) return;
 
     const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${CONFIG.filePath}`;
     const contentBase64 = btoa(JSON.stringify(data, null, 2));
@@ -63,7 +54,7 @@ async function saveToGitHub() {
         const res = await fetch(url, {
             method: 'PUT',
             headers: {
-                'Authorization': `token ${tokenInput}`,
+                'Authorization': `token ${token}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
@@ -76,12 +67,12 @@ async function saveToGitHub() {
         if (!res.ok) throw new Error("Failed to save");
         
         const json = await res.json();
-        sha = json.content.sha; // Update SHA
+        sha = json.content.sha; 
         alert("Saved Successfully!");
         render();
     } catch (error) {
         console.error("Error saving:", error);
-        alert("Error saving. Check Token.");
+        alert("Error saving. Check your Token permissions.");
     }
 }
 
@@ -102,9 +93,8 @@ function render() {
         const expired = d < today ? "expired" : "";
         const categoryGrid = item.category === "cash" ? cashGrid : creditGrid;
 
-        // Delete button only if logged in
         const actionHtml = isEditor 
-            ? `<div class="actions"><span class="delete-btn" onclick="deleteEntry(${index})">DELETE</span></div>` 
+            ? `<div class="actions"><button class="delete-btn" onclick="deleteEntry(${index})">Delete</button></div>` 
             : "";
 
         const card = document.createElement("div");
@@ -140,7 +130,7 @@ function saveData() {
     const validity = document.getElementById("inpValidity").value;
     const editIndex = document.getElementById("editIndex").value;
 
-    if (!airline || !validity) return alert("Airline and Validity required");
+    if (!airline || !validity) return alert("Airline and Validity are required");
 
     const entry = { category, airline, discount, logo, note, notification, validity };
 
@@ -155,7 +145,7 @@ function saveData() {
 }
 
 /* =========================
-   AUTHENTICATION (THE MISSING PARTS)
+   AUTHENTICATION & UI
 ========================= */
 function showLoginModal() {
     document.getElementById("loginModal").style.display = "block";
@@ -174,9 +164,9 @@ function checkPassword() {
         document.getElementById("logoutBtn").style.display = "inline-block";
         document.getElementById("addBtn").style.display = "inline-block";
         closeModals();
-        render();
+        render(); // Refresh to show delete buttons
     } else {
-        alert("Wrong Password");
+        alert("Incorrect Password");
     }
 }
 
@@ -205,8 +195,11 @@ function showAddModal() {
 ========================= */
 async function saveAsJPG() {
   const sheet = document.getElementById("sheet");
-  const adminBtns = document.querySelector("div[style*='text-align: center']");
-  if(adminBtns) adminBtns.style.display = "none";
+  const headerBtns = document.querySelector(".header-controls");
+  const bottomBtns = document.querySelector(".bottom-actions");
+  
+  if(headerBtns) headerBtns.style.display = "none";
+  if(bottomBtns) bottomBtns.style.display = "none";
 
   const clone = sheet.cloneNode(true);
   clone.style.width = "1100px";
@@ -227,19 +220,23 @@ async function saveAsJPG() {
   });
 
   document.body.removeChild(wrapper);
-  if(adminBtns) adminBtns.style.display = "block";
+  if(headerBtns) headerBtns.style.display = "flex";
+  if(bottomBtns) bottomBtns.style.display = "block";
 
-  const img = canvas.toDataURL("image/jpeg", 0.92);
+  const img = canvas.toDataURL("image/jpeg", 0.95);
   const link = document.createElement("a");
-  link.download = "QFC-Airline-Discount-A4.jpg";
+  link.download = "QFC-Discount-Sheet.jpg";
   link.href = img;
   link.click();
 }
 
 async function saveForWhatsApp() {
   const sheet = document.getElementById("sheet");
-  const adminBtns = document.querySelector("div[style*='text-align: center']");
-  if(adminBtns) adminBtns.style.display = "none";
+  const headerBtns = document.querySelector(".header-controls");
+  const bottomBtns = document.querySelector(".bottom-actions");
+  
+  if(headerBtns) headerBtns.style.display = "none";
+  if(bottomBtns) bottomBtns.style.display = "none";
 
   const clone = sheet.cloneNode(true);
   clone.style.width = "900px";
@@ -259,11 +256,12 @@ async function saveForWhatsApp() {
   });
 
   document.body.removeChild(wrapper);
-  if(adminBtns) adminBtns.style.display = "block";
+  if(headerBtns) headerBtns.style.display = "flex";
+  if(bottomBtns) bottomBtns.style.display = "block";
 
   const img = canvas.toDataURL("image/jpeg", 0.9);
   const link = document.createElement("a");
-  link.download = "QFC-Airline-Discount-WhatsApp.jpg";
+  link.download = "QFC-WhatsApp.jpg";
   link.href = img;
   link.click();
 }
