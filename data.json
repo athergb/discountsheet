@@ -1,14 +1,5 @@
 [
   {
-    "category": "cash",
-    "airline": "Etihad",
-    "discount": "PKR 400",
-    "logo": "1A.png",
-    "note": "All Routes",
-    "notification": "",
-    "validity": "2024-12-31"
-  },
-  {
     "category": "credit",
     "airline": "Qatar Airways",
     "discount": "PKR 800",
