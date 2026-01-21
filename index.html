@@ -1,0 +1,116 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>QFC Airline Discount Sheet</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+</head>
+
+<!-- ===== ADMIN BUTTONS ===== -->
+<div style="text-align: center; margin: 20px 0;">
+    <button id="loginBtn" onclick="showLoginModal()">Admin Login</button>
+    <button id="logoutBtn" onclick="logout()" style="display:none; background:red; color:white;">Logout</button>
+    <button id="addBtn" onclick="showAddModal()" style="display:none;">+ Add New Airline</button>
+</div>
+
+<!-- ===== LOGIN MODAL ===== -->
+<div id="loginModal" class="modal">
+  <div class="modal-content">
+    <h3>Admin Login</h3>
+    <input type="password" id="adminPassword" placeholder="Enter Password">
+    <button onclick="checkPassword()">Login</button>
+    <button onclick="closeModals()">Cancel</button>
+  </div>
+</div>
+
+<!-- ===== ADD/EDIT MODAL ===== -->
+<div id="formModal" class="modal">
+  <div class="modal-content">
+    <h3 id="modalTitle">Add Airline</h3>
+    <input type="hidden" id="editIndex"> <!-- Stores index if editing -->
+    
+    <label>Category:</label>
+    <select id="inpCategory">
+        <option value="cash">Cash</option>
+        <option value="credit">Credit</option>
+    </select>
+    
+    <label>Airline Name:</label>
+    <input type="text" id="inpAirline">
+    
+    <label>Discount Text:</label>
+    <input type="text" id="inpDiscount">
+    
+    <label>Logo URL (or Filename):</label>
+    <input type="text" id="inpLogo" placeholder="e.g., 1A.png or https://...">
+    
+    <label>Note:</label>
+    <input type="text" id="inpNote">
+    
+    <label>Notification (Yellow Alert):</label>
+    <input type="text" id="inpNotice">
+    
+    <label>Validity Date:</label>
+    <input type="date" id="inpValidity">
+
+    <div class="modal-actions">
+        <button onclick="saveData()">Save</button>
+        <button onclick="closeModals()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<body>
+
+<!-- ===== TOP HEADER (NOT IN JPG) ===== -->
+<header class="top-header">
+  <img src="QFClogo.png" class="main-logo">
+  <h2>Discount Sheet Structure</h2>
+</header>
+
+<!-- ===== SHEET (ONLY THIS IS CAPTURED) ===== -->
+<div id="sheet-wrapper">
+  <div id="sheet">
+
+    <!-- TOP ROW -->
+    <div class="sheet-top-row">
+      <div class="sheet-logo">
+        <img src="QFClogo.png" class="main-logo">
+      </div>
+
+      <div class="gds-logos">
+        <div class="logo-box"><img src="1A.png"></div>
+        <div class="logo-box"><img src="1G.png"></div>
+        <div class="logo-box"><img src="1S.png"></div>
+      </div>
+    </div>
+
+    <!-- OFFER TEXT -->
+    <div class="gds-offer-text">
+      Get Additional Discount upto <strong>PKR 1600/-</strong> per ticket
+    </div>
+
+    <h3>SAME DAY CASH</h3>
+    <div class="grid" id="cashGrid"></div>
+
+    <h3>CREDIT AIRLINE</h3>
+    <div class="grid" id="creditGrid"></div>
+
+  </div>
+</div>
+
+<!-- ACTIONS -->
+<div class="bottom-actions">
+  <button onclick="saveAsJPG()">📸 Save as JPG</button>
+  <button onclick="saveForWhatsApp()">📱 WhatsApp JPG</button>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
+

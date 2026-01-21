@@ -1,0 +1,146 @@
+/* =========================
+   CSS PROFESSIONAL AIRLINE CARD
+========================= */
+.card {
+  position: relative;                      /* for discount tag */
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+  overflow: hidden;
+  padding: 20px 15px 50px 15px;           /* extra bottom padding for actions */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Hover effect */
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+/* DISCOUNT TAG */
+.discount {
+  position: absolute;
+  top: 10px;
+  left: -10px;                             /* half outside container */
+  background: #ffeb3b;
+  color: #222;
+  font-weight: bold;
+  padding: 6px 12px;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  font-size: 18px;
+  z-index: 2;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+}
+
+/* AIRLINE LOGO */
+.card img {
+  max-width: 140px;     /* larger logo */
+  max-height: 100px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  margin: 50px 0 10px 0;                     /* spacing for discount tag */
+}
+
+/* Airline name */
+.card p:first-of-type {
+  font-weight: bold;
+  font-size: 16px;
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+/* Notification / note below name */
+.card p:last-of-type {
+  font-size: 14px;
+  text-align: center;
+}
+
+.notice {
+  display: inline-block;
+  color: black;
+  font-weight: bold;
+  background-color: yellow; /* highlight */
+  padding: 2px 4px;
+  border-radius: 4px;
+  margin-left: 4px;
+}
+
+/* Actions (Edit / Delete) */
+.actions {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  display: flex;
+  gap: 8px;
+}
+
+.actions span {
+  cursor: pointer;
+  font-size: 13px;
+  color: blue;
+  user-select: none;
+}
+
+/* ===== ADMIN BUTTONS ===== */
+#loginBtn, #logoutBtn, #addBtn {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background: #333;
+  color: white;
+  margin: 0 5px;
+}
+#addBtn { background: green; }
+
+/* ===== MODALS ===== */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 1000; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto; /* 5% from the top */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 90%;
+  max-width: 400px;
+  border-radius: 8px;
+}
+
+.modal-content input, .modal-content select {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+
+.modal-actions {
+  margin-top: 15px;
+  text-align: right;
+}
+
+/* ===== DELETE BUTTON INSIDE CARD ===== */
+.delete-btn {
+  color: red;
+  font-weight: bold;
+  cursor: pointer;
+  border: 1px solid red;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
