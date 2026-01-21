@@ -353,25 +353,43 @@ input:focus {
   }
 }
 
-/* Ensure Actions stay on top */
+/* =========================
+   ACTIONS CONTAINER
+========================= */
 .actions {
     position: absolute !important;
     bottom: 10px !important;
     right: 10px !important;
-    z-index: 100; /* This forces it above the text */
-    pointer-events: auto;
+    z-index: 100;
+    display: flex; /* Aligns buttons horizontally */
+    gap: 5px;      /* Space between Edit and Delete */
 }
 
-/* Ensure Delete button is visible */
+/* DELETE BUTTON */
 .delete-btn {
-    background-color: #e74c3c !important; /* Red */
-    color: white !important;
-    padding: 5px 10px;
-    border: none;
-    border-radius: 4px;
-    font-size: 12px;
-    cursor: pointer;
-    display: inline-block !important;
+  background-color: #e74c3c; /* Red */
+  color: white;
+  border: none;
+  padding: 5px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  cursor: pointer;
 }
+
+/* EDIT BUTTON (New) */
+.edit-btn {
+  background-color: #3498db; /* Blue */
+  color: white;
+  border: none;
+  padding: 5px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.edit-btn:hover, .delete-btn:hover {
+  opacity: 0.8;
+}
+
 
 
