@@ -16,5 +16,14 @@
     "note": "Int & Dom Flights",
     "notification": "Currently Suspend",
     "validity": "2025-06-01"
+  },
+  {
+    "category": "cash",
+    "airline": "Fly Jinnah",
+    "discount": "PKR 500",
+    "logo": "FJlogo.png",
+    "note": "Int & Dom Flights",
+    "notification": "Per Pax PSF",
+    "validity": "2026-02-28"
   }
 ]
