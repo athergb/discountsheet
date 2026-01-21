@@ -148,6 +148,31 @@ function showAddModal() {
     }
 }
 
+/* =========================
+   EDIT ENTRY (NEW)
+========================= */
+function editEntry(index) {
+    const item = data[index]; // Get the data for this specific card
+    
+    // Fill the form with existing data
+    document.getElementById("inpCategory").value = item.category;
+    document.getElementById("inpAirline").value = item.airline;
+    document.getElementById("inpDiscount").value = item.discount;
+    document.getElementById("inpLogo").value = item.logo || "";
+    document.getElementById("inpNote").value = item.note || "";
+    document.getElementById("inpNotice").value = item.notification || "";
+    document.getElementById("inpValidity").value = item.validity;
+    
+    // Set the hidden index so saveData knows to UPDATE, not ADD
+    document.getElementById("editIndex").value = index;
+    
+    // Change Title
+    document.getElementById("modalTitle").innerText = "Edit Airline";
+    
+    // Show the modal
+    document.getElementById("formModal").style.display = "block";
+}
+
 function closeModals() {
     const loginModal = document.getElementById("loginModal");
     const formModal = document.getElementById("formModal");
