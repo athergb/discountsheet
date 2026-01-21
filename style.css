@@ -410,3 +410,26 @@ input:focus {
   grid-template-columns: repeat(5, 1fr) !important;
 }
 
+/* =========================
+   SHEET FOOTER
+========================= */
+.sheet-footer {
+  margin-top: 50px;
+  text-align: center;
+  border-top: 2px solid #0f2e5a; /* Matches Header Color */
+  padding-top: 20px;
+}
+
+.sheet-footer h4 {
+  font-size: 18px;
+  margin-bottom: 5px;
+  color: #0f2e5a;
+  text-transform: uppercase;
+}
+
+.sheet-footer p {
+  font-size: 13px;
+  color: #555;
+  font-weight: 500;
+}
+
