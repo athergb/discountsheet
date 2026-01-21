@@ -353,4 +353,25 @@ input:focus {
   }
 }
 
+/* Ensure Actions stay on top */
+.actions {
+    position: absolute !important;
+    bottom: 10px !important;
+    right: 10px !important;
+    z-index: 100; /* This forces it above the text */
+    pointer-events: auto;
+}
+
+/* Ensure Delete button is visible */
+.delete-btn {
+    background-color: #e74c3c !important; /* Red */
+    color: white !important;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    display: inline-block !important;
+}
+
 
