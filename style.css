@@ -185,6 +185,9 @@ h3 {
   max-height: 40px; /* Smaller logo for 5 cols */
   margin-bottom: 8px;
   object-fit: contain;
+  max-width: 100%;   /* Ensures it doesn't overflow the card */
+  margin-bottom: 8px;
+  display: block;    /* Removes inline spacing issues */ 
 }
 
 .discount {
@@ -406,3 +409,4 @@ input:focus {
 .grid {
   grid-template-columns: repeat(5, 1fr) !important;
 }
+
