@@ -2,13 +2,10 @@
    CONFIGURATION (REQUIRED)
 ========================= */
 const CONFIG = {
-    // 1. Create a 'data.json' file in your repo with content: []
-    // 2. Generate a GitHub Personal Access Token (Classic) with 'repo' permissions
-    githubToken: "YOUR_GITHUB_TOKEN_HERE", 
-    owner: "YOUR_GITHUB_USERNAME", 
-    repo: "discount-sheet", 
-    filePath: "data.json", 
-    adminPassword: "admin123" // Change this to your desired password
+    owner: "athergb",           // Your username from the link
+    repo: "discountsheet",      // Your repo name
+    filePath: "data.json",      // The file we just created
+    adminPassword: "admin123"   // Whatever password you want
 };
 
 /* =========================
@@ -267,5 +264,6 @@ async function saveForWhatsApp() {
   link.href = img;
   link.click();
 }
+
 
 window.onload = loadData;
