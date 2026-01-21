@@ -2,10 +2,10 @@
    CONFIGURATION
 ========================= */
 const CONFIG = {
-    owner: "athergb", 
-    repo: "discountsheet", 
-    filePath: "data.json", 
-    adminPassword: "admin123" 
+    owner: "athergb",           // Your GitHub Username
+    repo: "discountsheet",      // Your Repo Name
+    filePath: "data.json",      // The data file name
+    adminPassword: "admin123"  // Your Admin Password
 };
 
 /* =========================
@@ -16,16 +16,15 @@ let sha = "";
 let isEditor = false;
 
 /* =========================
-   LOAD DATA (AUTO FOR PUBLIC)
+   LOAD DATA (Read-Only Public)
 ========================= */
 async function loadData() {
     const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${CONFIG.filePath}`;
     
     try {
-        // Try fetching WITHOUT token first (since repo is public)
         const res = await fetch(url);
         
-        if (!res.ok) throw new Error("Failed to load");
+        if (!res.ok) throw new Error("Failed to load data");
         
         const json = await res.json();
         sha = json.sha; 
@@ -35,16 +34,15 @@ async function loadData() {
         render();
     } catch (error) {
         console.error("Error loading data:", error);
-        alert("Error loading data. Ensure 'data.json' exists in your repo.");
+        alert("Error loading data. Please check your Internet connection.");
     }
 }
 
 /* =========================
-   SAVE DATA (ASKS TOKEN)
+   SAVE DATA (Requires Token)
 ========================= */
 async function saveToGitHub() {
-    // Ask for token ONLY when saving
-    const token = prompt("Enter GitHub Token to Save Changes:");
+    const token = prompt("Enter your GitHub Token to Save:");
     if (!token) return;
 
     const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${CONFIG.filePath}`;
@@ -72,16 +70,18 @@ async function saveToGitHub() {
         render();
     } catch (error) {
         console.error("Error saving:", error);
-        alert("Error saving. Check your Token permissions.");
+        alert("Error saving. Please check your Token permissions.");
     }
 }
 
 /* =========================
-   RENDER
+   RENDER UI
 ========================= */
 function render() {
     const cashGrid = document.getElementById("cashGrid");
     const creditGrid = document.getElementById("creditGrid");
+    if(!cashGrid || !creditGrid) return;
+
     cashGrid.innerHTML = "";
     creditGrid.innerHTML = "";
 
@@ -93,6 +93,7 @@ function render() {
         const expired = d < today ? "expired" : "";
         const categoryGrid = item.category === "cash" ? cashGrid : creditGrid;
 
+        // Delete button only visible if logged in
         const actionHtml = isEditor 
             ? `<div class="actions"><button class="delete-btn" onclick="deleteEntry(${index})">Delete</button></div>` 
             : "";
@@ -112,10 +113,77 @@ function render() {
 }
 
 /* =========================
-   ACTIONS
+   AUTHENTICATION & MODALS
+========================= */
+function showLoginModal() {
+    const modal = document.getElementById("loginModal");
+    if (modal) {
+        modal.style.display = "block";
+    } else {
+        console.error("Login Modal not found in HTML.");
+        alert("Error: The Login Modal code is missing from your HTML file.");
+    }
+}
+
+function showAddModal() {
+    const modal = document.getElementById("formModal");
+    if (modal) {
+        // Clear fields
+        document.getElementById("inpCategory").value = "cash";
+        document.getElementById("inpAirline").value = "";
+        document.getElementById("inpDiscount").value = "";
+        document.getElementById("inpLogo").value = "";
+        document.getElementById("inpNote").value = "";
+        document.getElementById("inpNotice").value = "";
+        document.getElementById("inpValidity").value = "";
+        document.getElementById("editIndex").value = "";
+        modal.style.display = "block";
+    }
+}
+
+function closeModals() {
+    const loginModal = document.getElementById("loginModal");
+    const formModal = document.getElementById("formModal");
+    
+    if (loginModal) loginModal.style.display = "none";
+    if (formModal) formModal.style.display = "none";
+}
+
+function checkPassword() {
+    const input = document.getElementById("adminPassword");
+    if(!input) return alert("Input field not found");
+    
+    const pass = input.value;
+    
+    if (pass === CONFIG.adminPassword) {
+        isEditor = true;
+        
+        // Toggle Buttons
+        document.getElementById("loginBtn").style.display = "none";
+        document.getElementById("logoutBtn").style.display = "inline-block";
+        document.getElementById("addBtn").style.display = "inline-block";
+        
+        closeModals();
+        render(); // Refresh to show delete buttons
+        alert("Welcome Admin!");
+    } else {
+        alert("Incorrect Password");
+    }
+}
+
+function logout() {
+    isEditor = false;
+    document.getElementById("loginBtn").style.display = "inline-block";
+    document.getElementById("logoutBtn").style.display = "none";
+    document.getElementById("addBtn").style.display = "none";
+    render();
+}
+
+/* =========================
+   CRUD ACTIONS
 ========================= */
 function deleteEntry(index) {
-    if(!confirm("Delete this entry?")) return;
+    if(!confirm("Are you sure you want to delete this entry?")) return;
     data.splice(index, 1);
     saveToGitHub();
 }
@@ -130,7 +198,7 @@ function saveData() {
     const validity = document.getElementById("inpValidity").value;
     const editIndex = document.getElementById("editIndex").value;
 
-    if (!airline || !validity) return alert("Airline and Validity are required");
+    if (!airline || !validity) return alert("Airline Name and Validity Date are required");
 
     const entry = { category, airline, discount, logo, note, notification, validity };
 
@@ -142,52 +210,6 @@ function saveData() {
 
     saveToGitHub();
     closeModals();
-}
-
-/* =========================
-   AUTHENTICATION & UI
-========================= */
-function showLoginModal() {
-    document.getElementById("loginModal").style.display = "block";
-}
-
-function closeModals() {
-    document.getElementById("loginModal").style.display = "none";
-    document.getElementById("formModal").style.display = "none";
-}
-
-function checkPassword() {
-    const input = document.getElementById("adminPassword").value;
-    if (input === CONFIG.adminPassword) {
-        isEditor = true;
-        document.getElementById("loginBtn").style.display = "none";
-        document.getElementById("logoutBtn").style.display = "inline-block";
-        document.getElementById("addBtn").style.display = "inline-block";
-        closeModals();
-        render(); // Refresh to show delete buttons
-    } else {
-        alert("Incorrect Password");
-    }
-}
-
-function logout() {
-    isEditor = false;
-    document.getElementById("loginBtn").style.display = "inline-block";
-    document.getElementById("logoutBtn").style.display = "none";
-    document.getElementById("addBtn").style.display = "none";
-    render();
-}
-
-function showAddModal() {
-    document.getElementById("inpCategory").value = "cash";
-    document.getElementById("inpAirline").value = "";
-    document.getElementById("inpDiscount").value = "";
-    document.getElementById("inpLogo").value = "";
-    document.getElementById("inpNote").value = "";
-    document.getElementById("inpNotice").value = "";
-    document.getElementById("inpValidity").value = "";
-    document.getElementById("editIndex").value = "";
-    document.getElementById("formModal").style.display = "block";
 }
 
 /* =========================
@@ -266,4 +288,5 @@ async function saveForWhatsApp() {
   link.click();
 }
 
+// Start the app
 window.onload = loadData;
