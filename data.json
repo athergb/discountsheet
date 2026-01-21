@@ -34,5 +34,14 @@
     "note": "Int & Dom Flights",
     "notification": "Net Price",
     "validity": "2026-02-28"
+  },
+  {
+    "category": "cash",
+    "airline": "Airsial",
+    "discount": "0.00",
+    "logo": "PFlogo.png",
+    "note": "Int & Dom Flights",
+    "notification": "Net Price",
+    "validity": "2026-02-28"
   }
 ]
