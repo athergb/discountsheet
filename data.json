@@ -25,5 +25,14 @@
     "note": "Int & Dom Flights",
     "notification": "Per Pax PSF",
     "validity": "2026-02-28"
+  },
+  {
+    "category": "cash",
+    "airline": "Airblue",
+    "discount": "0.00",
+    "logo": "PAlogo.png",
+    "note": "Int & Dom Flights",
+    "notification": "Net Price",
+    "validity": "2026-02-28"
   }
 ]
