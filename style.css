@@ -169,6 +169,13 @@ h3 {
   transition: transform 0.2s;
 }
 
+.card p {
+    margin-bottom: 10px;
+    line-height: 1.5; /* This fixes the "half up, half down" overlap */
+    font-size: 14px;
+    min-height: 1.5em; /* Ensures height even if text is short */
+}
+
 .card:hover {
   transform: translateY(-3px);
   box-shadow: 0 5px 15px rgba(0,0,0,0.1);
@@ -352,3 +359,4 @@ input:focus {
     width: 100%;
   }
 }
+
