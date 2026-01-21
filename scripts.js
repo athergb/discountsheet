@@ -1,76 +1,87 @@
 /* =========================
-   CONFIGURATION (REQUIRED)
+   CONFIGURATION
 ========================= */
 const CONFIG = {
-    owner: "athergb",           // Your username from the link
-    repo: "discountsheet",      // Your repo name
-    filePath: "data.json",      // The file we just created
-    adminPassword: "admin123"   // Whatever password you want
+    owner: "athergb", 
+    repo: "discountsheet", 
+    filePath: "data.json", 
+    adminPassword: "admin123" // Change this if you want a different password
 };
 
 /* =========================
    STATE
 ========================= */
 let data = [];
-let sha = ""; // Required for GitHub updates
+let sha = "";
 let isEditor = false;
+let githubToken = ""; 
 
 /* =========================
-   LOAD DATA FROM GITHUB
+   LOAD DATA
 ========================= */
 async function loadData() {
+    if (!githubToken) {
+        // Ask user for token to read data
+        githubToken = prompt("Enter your GitHub Token to view the sheet:");
+    }
+    
+    if (!githubToken) return; // User cancelled
+
     const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${CONFIG.filePath}`;
     
     try {
         const res = await fetch(url, {
-            headers: { 'Authorization': `token ${CONFIG.githubToken}` }
+            headers: { 'Authorization': `token ${githubToken}` }
         });
         
         if (!res.ok) throw new Error("Failed to load");
         
         const json = await res.json();
-        sha = json.sha;
-        // Decode Base64 content from GitHub
+        sha = json.sha; // Save SHA for future updates
         const content = atob(json.content);
         data = JSON.parse(content);
         
         render();
     } catch (error) {
         console.error("Error loading data:", error);
-        alert("Could not load data. Check your Config (Token/Repo/FilePath).");
+        alert("Error loading data. Please check your Token and Internet connection.");
     }
 }
 
 /* =========================
-   SAVE DATA TO GITHUB
+   SAVE DATA
 ========================= */
 async function saveToGitHub() {
+    // Ask for token again for security on save
+    const tokenInput = prompt("Enter Token to Save Changes:");
+    if (!tokenInput) return;
+
     const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${CONFIG.filePath}`;
-    const contentBase64 = btoa(JSON.stringify(data, null, 2)); // Encode to Base64
+    const contentBase64 = btoa(JSON.stringify(data, null, 2));
 
     try {
         const res = await fetch(url, {
             method: 'PUT',
             headers: {
-                'Authorization': `token ${CONFIG.githubToken}`,
+                'Authorization': `token ${tokenInput}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 message: "Update discount sheet",
                 content: contentBase64,
-                sha: sha // Must send SHA to update existing file
+                sha: sha
             })
         });
 
         if (!res.ok) throw new Error("Failed to save");
         
         const json = await res.json();
-        sha = json.content.sha; // Update SHA for next save
+        sha = json.content.sha; // Update SHA
         alert("Saved Successfully!");
         render();
     } catch (error) {
         console.error("Error saving:", error);
-        alert("Error saving. Did you configure your Token correctly?");
+        alert("Error saving. Check Token.");
     }
 }
 
@@ -91,7 +102,7 @@ function render() {
         const expired = d < today ? "expired" : "";
         const categoryGrid = item.category === "cash" ? cashGrid : creditGrid;
 
-        // Build the Delete Button HTML (Only if Editor)
+        // Delete button only if logged in
         const actionHtml = isEditor 
             ? `<div class="actions"><span class="delete-btn" onclick="deleteEntry(${index})">DELETE</span></div>` 
             : "";
@@ -111,16 +122,15 @@ function render() {
 }
 
 /* =========================
-   CRUD ACTIONS
+   ACTIONS
 ========================= */
 function deleteEntry(index) {
-    if(!confirm("Are you sure you want to delete this?")) return;
+    if(!confirm("Delete this entry?")) return;
     data.splice(index, 1);
-    saveToGitHub(); // Auto-save after delete
+    saveToGitHub();
 }
 
 function saveData() {
-    // Gather inputs
     const category = document.getElementById("inpCategory").value;
     const airline = document.getElementById("inpAirline").value;
     const discount = document.getElementById("inpDiscount").value;
@@ -130,17 +140,13 @@ function saveData() {
     const validity = document.getElementById("inpValidity").value;
     const editIndex = document.getElementById("editIndex").value;
 
-    if (!airline || !validity) return alert("Airline and Validity are required");
+    if (!airline || !validity) return alert("Airline and Validity required");
 
-    const entry = {
-        category, airline, discount, logo, note, notification, validity
-    };
+    const entry = { category, airline, discount, logo, note, notification, validity };
 
     if (editIndex !== "") {
-        // Update existing
         data[parseInt(editIndex)] = entry;
     } else {
-        // Add new
         data.push(entry);
     }
 
@@ -149,10 +155,15 @@ function saveData() {
 }
 
 /* =========================
-   AUTHENTICATION & UI
+   AUTHENTICATION (THE MISSING PARTS)
 ========================= */
 function showLoginModal() {
     document.getElementById("loginModal").style.display = "block";
+}
+
+function closeModals() {
+    document.getElementById("loginModal").style.display = "none";
+    document.getElementById("formModal").style.display = "none";
 }
 
 function checkPassword() {
@@ -163,9 +174,9 @@ function checkPassword() {
         document.getElementById("logoutBtn").style.display = "inline-block";
         document.getElementById("addBtn").style.display = "inline-block";
         closeModals();
-        render(); // Re-render to show delete buttons
+        render();
     } else {
-        alert("Incorrect Password");
+        alert("Wrong Password");
     }
 }
 
@@ -174,11 +185,10 @@ function logout() {
     document.getElementById("loginBtn").style.display = "inline-block";
     document.getElementById("logoutBtn").style.display = "none";
     document.getElementById("addBtn").style.display = "none";
-    render(); // Re-render to hide delete buttons
+    render();
 }
 
 function showAddModal() {
-    // Clear inputs
     document.getElementById("inpCategory").value = "cash";
     document.getElementById("inpAirline").value = "";
     document.getElementById("inpDiscount").value = "";
@@ -186,22 +196,15 @@ function showAddModal() {
     document.getElementById("inpNote").value = "";
     document.getElementById("inpNotice").value = "";
     document.getElementById("inpValidity").value = "";
-    document.getElementById("editIndex").value = ""; // Empty means add mode
-    
+    document.getElementById("editIndex").value = "";
     document.getElementById("formModal").style.display = "block";
 }
 
-function closeModals() {
-    document.getElementById("loginModal").style.display = "none";
-    document.getElementById("formModal").style.display = "none";
-}
-
 /* =========================
-   JPG EXPORT (YOUR ORIGINAL LOGIC)
+   JPG EXPORT
 ========================= */
 async function saveAsJPG() {
   const sheet = document.getElementById("sheet");
-  // Temporarily hide Admin buttons for clean screenshot
   const adminBtns = document.querySelector("div[style*='text-align: center']");
   if(adminBtns) adminBtns.style.display = "none";
 
@@ -224,7 +227,7 @@ async function saveAsJPG() {
   });
 
   document.body.removeChild(wrapper);
-  if(adminBtns) adminBtns.style.display = "block"; // Show buttons again
+  if(adminBtns) adminBtns.style.display = "block";
 
   const img = canvas.toDataURL("image/jpeg", 0.92);
   const link = document.createElement("a");
@@ -264,6 +267,5 @@ async function saveForWhatsApp() {
   link.href = img;
   link.click();
 }
-
 
 window.onload = loadData;
