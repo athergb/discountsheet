@@ -93,9 +93,12 @@ function render() {
         const expired = d < today ? "expired" : "";
         const categoryGrid = item.category === "cash" ? cashGrid : creditGrid;
 
-        // Delete button only visible if logged in
+        // Edit & Delete buttons only visible if logged in
         const actionHtml = isEditor 
-            ? `<div class="actions"><button class="delete-btn" onclick="deleteEntry(${index})">Delete</button></div>` 
+            ? `<div class="actions">
+                 <button class="edit-btn" onclick="editEntry(${index})">Edit</button>
+                 <button class="delete-btn" onclick="deleteEntry(${index})">Delete</button>
+               </div>` 
             : "";
 
         const card = document.createElement("div");
@@ -128,7 +131,7 @@ function showLoginModal() {
 function showAddModal() {
     const modal = document.getElementById("formModal");
     if (modal) {
-        // Clear fields
+        // Clear all fields
         document.getElementById("inpCategory").value = "cash";
         document.getElementById("inpAirline").value = "";
         document.getElementById("inpDiscount").value = "";
@@ -136,7 +139,11 @@ function showAddModal() {
         document.getElementById("inpNote").value = "";
         document.getElementById("inpNotice").value = "";
         document.getElementById("inpValidity").value = "";
-        document.getElementById("editIndex").value = "";
+        document.getElementById("editIndex").value = ""; // Empty means ADD MODE
+        
+        // Reset Title
+        document.getElementById("modalTitle").innerText = "Add Airline";
+        
         modal.style.display = "block";
     }
 }
