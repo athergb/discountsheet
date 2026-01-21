@@ -399,3 +399,10 @@ input:focus {
     width: 100%;
   }
 }
+
+/* =========================
+   FORCE 5 COLUMNS OVERRIDE
+========================= */
+.grid {
+  grid-template-columns: repeat(5, 1fr) !important;
+}
