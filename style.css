@@ -359,15 +359,16 @@ input:focus {
 .actions {
     position: absolute !important;
     bottom: 10px !important;
-    right: 10px !important;
+    left: 10px !important;    /* Changed from 'right' to 'left' */
+    right: auto !important;   /* Resets the right positioning */
     z-index: 100;
-    display: flex; /* Aligns buttons horizontally */
-    gap: 5px;      /* Space between Edit and Delete */
+    display: flex;
+    gap: 5px;
 }
 
 /* DELETE BUTTON */
 .delete-btn {
-  background-color: #e74c3c; /* Red */
+  background-color: #e74c3c;
   color: white;
   border: none;
   padding: 5px 8px;
@@ -376,9 +377,9 @@ input:focus {
   cursor: pointer;
 }
 
-/* EDIT BUTTON (New) */
+/* EDIT BUTTON */
 .edit-btn {
-  background-color: #3498db; /* Blue */
+  background-color: #3498db;
   color: white;
   border: none;
   padding: 5px 8px;
@@ -390,6 +391,7 @@ input:focus {
 .edit-btn:hover, .delete-btn:hover {
   opacity: 0.8;
 }
+
 
 
 
