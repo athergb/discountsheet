@@ -386,14 +386,12 @@ input:focus {
   border-radius: 4px;
   font-size: 11px;
   cursor: pointer;
-  position: absolute;
-  bottom: 10px;
-  right: 10px; 
-}
+  }
 
 .edit-btn:hover, .delete-btn:hover {
   opacity: 0.8;
 }
+
 
 
 
