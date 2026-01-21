@@ -43,5 +43,14 @@
     "note": "Int & Dom Flights",
     "notification": "Net Price",
     "validity": "2026-02-28"
+  },
+  {
+    "category": "cash",
+    "airline": "Flynas",
+    "discount": "PKR 500",
+    "logo": "XYlogo.png",
+    "note": "",
+    "notification": "Per Pax PSF",
+    "validity": "2026-02-28"
   }
 ]
