@@ -394,5 +394,14 @@
     "note": "",
     "notification": "GDS Fares",
     "validity": "2026-02-28"
+  },
+  {
+    "category": "credit",
+    "airline": "Royal Jordanian",
+    "discount": "1.05",
+    "logo": "RJlogo.png",
+    "note": "",
+    "notification": "GDS Fares",
+    "validity": "2026-02-28"
   }
 ]
