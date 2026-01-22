@@ -79,5 +79,14 @@
     "note": "",
     "notification": "GDS Fares",
     "validity": "2026-02-28"
+  },
+  {
+    "category": "credit",
+    "airline": "Emirates",
+    "discount": "0.05%",
+    "logo": "EKlogo.png",
+    "note": "",
+    "notification": "GDS & NDC ",
+    "validity": "2026-02-28"
   }
 ]
