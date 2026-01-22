@@ -285,7 +285,7 @@ async function saveAsJPG() {
   if(headerBtns) headerBtns.style.display = "flex";
   if(bottomBtns) bottomBtns.style.display = "block";
 
-  const img = canvas.toDataURL("image/png);
+  const img = canvas.toDataURL("image/png");
   const link = document.createElement("a");
   link.download = "QFC-Discount-Sheet.jpg";
   link.href = img;
@@ -321,7 +321,7 @@ async function saveForWhatsApp() {
   if(headerBtns) headerBtns.style.display = "flex";
   if(bottomBtns) bottomBtns.style.display = "block";
 
-  const img = canvas.toDataURL("image/png);
+  const img = canvas.toDataURL("image/png");
   const link = document.createElement("a");
   link.download = "QFC-WhatsApp.jpg";
   link.href = img;
