@@ -374,11 +374,12 @@
   {
     "category": "credit",
     "airline": "Kenya Airways",
-    "discount": "10%",
+    "discount": "1.0%",
     "logo": "KQlogo.png",
     "note": "",
     "notification": "GDS Fares",
-    "validity": "2026-08-28"
+    "validity": "2026-08-28",
+    "instructions": ""
   },
   {
     "category": "credit",
