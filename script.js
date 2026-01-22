@@ -109,7 +109,7 @@ function render() {
             <p><b>${item.airline}</b></p>
             <p class="note-text">${item.note}</p>
             ${item.notification ? `<div class="alert-box">${item.notification}</div>` : ""}
-            <p class="validity ${expired}">Valid till: ${d.toDateString()}</p>
+            <p class="validity ${expired}">Valid till: ${d.toLocaleDateString('en-GB')}</p>
             ${actionHtml}
         `;
         categoryGrid.appendChild(card);
