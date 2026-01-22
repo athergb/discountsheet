@@ -331,5 +331,14 @@
     "note": "",
     "notification": "NDC Fares",
     "validity": "2026-02-28"
+  },
+  {
+    "category": "credit",
+    "airline": "Air Canada",
+    "discount": "0.5%",
+    "logo": "CAlogo.png",
+    "note": "",
+    "notification": "GDS Fares",
+    "validity": "2026-02-28"
   }
 ]
