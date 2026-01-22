@@ -65,9 +65,9 @@
   {
     "category": "cash",
     "airline": "Flyadeal",
-    "discount": "PKR500 + Admin Fee USD10",
+    "discount": "PKR500 ",
     "logo": "FYlogo.pnt",
-    "note": "",
+    "note": "Admin Fee $ 10",
     "notification": "Per Pax PSF",
     "validity": "2026-02-28"
   }
