@@ -104,10 +104,6 @@ function render() {
         const card = document.createElement("div");
         card.className = "card";
 
-         // ADDED data-note ATTRIBUTE HERE
-        // If item.note has text, it goes into the tooltip. If empty, nothing shows.
-        card.setAttribute("data-note", item.note || "");
-       
         card.innerHTML = `
            <div class="discount">${item.discount}</div>
             ${item.logo ? `<img src="${item.logo}">` : ""}
