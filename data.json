@@ -259,5 +259,14 @@
     "note": "",
     "notification": "Web Fare",
     "validity": "2026-02-28"
+  },
+  {
+    "category": "credit",
+    "airline": "Pegasus Airline",
+    "discount": "0.5%",
+    "logo": "PElogo.png",
+    "note": "",
+    "notification": "GDS Fares",
+    "validity": "2026-02-28"
   }
 ]
