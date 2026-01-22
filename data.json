@@ -84,11 +84,12 @@
   {
     "category": "credit",
     "airline": "Emirates",
-    "discount": "0.05%",
+    "discount": "-1.0%",
     "logo": "EKlogo.png",
     "note": "",
     "notification": "GDS & NDC ",
-    "validity": "2026-02-28"
+    "validity": "2026-02-28",
+    "instructions": "Except Africa, Middle East and South Asia"
   },
   {
     "category": "credit",
