@@ -138,11 +138,12 @@
   {
     "category": "credit",
     "airline": "Qatar Airways",
-    "discount": "-1.0%",
+    "discount": "0.5%",
     "logo": "QRlogo.png",
     "note": "",
     "notification": "GDS Fares",
-    "validity": "2026-02-28"
+    "validity": "2026-02-28",
+    "instructions": ""
   },
   {
     "category": "credit",
