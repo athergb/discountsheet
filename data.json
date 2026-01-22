@@ -367,5 +367,14 @@
     "note": "",
     "notification": "GDS Fares",
     "validity": "2026-02-28"
+  },
+  {
+    "category": "credit",
+    "airline": "Kenya Airways",
+    "discount": "10%",
+    "logo": "KQlogo.png",
+    "note": "",
+    "notification": "GDS Fares",
+    "validity": "2026-08-28"
   }
 ]
