@@ -101,7 +101,7 @@
   {
     "category": "credit",
     "airline": "Etihad Airways",
-    "discount": "0.05%",
+    "discount": "0.5%",
     "logo": "EYlogo.png",
     "note": "",
     "notification": "GDS & NDC ",
