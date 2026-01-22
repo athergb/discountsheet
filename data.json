@@ -344,7 +344,7 @@
   {
     "category": "credit",
     "airline": "Air France",
-    "discount": "0.55%",
+    "discount": "0.5%",
     "logo": "AFlogo.png",
     "note": "",
     "notification": "GDS Fares",
