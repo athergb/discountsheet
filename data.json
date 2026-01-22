@@ -70,5 +70,14 @@
     "note": "Admin Fee $ 10",
     "notification": "Per Pax PSF",
     "validity": "2026-02-28"
+  },
+  {
+    "category": "cash",
+    "airline": "PIA",
+    "discount": "0.00",
+    "logo": "PKlogo.png",
+    "note": "",
+    "notification": "GDS Fares",
+    "validity": "2026-02-28"
   }
 ]
