@@ -160,5 +160,14 @@
     "note": "",
     "notification": "Per Pax PSF",
     "validity": "2026-02-28"
+  },
+  {
+    "category": "credit",
+    "airline": "Air China",
+    "discount": "-4%",
+    "logo": "AClogo.png",
+    "note": "",
+    "notification": "GDS Fares",
+    "validity": "2026-02-28"
   }
 ]
