@@ -322,5 +322,14 @@
     "note": "",
     "notification": "GDS Fares",
     "validity": "2026-02-28"
+  },
+  {
+    "category": "credit",
+    "airline": "Ethiopian Airlines",
+    "discount": "-1.5%",
+    "logo": "ETlogo.png",
+    "note": "",
+    "notification": "NDC Fares",
+    "validity": "2026-02-28"
   }
 ]
