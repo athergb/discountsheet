@@ -49,9 +49,10 @@
     "airline": "Flynas",
     "discount": "PKR 500",
     "logo": "XYlogo.png",
-    "note": "if booked from Portal direct issuance will be done Portal will ask for OTP please contact us to get OTP and auto ticket issued",
+    "note": "",
     "notification": "Per Pax PSF",
-    "validity": "2026-02-28"
+    "validity": "2026-02-28",
+    "instructions": "if booked from Portal direct issuance will be done Portal will ask for OTP please contact us to get OTP and auto ticket issued"
   },
   {
     "category": "cash",
