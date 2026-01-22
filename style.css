@@ -199,7 +199,7 @@ h3 {
   color: #333;
   padding: 4px 12px;
   font-weight: bold;
-  font-size: 14px; /* INCREASED FROM 10px TO 14px */
+  font-size: 18px; /* INCREASED FROM 10px TO 18px */
   border-radius: 20px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   z-index: 10;      /* Ensures it sits on top of the logo */
@@ -442,6 +442,7 @@ input:focus {
   color: #555;
   font-weight: 500;
 }
+
 
 
 
