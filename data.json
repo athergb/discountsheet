@@ -169,5 +169,14 @@
     "note": "",
     "notification": "GDS Fares",
     "validity": "2026-02-28"
+  },
+  {
+    "category": "credit",
+    "airline": "Jazeera Air",
+    "discount": "PKR 500",
+    "logo": "J9logo.png",
+    "note": "",
+    "notification": "Per Pax PSF",
+    "validity": "2026-02-28"
   }
 ]
