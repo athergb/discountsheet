@@ -104,6 +104,10 @@ function render() {
         const card = document.createElement("div");
         card.className = "card";
 
+        // 3. UPDATED: Use 'item.instructions' for the Hover Data
+        // If instructions is empty, it will show nothing on hover
+        card.setAttribute("data-note", item.instructions || "");
+       
         card.innerHTML = `
            <div class="discount">${item.discount}</div>
             ${item.logo ? `<img src="${item.logo}">` : ""}
@@ -140,6 +144,7 @@ function showAddModal() {
         document.getElementById("inpNote").value = "";
         document.getElementById("inpNotice").value = "";
         document.getElementById("inpValidity").value = "";
+        document.getElementById("inpInstructions").value = "";
         document.getElementById("editIndex").value = ""; // Empty means ADD MODE
         
         // Reset Title
@@ -163,6 +168,7 @@ function editEntry(index) {
     document.getElementById("inpNote").value = item.note || "";
     document.getElementById("inpNotice").value = item.notification || "";
     document.getElementById("inpValidity").value = item.validity;
+    document.getElementById("inpInstructions").value = item.instructions || "";
     
     // Set the hidden index so saveData knows to UPDATE, not ADD
     document.getElementById("editIndex").value = index;
@@ -229,11 +235,12 @@ function saveData() {
     const note = document.getElementById("inpNote").value;
     const notification = document.getElementById("inpNotice").value;
     const validity = document.getElementById("inpValidity").value;
+    const instructions = document.getElementById("inpInstructions").value;
     const editIndex = document.getElementById("editIndex").value;
 
     if (!airline || !validity) return alert("Airline Name and Validity Date are required");
 
-    const entry = { category, airline, discount, logo, note, notification, validity };
+    const entry = { category, airline, discount, logo, note, notification, validity, instructions };
 
     if (editIndex !== "") {
         data[parseInt(editIndex)] = entry;
