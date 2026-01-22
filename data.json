@@ -92,7 +92,7 @@
   {
     "category": "credit",
     "airline": "Thai Airways",
-    "discount": "0.05%",
+    "discount": "0.5%",
     "logo": "TGlogo.png",
     "note": "",
     "notification": "GDS Fares",
