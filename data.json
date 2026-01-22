@@ -250,5 +250,14 @@
     "note": "",
     "notification": "GDS Fares",
     "validity": "2026-02-28"
+  },
+  {
+    "category": "credit",
+    "airline": "Fly Dubai",
+    "discount": "PKR 500",
+    "logo": "FZlogo.png",
+    "note": "",
+    "notification": "Web Fare",
+    "validity": "2026-02-28"
   }
 ]
