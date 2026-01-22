@@ -111,6 +111,7 @@ function render() {
         card.innerHTML = `
            <div class="discount">${item.discount}</div>
             ${item.logo ? `<img src="${item.logo}">` : ""}
+            <p><b>${item.airline}</b></p>
             <p class="note-text">${item.note}</p>
             ${item.notification ? `<div class="alert-box">${item.notification}</div>` : ""}
             <p class="validity ${expired}">Valid till: ${d.toLocaleDateString('en-GB')}</p>
