@@ -340,5 +340,14 @@
     "note": "",
     "notification": "GDS Fares",
     "validity": "2026-02-28"
+  },
+  {
+    "category": "credit",
+    "airline": "Air France",
+    "discount": "0.55%",
+    "logo": "AFlogo.png",
+    "note": "",
+    "notification": "GDS Fares",
+    "validity": "2026-02-28"
   }
 ]
