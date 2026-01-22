@@ -191,12 +191,11 @@ h3 {
 }
 
 .card img {
-  max-height: 40px; /* Smaller logo for 5 cols */
-  margin-bottom: 8px;
-  object-fit: contain;
-  max-width: 100%;   /* Ensures it doesn't overflow the card */
-  margin-bottom: 8px;
-  display: block;    /* Removes inline spacing issues */ 
+  height: 40px;       /* Consistent height */
+  width: auto;        /* Auto width prevents stretching */
+  object-fit: contain; /* Ensures the whole logo fits inside */
+  display: block;      /* Removes extra space below image */
+  margin: 0 auto 8px auto; /* Centers the logo horizontally and adds space below */
 }
 
 .discount {
@@ -487,6 +486,7 @@ input:focus {
     border-color: #333 transparent transparent transparent;
     transform: rotate(-90deg); /* Rotate arrow to point down */
 }
+
 
 
 
