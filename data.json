@@ -376,5 +376,14 @@
     "note": "",
     "notification": "GDS Fares",
     "validity": "2026-08-28"
+  },
+  {
+    "category": "credit",
+    "airline": "Air Mauritius",
+    "discount": "1.0%",
+    "logo": "MUlogo.png",
+    "note": "",
+    "notification": "GDS Fares",
+    "validity": "2026-02-28"
   }
 ]
