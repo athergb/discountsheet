@@ -201,18 +201,17 @@ h3 {
 
 .discount {
   position: absolute;
-  top: -10px;       /* Moved up slightly to make room for bigger text */
-  left: 50%;
-  transform: translateX(-50%);
+  top: -8px;       /* Moved up slightly to make room for bigger text */
+  right: -5px;
+  transform: none;
   background: #ffeb3b;
   color: #333;
-  padding: 4px 12px;
+  padding: 4px 10px;
   font-weight: bold;
   font-size: 16px; /* INCREASED FROM 10px TO 16px */
-  border-radius: 20px;
+  border-radius: 15px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   z-index: 10;      /* Ensures it sits on top of the logo */
-  white-space: nowrap; /* Prevents text from wrapping to a new line */
 }
 
 /* Old .notice style is replaced by .alert-box */
@@ -451,6 +450,7 @@ input:focus {
   color: #555;
   font-weight: 500;
 }
+
 
 
 
