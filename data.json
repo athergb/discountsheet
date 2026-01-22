@@ -401,11 +401,12 @@
   {
     "category": "credit",
     "airline": "Royal Jordanian",
-    "discount": "1.05",
+    "discount": "1.0%",
     "logo": "RJlogo.png",
     "note": "",
     "notification": "GDS Fares",
-    "validity": "2026-02-28"
+    "validity": "2026-02-28",
+    "instructions": ""
   },
   {
     "category": "credit",
