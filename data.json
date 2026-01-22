@@ -1,12 +1,12 @@
 [
   {
     "category": "credit",
-    "airline": "Qatar Airways",
-    "discount": "PKR 800",
-    "logo": "1G.png",
-    "note": "Special Offer",
-    "notification": "Limited Seats",
-    "validity": "2024-12-31"
+    "airline": "Pakistan International Airlines",
+    "discount": "-2.5%",
+    "logo": "PKlogo.png",
+    "note": "",
+    "notification": "HITIT only",
+    "validity": "2025-02-28"
   },
   {
     "category": "cash",
