@@ -106,5 +106,14 @@
     "note": "",
     "notification": "GDS & NDC ",
     "validity": "2026-02-28"
+  },
+  {
+    "category": "credit",
+    "airline": "Kuwait Airways",
+    "discount": "0.05%",
+    "logo": "KUlogo.png",
+    "note": "",
+    "notification": "GDS Fares",
+    "validity": "2026-02-28"
   }
 ]
