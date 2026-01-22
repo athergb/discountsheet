@@ -403,5 +403,14 @@
     "note": "",
     "notification": "GDS Fares",
     "validity": "2026-02-28"
+  },
+  {
+    "category": "credit",
+    "airline": "Singapore Airlines",
+    "discount": "1.0%",
+    "logo": "SKlogo.png",
+    "note": "",
+    "notification": "GDS Fares",
+    "validity": "2026-02-28"
   }
 ]
