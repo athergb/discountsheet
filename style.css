@@ -253,7 +253,7 @@ h3 {
 
 .card p b {
   display: block;
-  font-size: 12px;
+  font-size: 18px;
   margin-bottom: 2px;
 }
 
@@ -486,6 +486,7 @@ input:focus {
     border-color: #333 transparent transparent transparent;
     transform: rotate(-90deg); /* Rotate arrow to point down */
 }
+
 
 
 
