@@ -88,5 +88,14 @@
     "note": "",
     "notification": "GDS & NDC ",
     "validity": "2026-02-28"
+  },
+  {
+    "category": "credit",
+    "airline": "Thai Airways",
+    "discount": "0.05%",
+    "logo": "TGlogo.png",
+    "note": "",
+    "notification": "",
+    "validity": "2026-02-28"
   }
 ]
