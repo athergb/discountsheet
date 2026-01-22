@@ -349,5 +349,14 @@
     "note": "",
     "notification": "GDS Fares",
     "validity": "2026-02-28"
+  },
+  {
+    "category": "credit",
+    "airline": "Royal Brunei",
+    "discount": "1.05",
+    "logo": "RBlogo.png",
+    "note": "",
+    "notification": "GDS Fares",
+    "validity": "2026-02-28"
   }
 ]
