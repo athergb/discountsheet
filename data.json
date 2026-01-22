@@ -124,5 +124,14 @@
     "note": "",
     "notification": "GDS Fares",
     "validity": "2026-02-28"
+  },
+  {
+    "category": "credit",
+    "airline": "Qatar Airways",
+    "discount": "0.5%",
+    "logo": "QRlogo.png",
+    "note": "",
+    "notification": "NDC Fares",
+    "validity": "2026-02-28"
   }
 ]
