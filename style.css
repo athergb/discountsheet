@@ -451,6 +451,44 @@ input:focus {
   font-weight: 500;
 }
 
+/* =========================
+   HOVER TOOLTIP (INSTRUCTIONS)
+========================= */
+/* The Tooltip Box */
+.card[data-note]:hover::after {
+    content: attr(data-note); /* Reads the text from the data-note attribute */
+    position: absolute;
+    bottom: 100%; /* Shows the box ABOVE the card */
+    left: 50%;
+    transform: translateX(-50%) translateY(-10px);
+    background-color: #333;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    width: 180px; /* Fixed width for readability */
+    text-align: center;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    pointer-events: none; /* Allows mouse to pass through */
+    white-space: pre-wrap; /* Allows text to wrap to new lines */
+}
+
+/* The Little Arrow pointing down */
+.card[data-note]:hover::before {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -5px;
+    margin-bottom: 5px; /* Adjusts arrow position */
+    border-width: 6px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+    transform: rotate(-90deg); /* Rotate arrow to point down */
+}
+
+
 
 
 
