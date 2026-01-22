@@ -196,5 +196,14 @@
     "note": "",
     "notification": "GDS Fares",
     "validity": "2026-02-28"
+  },
+  {
+    "category": "credit",
+    "airline": "Somon Air",
+    "discount": "1.0%",
+    "logo": "SOlogo.png",
+    "note": "",
+    "notification": "Per Pax PSF",
+    "validity": "2026-02-28"
   }
 ]
