@@ -151,5 +151,14 @@
     "note": "",
     "notification": "GDS Fares",
     "validity": "2026-02-28"
+  },
+  {
+    "category": "credit",
+    "airline": "Hahn Air",
+    "discount": "1.0%",
+    "logo": "HRlogo.png",
+    "note": "",
+    "notification": "Per Pax PSF",
+    "validity": "2026-02-28"
   }
 ]
