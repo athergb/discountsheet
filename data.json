@@ -187,5 +187,14 @@
     "note": "",
     "notification": "NDC Fares",
     "validity": "2026-02-28"
+  },
+  {
+    "category": "credit",
+    "airline": "China Southern",
+    "discount": "-3.5%",
+    "logo": "CZlogo.png",
+    "note": "",
+    "notification": "GDS Fares",
+    "validity": "2026-02-28"
   }
 ]
