@@ -836,7 +836,7 @@ input:focus {
   width: fit-content;
   font-weight: bold;
   font-family: monospace;
-  font-size: 30px;
+  font-size: 12px;
   
   /* --- THE MASKING LOGIC --- */
   background: radial-gradient(circle closest-side, #000 94%, #0000) right/calc(200% - 1em) 100%;
@@ -863,6 +863,7 @@ input:focus {
 @keyframes l24 {
   100% { background-position: left }
 }
+
 
 
 
