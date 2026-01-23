@@ -680,7 +680,7 @@ input:focus {
  .credits {
   margin-top: 15px;
   font-size: 12px;      /* Small font */
-  color: #FFFFFF;          /* white for a subtle look */
+  color: #FFF;          /* white for a subtle look */
   font-weight: 500;
   letter-spacing: 0.5px;
   /* --- Blinking Logic Added Below --- */
@@ -826,6 +826,7 @@ input:focus {
     object-fit: cover;     /* Ensures it covers whole screen without stretching */
     pointer-events: none;    /* Allows you to click through it */
 }
+
 
 
 
