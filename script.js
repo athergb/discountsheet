@@ -359,45 +359,42 @@ function calculatePSF() {
     const airlineSelect = document.getElementById("calcAirline");
     const discountStr = airlineSelect.options[airlineSelect.selectedIndex].value;
     
-    // 2. CHANGE THIS LINE: Read the active tab instead of dropdown
-    const activeBtn = document.querySelector('.pax-btn.active');
-    const paxType = activeBtn ? activeBtn.getAttribute('data-type') : 'adult';
-
     const adultBaseInput = parseFloat(document.getElementById("calcBasic").value) || 0;
     const tax = parseFloat(document.getElementById("calcTax").value) || 0;
-    
-    if(!discountStr) return;
 
-    // 1. CALCULATE BASE FARE BASED ON PASSENGER TYPE
-    let baseFare = adultBaseInput; // Default Adult
-
-    if (paxType === "child") {
-        baseFare = adultBaseInput * 0.75; // Child gets 75% of Adult
-    } else if (paxType === "infant") {
-        baseFare = adultBaseInput * 0.10; // Infant gets 10% of Adult
+    if(!discountStr) {
+        // Clear fields if no airline selected
+        resetCalcDisplays();
+        return;
     }
 
-    // Display the Calculated Base Fare
-    document.getElementById("dispBase").innerText = baseFare.toLocaleString('en-PK', { minimumFractionDigits: 0 });
+    // --- CALCULATE FOR ADULT (100%) ---
+    calculateSingleRow(adultBaseInput, discountStr, tax, "Adult", "dispDiscAdult", "dispTotalAdult");
 
-    // 2. CALCULATE DISCOUNT
+    // --- CALCULATE FOR CHILD (75%) ---
+    const childBase = adultBaseInput * 0.75;
+    calculateSingleRow(childBase, discountStr, tax, "Child", "dispDiscChild", "dispTotalChild");
+
+    // --- CALCULATE FOR INFANT (10%) ---
+    const infantBase = adultBaseInput * 0.10;
+    calculateSingleRow(infantBase, discountStr, tax, "Infant", "dispDiscInfant", "dispTotalInfant");
+}
+
+// Helper function to calculate one row
+function calculateSingleRow(baseFare, discountStr, tax, type, discId, totalId) {
     let discountAmt = 0;
     let displayText = "";
 
+    // PARSE DISCOUNT STRING
     if (discountStr.includes("%")) {
-        // Percentage Logic (e.g., "-2%")
-        // Calculation: BaseFare * (Percentage / 100)
         let num = parseFloat(discountStr.replace(/[^0-9.-]/g, ''));
         discountAmt = (baseFare * num) / 100;
         displayText = `${discountStr} (${discountAmt.toFixed(2)})`;
     } else if (discountStr.includes("PKR") || discountStr.includes("PKR")) {
-        // Fixed Amount Logic (e.g., "PKR 500")
-        // Calculation: BaseFare +/- Fixed Amount
         let num = parseFloat(discountStr.replace(/[^0-9.-]/g, ''));
         discountAmt = num;
         displayText = discountStr;
     } else {
-        // Generic Number
         let num = parseFloat(discountStr);
         if(!isNaN(num)) {
             discountAmt = num;
@@ -405,25 +402,18 @@ function calculatePSF() {
         }
     }
 
-    // 3. CALCULATE NET AMOUNT
-    // Net = Calculated Base Fare +/- Discount + Taxes
     const netAmount = baseFare + discountAmt + tax;
-    
-    // Update UI
-    document.getElementById("dispDisc").innerText = displayText;
-    document.getElementById("dispTotal").innerText = netAmount.toLocaleString('en-PK', { minimumFractionDigits: 0 }) + " PKR";
+
+    // Update specific IDs
+    document.getElementById(discId).innerText = displayText;
+    document.getElementById(totalId).innerText = netAmount.toLocaleString('en-PK', { minimumFractionDigits: 0 }) + " PKR";
 }
 
-// 1. Handle Tab Clicking
-function selectPax(type) {
-    // Remove 'active' class from all buttons
-    document.querySelectorAll('.pax-btn').forEach(btn => {
-        btn.classList.remove('active');
+// Helper to clear displays
+function resetCalcDisplays() {
+    ["Adult", "Child", "Infant"].forEach(type => {
+        const typeKey = type.charAt(0).toLowerCase() + type.slice(1); // Adult -> adult
+        document.getElementById(`dispDisc${typeKey}`).innerText = "-";
+        document.getElementById(`dispTotal${typeKey}`).innerText = "0.00 PKR";
     });
-    
-    // Add 'active' class to the clicked button
-    document.querySelector(`.pax-btn[data-type="${type}"]`).classList.add('active');
-    
-    // Optional: Auto-recalculate if values are already entered
-    // calculatePSF(); 
 }
