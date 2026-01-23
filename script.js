@@ -449,3 +449,24 @@ function resetCalcDisplays() {
         if(el) el.innerText = (id.includes("Total") ? "0.00 PKR" : "-");
     });
 }
+
+/* =========================
+   WELCOME SCREEN LOGIC
+========================= */
+window.onload = function() {
+    // 1. Load your Data
+    loadData();
+
+    // 2. Handle Welcome Screen Animation
+    setTimeout(() => {
+        const screen = document.getElementById("welcome-screen");
+        if (screen) {
+            screen.style.opacity = "0"; // Fade out
+            
+            // Remove from DOM completely after fade finishes
+            setTimeout(() => {
+                screen.style.display = "none";
+            }, 800); 
+        }
+    }, 2500); // Wait 2.5 seconds before fading
+};
