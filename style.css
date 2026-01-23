@@ -837,7 +837,7 @@ input:focus {
   width: fit-content;
   font-weight: bold;
   font-family: monospace;
-  font-size: 30px;
+  font-size: 16px;
   margin: 10px auto;
   padding: 3px 20px;
   text-align: center;
@@ -870,6 +870,7 @@ input:focus {
 @keyframes l24 {
   100% { background-position: left }
 }
+
 
 
 
