@@ -676,6 +676,43 @@ input:focus {
     100% { transform: translateY(0); opacity: 1; }
 }
 
+/* =========================
+   ALIGNMENT FIXES
+========================= */
+
+/* 1. FIX TOP HEADER (Left vs Right) */
+.top-header {
+  width: 100% !important; /* Full width of page */
+  display: flex !important;
+  justify-content: space-between !important; /* Logo Left, Buttons Right */
+  align-items: center !important;
+  background-color: #0f2e5a; /* Blue */
+}
+
+.header-controls {
+  display: flex;
+  gap: 10px;
+}
+
+
+/* 2. FIX BOTTOM ACTIONS (Centered) */
+.bottom-actions {
+  width: 100% !important;
+  display: flex !important;
+  flex-direction: column; /* Stack buttons vertically */
+  justify-content: center !important; /* Centers the column in the middle of page */
+  align-items: center !important; /* Forces items to center (fixes 'Right Side' issue) */
+  text-align: center !important;
+  background-color: transparent; /* Keeps it clean (Not Blue) */
+}
+
+.credits {
+  margin-top: 10px;
+  font-size: 12px;
+  color: #666;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
 
 
 
