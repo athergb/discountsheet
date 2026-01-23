@@ -120,9 +120,49 @@
   </div>
 </div>
 
+<!-- ===== PRICE CALCULATOR MODAL ===== -->
+<div id="calcModal" class="modal">
+  <div class="modal-content wide">
+    <h2>Discount / PSF Calculator</h2>
+    
+    <label>Select Airline</label>
+    <select id="calcAirline">
+        <option value="">-- Select Airline --</option>
+    </select>
+
+    <div class="form-row">
+        <div>
+            <label>Basic Fare (PKR)</label>
+            <input type="number" id="calcBasic" placeholder="0">
+        </div>
+        <div>
+            <label>Total Taxes (PKR)</label>
+            <input type="number" id="calcTax" placeholder="0">
+        </div>
+    </div>
+
+    <div class="calc-display">
+        <div class="calc-row">
+            <span>Discount Applied:</span>
+            <strong id="dispDisc">-</strong>
+        </div>
+        <div class="calc-row total-row">
+            <span>Net Amount:</span>
+            <strong id="dispTotal">0.00 PKR</strong>
+        </div>
+    </div>
+
+    <div class="modal-buttons">
+      <button class="btn-primary" onclick="calculatePSF()">Calculate</button>
+      <button class="btn-secondary" onclick="document.getElementById('calcModal').style.display='none'">Close</button>
+    </div>
+  </div>
+</div>
+  
 <script src="script.js?v=7"></script>
 </body>
 </html>
+
 
 
 
