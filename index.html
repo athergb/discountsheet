@@ -126,34 +126,6 @@
     <h2>Discount / PSF Calculator</h2>
     
     <label>Select Airline</label>
-    <select id="calcAirline">
-        <option value="">-- Select Airline --</option>
-    </select>
-
-    <label>Passenger Type</label>
-    <div class="pax-selector">
-        <div class="pax-btn active" data-type="adult" onclick="selectPax('adult')">Adult</div>
-        <div class="pax-btn" data-type="child" onclick="selectPax('child')">Child</div>
-        <div class="pax-btn" data-type="infant" onclick="selectPax('infant')">Infant</div>
-    </div>
-
-    <div class="form-row">
-        <div>
-            <label>Adult Basic Fare (PKR)</label>
-            <input type="number" id="calcBasic" placeholder="0">
-        </div>
-        <div>
-            <label>Taxes (PKR)</label>
-            <input type="number" id="calcTax" placeholder="0">
-        </div>
-    </div>
-
-    <!-- ===== PRICE CALCULATOR MODAL ===== -->
-<div id="calcModal" class="modal">
-  <div class="modal-content wide">
-    <h2>Discount / PSF Calculator</h2>
-    
-    <label>Select Airline</label>
     <select id="calcAirline" onchange="calculatePSF()">
         <option value="">-- Select Airline --</option>
     </select>
@@ -209,6 +181,7 @@
 <script src="script.js?v=9"></script>
 </body>
 </html>
+
 
 
 
