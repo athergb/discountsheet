@@ -813,18 +813,6 @@ input:focus {
 /* =========================
    BLINKING TEXT (SHARED ANIMATION)
 ========================= */
-
-/* 1. Service Text (Middle of page) */
-.service-text {
-  margin: 10px auto;
-  padding: 3px 20px;
-  color: #333;           /* Visible Dark Grey */
-  font-size: 16px;
-  font-weight: 600;
-  text-align: center;
-  animation: blink 1s infinite steps(1, end);
-}
-
 /* 2. Credits (Bottom of page) */
 .credits {
   margin-top: 15px;
@@ -841,6 +829,35 @@ input:focus {
   50% { opacity: 0; }
 }
 
+/* =========================
+   RAINBOW SERVICE TEXT (Replaces Blink)
+========================= */
+.service-text {
+  /* --- Loader Specific Styles --- */
+  width: fit-content;
+  font-weight: bold;
+  font-family: monospace; /* Required for rainbow effect */
+  font-size: 30px; /* Adjust size if needed */
+  color: #000;
+  overflow: hidden;
+  animation: l9 5s infinite cubic-bezier(0.3,1,0,1); /* Uses Rainbow Animation */
+
+  /* --- Original Positioning --- */
+  margin: 10px auto;
+  padding: 3px 20px;
+  text-align: center;
+}
+
+/* =========================
+   UPDATED KEYFRAMES (Extended)
+========================= */
+@keyframes l9 {
+  0% { text-shadow: 0 0 #000, 11ch 0 #8A9B0F, 22ch 0 #C02942, 33ch 0 #00A0B0, 44ch 0 #000, 55ch 0 #000 }
+  25% { text-shadow: -11ch 0 #000, 0 0 #8A9B0F, 11ch 0 #C02942, 22ch 0 #00A0B0, 33ch 0 #000, 44ch 0 #000 }
+  50% { text-shadow: -22ch 0 #000, -11ch 0 #8A9B0F, 0 0 #C02942, 11ch 0 #00A0B0, 22ch 0 #000, 33ch 0 #000 }
+  75% { text-shadow: -33ch 0 #000, -22ch 0 #8A9B0F, -11ch 0 #C02942, 0 0 #00A0B0, 11ch 0 #000, 22ch 0 #000 }
+  100% { text-shadow: -44ch 0 #000, -33ch 0 #8A9B0F, -22ch 0 #C02942, -11ch 0 #00A0B0, 0 0 #000, 11ch 0 #000 }
+}
 
 
 
