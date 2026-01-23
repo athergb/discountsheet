@@ -3,30 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <title>QFC Airline Discount Sheet</title>
-<link rel="icon" type="image/png" href="QFClogo.png">  
+<link rel="icon" type="image/png" href="QFClogo.png">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="style.css?v=7">
+<link rel="stylesheet" href="style.css?v=8">
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 
 <body>
+
 <!-- ===== WELCOME OVERLAY ===== -->
 <div id="welcome-screen">
     <img src="QFClogo.png" class="welcome-logo">
     <div class="welcome-text">Welcome to QFC Group Pvt Ltd</div>
 </div>
 
-<!-- ===== TOP HEADER (NOT IN JPG) ===== -->
-<header class="top-header">
-...
-  
 <!-- ===== TOP HEADER ===== -->
 <header class="top-header">
   <div class="header-content">
     <img src="QFClogo.png" class="main-logo">
     <div class="header-text">
-      <h1>QFC GROUP PVT LTD</h1>
+      <h1>QFC GROUP</h1>
       <p>Discount Sheet Structure</p>
     </div>
   </div>
@@ -45,23 +42,22 @@
     <div class="sheet-top-row">
       <div class="sheet-logo">
         <img src="QFClogo.png">
-        <button class="calc-btn" onclick="openCalculator()">💰 Price Calculator</button>
+        <button class="calc-btn" onclick="openCalculator()">
+          <div class="screen">CALC</div>
+        </button>
       </div>
 
       <div class="gds-logos">
         <div class="logo-box"><img src="1A.png"></div>
         <div class="logo-box"><img src="1G.png"></div>
         <div class="logo-box"><img src="1S.png"></div>
-        </div>
       </div>
+    </div>
 
     <!-- OFFER TEXT -->
     <div class="gds-offer-text">
-      Get Additional Discount upto <strong>PKR 1600/-</strong> per ticket Book from the Portal or QFC provided ID/PCC
+      Get Additional Discount upto <strong>PKR 1600/-</strong> per ticket
     </div>
-    <div class="service-text">
-      Reissue/Re-Validation <strong>PKR 500/-</strong> Refund Charges <strong>PKR 500/-</strong> Void Charges <strong>PKR 500/-</strong>
-          </div>
 
     <h3>SAME DAY CASH</h3>
     <div class="grid" id="cashGrid"></div>
@@ -69,10 +65,10 @@
     <h3>CREDIT AIRLINE</h3>
     <div class="grid" id="creditGrid"></div>
 
-    <!-- SHEET FOOTER (This will now appear in the JPG) -->
+    <!-- SHEET FOOTER -->
     <div class="sheet-footer">
       <h4>QFC GROUP</h4>
-      <p>RIZWAN PALAZA, MAIN JINNAH AVENUE, BLUE AREA, ISLAMABAD</p>
+      <p>RIZWAN PALAZA MAIN, JINNAH AVENUE, BLUE AREA ISLAMABAD</p>
     </div>
 
   </div>
@@ -188,30 +184,7 @@
     </div>
   </div>
 </div>
+
 <script src="script.js?v=9"></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
