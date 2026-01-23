@@ -339,21 +339,25 @@ window.onload = loadData;
 // 1. Open Modal and Populate Airlines
 function openCalculator() {
     const select = document.getElementById("calcAirline");
-    
-    // Clear previous options (keep the first one)
     select.innerHTML = '<option value="">-- Select Airline --</option>';
     
     // Populate unique airlines from data
     data.forEach(item => {
         const option = document.createElement("option");
         option.value = item.discount; // Store discount string in value
-        option.text = item.airline;
+        
+        // FIX: Append Notification to Name if it exists
+        let label = item.airline;
+        if (item.notification) {
+            label += ` (${item.notification})`; // e.g. "SereneAir (Currently Closed)"
+        }
+        
+        option.text = label;
         select.appendChild(option);
     });
 
     document.getElementById("calcModal").style.display = "block";
 }
-
 // 2. Perform Calculation
 function calculatePSF() {
     const airline = document.getElementById("calcAirline");
