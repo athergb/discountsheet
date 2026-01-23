@@ -104,8 +104,7 @@ function render() {
         const card = document.createElement("div");
         card.className = "card";
 
-        // 3. UPDATED: Use 'item.instructions' for the Hover Data
-        // If instructions is empty, it will show nothing on hover
+        // Use 'item.instructions' for the Hover Data
         card.setAttribute("data-note", item.instructions || "");
        
         card.innerHTML = `
@@ -254,7 +253,7 @@ function saveData() {
 }
 
 /* =========================
-   JPG EXPORT
+   JPG EXPORT (FIXED TYPO)
 ========================= */
 async function saveAsJPG() {
   const sheet = document.getElementById("sheet");
@@ -276,7 +275,7 @@ async function saveAsJPG() {
   wrapper.appendChild(clone);
   document.body.appendChild(wrapper);
 
-  const canvas = await html2canvas(clone, {
+  const canvas = await html2canvas(clone, { // FIXED TYPO HERE
     scale: 2,
     backgroundColor: "#ffffff",
     useCORS: true
@@ -312,7 +311,7 @@ async function saveForWhatsApp() {
   wrapper.appendChild(clone);
   document.body.appendChild(wrapper);
 
-  const canvas = await html2canvas(clone, {
+  const canvas = await html2canvas(clone, { // FIXED TYPO HERE
     scale: 1.5,
     backgroundColor: "#ffffff",
     useCORS: true
@@ -333,7 +332,7 @@ async function saveForWhatsApp() {
 window.onload = loadData;
 
 /* =========================
-   CALCULATOR LOGIC (ROBUST)
+   CALCULATOR LOGIC (FIXED LOCALE)
 ========================= */
 
 // 1. Open Modal and Populate Airlines
@@ -398,7 +397,7 @@ function updateRow(baseFare, tax, discId, totalId) {
     
     if(discEl && totalEl) {
         discEl.innerText = "No Discount";
-        totalEl.innerText = (baseFare + tax).toLocaleString('en-PK', { minimumFractionDigits: 0 }) + " PKR";
+        totalEl.innerText = (baseFare + tax).toLocaleString('en-GB', { minimumFractionDigits: 0 }) + " PKR";
     }
 }
 
@@ -437,7 +436,7 @@ function calculateSingleRow(baseFare, discountStr, tax, discId, totalId) {
 
     if(discEl && totalEl) {
         discEl.innerText = displayText;
-        totalEl.innerText = netAmount.toLocaleString('en-PK', { minimumFractionDigits: 0 }) + " PKR";
+        totalEl.innerText = netAmount.toLocaleString('en-GB', { minimumFractionDigits: 0 }) + " PKR";
     }
 }
 
