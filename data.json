@@ -3,10 +3,11 @@
     "category": "credit",
     "airline": "PIA",
     "discount": "-2.5%",
-    "logo": "PKlogo.png",
+    "logo": "PKLOGO.png",
     "note": "",
     "notification": "HITIT only",
-    "validity": "2026-02-28"
+    "validity": "2026-02-28",
+    "instructions": ""
   },
   {
     "category": "cash",
