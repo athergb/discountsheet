@@ -677,13 +677,21 @@ input:focus {
   margin-top: 2px;
 }
 
-.credits {
+ .credits {
   margin-top: 15px;
   font-size: 12px;      /* Small font */
-  color: #999;          /* Light grey for a subtle look */
+  color: #FFFFFF;          /* white for a subtle look */
   font-weight: 500;
   letter-spacing: 0.5px;
+  /* --- Blinking Logic Added Below --- */
+  animation: blink 1s infinite steps(1, end);
 }
+
+@keyframes blink {
+  from, to { opacity: 1; } /* Fully visible at the start and end of the cycle */
+  50% { opacity: 0; }     /* Hidden halfway through the cycle */
+}
+
 
 /* =========================
    WELCOME SCREEN ANIMATION
@@ -818,6 +826,7 @@ input:focus {
     object-fit: cover;     /* Ensures it covers whole screen without stretching */
     pointer-events: none;    /* Allows you to click through it */
 }
+
 
 
 
