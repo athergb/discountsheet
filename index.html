@@ -130,20 +130,30 @@
         <option value="">-- Select Airline --</option>
     </select>
 
+    <label>Passenger Type</label>
+    <select id="calcPaxType">
+        <option value="adult">Adult</option>
+        <option value="child">Child (75% of Adult)</option>
+        <option value="infant">Infant (10% of Adult)</option>
+    </select>
+
     <div class="form-row">
         <div>
-            <label>Basic Fare (PKR)</label>
+            <label>Adult Basic Fare (PKR)</label>
             <input type="number" id="calcBasic" placeholder="0">
         </div>
         <div>
-            <label>Total Taxes (PKR)</label>
+            <label>Taxes (PKR)</label>
             <input type="number" id="calcTax" placeholder="0">
         </div>
     </div>
 
+    <!-- Added a line to show the Calculated Base Fare -->
+    <div class="calc-info">Calculated Base Fare: <strong id="dispBase">0.00</strong> PKR</div>
+
     <div class="calc-display">
         <div class="calc-row">
-            <span>Discount or PSF Applied:</span>
+            <span>Discount /PSF Applied:</span>
             <strong id="dispDisc">-</strong>
         </div>
         <div class="calc-row total-row">
@@ -157,11 +167,11 @@
       <button class="btn-secondary" onclick="document.getElementById('calcModal').style.display='none'">Close</button>
     </div>
   </div>
-</div>
-  
+</div>  
 <script src="script.js?v=7"></script>
 </body>
 </html>
+
 
 
 
