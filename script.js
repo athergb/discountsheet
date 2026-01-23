@@ -16,14 +16,13 @@ let sha = "";
 let isEditor = false;
 
 /* =========================
-   LOAD DATA (Read-Only Public)
+   LOAD DATA
 ========================= */
 async function loadData() {
     const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${CONFIG.filePath}`;
     
     try {
         const res = await fetch(url);
-        
         if (!res.ok) throw new Error("Failed to load data");
         
         const json = await res.json();
@@ -39,7 +38,7 @@ async function loadData() {
 }
 
 /* =========================
-   SAVE DATA (Requires Token)
+   SAVE DATA
 ========================= */
 async function saveToGitHub() {
     const token = prompt("Enter your GitHub Token to Save:");
@@ -102,8 +101,6 @@ function render() {
 
         const card = document.createElement("div");
         card.className = "card";
-        
-        // Use 'item.instructions' for the Hover Data
         card.setAttribute("data-note", item.instructions || "");
        
         card.innerHTML = `
@@ -237,7 +234,6 @@ async function saveAsJPG() {
   const sheet = document.getElementById("sheet");
   const headerBtns = document.querySelector(".header-controls");
   const bottomBtns = document.querySelector(".bottom-actions");
-  
   if(headerBtns) headerBtns.style.display = "none";
   if(bottomBtns) bottomBtns.style.display = "none";
 
@@ -274,7 +270,6 @@ async function saveForWhatsApp() {
   const sheet = document.getElementById("sheet");
   const headerBtns = document.querySelector(".header-controls");
   const bottomBtns = document.querySelector(".bottom-actions");
-  
   if(headerBtns) headerBtns.style.display = "none";
   if(bottomBtns) bottomBtns.style.display = "none";
 
@@ -309,7 +304,7 @@ async function saveForWhatsApp() {
 window.onload = loadData;
 
 /* =========================
-   CALCULATOR LOGIC (CORRECTED)
+   CALCULATOR LOGIC
 ========================= */
 
 // 1. Open Modal and Populate Airlines
@@ -342,16 +337,19 @@ function calculatePSF() {
     }
 
     // --- CALCULATE FOR ADULT (100%) ---
-    function calculateSingleRow(baseFare, discountStr, tax, discId, totalId) {
-    // SAFETY CHECK: Verify IDs exist
-    const discEl = document.getElementById(discId);
-    const totalEl = document.getElementById(totalId);
+    calculateSingleRow(adultBaseInput, discountStr, tax, "dispDiscAdult", "dispTotalAdult");
 
-    if (!discEl || !totalEl) {
-        console.error("Calculator Error: Could not find element ID:", discId, "or", totalId);
-        return; 
-    }
+    // --- CALCULATE FOR CHILD (75%) ---
+    const childBase = adultBaseInput * 0.75;
+    calculateSingleRow(childBase, discountStr, tax, "dispDiscChild", "dispTotalChild");
 
+    // --- CALCULATE FOR INFANT (10%) ---
+    const infantBase = adultBaseInput * 0.10;
+    calculateSingleRow(infantBase, discountStr, tax, "dispDiscInfant", "dispTotalInfant");
+}
+
+// Helper function to calculate one row
+function calculateSingleRow(baseFare, discountStr, tax, discId, totalId) {
     let discountAmt = 0;
     let displayText = "";
 
@@ -375,19 +373,22 @@ function calculatePSF() {
     const netAmount = baseFare + discountAmt + tax;
 
     // Update specific IDs
-    discEl.innerText = displayText;
-    totalEl.innerText = netAmount.toLocaleString('en-PK', { minimumFractionDigits: 0 }) + " PKR";
+    const discEl = document.getElementById(discId);
+    const totalEl = document.getElementById(totalId);
+
+    if(discEl && totalEl) {
+        discEl.innerText = displayText;
+        totalEl.innerText = netAmount.toLocaleString('en-PK', { minimumFractionDigits: 0 }) + " PKR";
+    }
 }
-   
+
 // Helper to clear displays (Fixed Case Sensitivity)
 function resetCalcDisplays() {
     // Hardcoded IDs to prevent case mismatch errors
-    document.getElementById("dispDiscAdult").innerText = "-";
-    document.getElementById("dispTotalAdult").innerText = "0.00 PKR";
+    const ids = ["dispDiscAdult", "dispTotalAdult", "dispDiscChild", "dispTotalChild", "dispDiscInfant", "dispTotalInfant"];
     
-    document.getElementById("dispDiscChild").innerText = "-";
-    document.getElementById("dispTotalChild").innerText = "0.00 PKR";
-    
-    document.getElementById("dispDiscInfant").innerText = "-";
-    document.getElementById("dispTotalInfant").innerText = "0.00 PKR";
+    ids.forEach(id => {
+        const el = document.getElementById(id);
+        if(el) el.innerText = (id.includes("Total") ? "0.00 PKR" : "-");
+    });
 }
