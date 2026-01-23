@@ -189,13 +189,14 @@ body {
   font-size: 16px;
   font-weight: 600;
   text-align: center;
-}
-animation: blink 1s infinite steps(1, end);
+  
+  /* --- ADDED THIS LINE INSIDE --- */
+  animation: blink 1s infinite steps(1, end);
 }
 
 @keyframes blink {
-  from, to { opacity: 1; } /* Fully visible at the start and end of the cycle */
-  50% { opacity: 0; }     /* Hidden halfway through the cycle */
+  from, to { opacity: 1; } /* Fully visible */
+  50% { opacity: 0; }     /* Hidden */
 }
 
 .service-text1 {
@@ -833,6 +834,7 @@ input:focus {
     object-fit: cover;     /* Ensures it covers whole screen without stretching */
     pointer-events: none;    /* Allows you to click through it */
 }
+
 
 
 
