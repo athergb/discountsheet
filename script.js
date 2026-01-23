@@ -342,19 +342,16 @@ function calculatePSF() {
     }
 
     // --- CALCULATE FOR ADULT (100%) ---
-    calculateSingleRow(adultBaseInput, discountStr, tax, "dispDiscAdult", "dispTotalAdult");
+    function calculateSingleRow(baseFare, discountStr, tax, discId, totalId) {
+    // SAFETY CHECK: Verify IDs exist
+    const discEl = document.getElementById(discId);
+    const totalEl = document.getElementById(totalId);
 
-    // --- CALCULATE FOR CHILD (75%) ---
-    const childBase = adultBaseInput * 0.75;
-    calculateSingleRow(childBase, discountStr, tax, "dispDiscChild", "dispTotalChild");
+    if (!discEl || !totalEl) {
+        console.error("Calculator Error: Could not find element ID:", discId, "or", totalId);
+        return; 
+    }
 
-    // --- CALCULATE FOR INFANT (10%) ---
-    const infantBase = adultBaseInput * 0.10;
-    calculateSingleRow(infantBase, discountStr, tax, "dispDiscInfant", "dispTotalInfant");
-}
-
-// Helper function to calculate one row
-function calculateSingleRow(baseFare, discountStr, tax, discId, totalId) {
     let discountAmt = 0;
     let displayText = "";
 
@@ -378,10 +375,10 @@ function calculateSingleRow(baseFare, discountStr, tax, discId, totalId) {
     const netAmount = baseFare + discountAmt + tax;
 
     // Update specific IDs
-    document.getElementById(discId).innerText = displayText;
-    document.getElementById(totalId).innerText = netAmount.toLocaleString('en-PK', { minimumFractionDigits: 0 }) + " PKR";
+    discEl.innerText = displayText;
+    totalEl.innerText = netAmount.toLocaleString('en-PK', { minimumFractionDigits: 0 }) + " PKR";
 }
-
+   
 // Helper to clear displays (Fixed Case Sensitivity)
 function resetCalcDisplays() {
     // Hardcoded IDs to prevent case mismatch errors
