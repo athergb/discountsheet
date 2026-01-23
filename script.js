@@ -328,9 +328,6 @@ async function saveForWhatsApp() {
   link.click();
 }
 
-// Start the app
-window.onload = loadData;
-
 /* =========================
    CALCULATOR LOGIC (FIXED LOCALE)
 ========================= */
@@ -451,10 +448,10 @@ function resetCalcDisplays() {
 }
 
 /* =========================
-   WELCOME SCREEN LOGIC
+   MASTER INITIALIZATION
 ========================= */
 window.onload = function() {
-    // 1. Load your Data
+    // 1. Load Airline Data
     loadData();
 
     // 2. Handle Welcome Screen Animation
