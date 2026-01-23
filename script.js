@@ -359,10 +359,13 @@ function calculatePSF() {
     const airlineSelect = document.getElementById("calcAirline");
     const discountStr = airlineSelect.options[airlineSelect.selectedIndex].value;
     
-    const paxType = document.getElementById("calcPaxType").value;
+    // 2. CHANGE THIS LINE: Read the active tab instead of dropdown
+    const activeBtn = document.querySelector('.pax-btn.active');
+    const paxType = activeBtn ? activeBtn.getAttribute('data-type') : 'adult';
+
     const adultBaseInput = parseFloat(document.getElementById("calcBasic").value) || 0;
     const tax = parseFloat(document.getElementById("calcTax").value) || 0;
-
+    
     if(!discountStr) return;
 
     // 1. CALCULATE BASE FARE BASED ON PASSENGER TYPE
@@ -405,8 +408,22 @@ function calculatePSF() {
     // 3. CALCULATE NET AMOUNT
     // Net = Calculated Base Fare +/- Discount + Taxes
     const netAmount = baseFare + discountAmt + tax;
-
+    
     // Update UI
     document.getElementById("dispDisc").innerText = displayText;
     document.getElementById("dispTotal").innerText = netAmount.toLocaleString('en-PK', { minimumFractionDigits: 0 }) + " PKR";
+}
+
+// 1. Handle Tab Clicking
+function selectPax(type) {
+    // Remove 'active' class from all buttons
+    document.querySelectorAll('.pax-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    
+    // Add 'active' class to the clicked button
+    document.querySelector(`.pax-btn[data-type="${type}"]`).classList.add('active');
+    
+    // Optional: Auto-recalculate if values are already entered
+    // calculatePSF(); 
 }
