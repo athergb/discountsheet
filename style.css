@@ -190,6 +190,13 @@ body {
   font-weight: 600;
   text-align: center;
 }
+animation: blink 1s infinite steps(1, end);
+}
+
+@keyframes blink {
+  from, to { opacity: 1; } /* Fully visible at the start and end of the cycle */
+  50% { opacity: 0; }     /* Hidden halfway through the cycle */
+}
 
 .service-text1 {
   margin: 10px auto;
@@ -826,6 +833,7 @@ input:focus {
     object-fit: cover;     /* Ensures it covers whole screen without stretching */
     pointer-events: none;    /* Allows you to click through it */
 }
+
 
 
 
