@@ -356,29 +356,45 @@ function openCalculator() {
 
 // 2. Perform Calculation
 function calculatePSF() {
-    const airline = document.getElementById("calcAirline");
-    const discountStr = airline.options[airline.selectedIndex].value;
-    const basic = parseFloat(document.getElementById("calcBasic").value) || 0;
+    const airlineSelect = document.getElementById("calcAirline");
+    const discountStr = airlineSelect.options[airlineSelect.selectedIndex].value;
+    
+    const paxType = document.getElementById("calcPaxType").value;
+    const adultBaseInput = parseFloat(document.getElementById("calcBasic").value) || 0;
     const tax = parseFloat(document.getElementById("calcTax").value) || 0;
 
     if(!discountStr) return;
 
+    // 1. CALCULATE BASE FARE BASED ON PASSENGER TYPE
+    let baseFare = adultBaseInput; // Default Adult
+
+    if (paxType === "child") {
+        baseFare = adultBaseInput * 0.75; // Child gets 75% of Adult
+    } else if (paxType === "infant") {
+        baseFare = adultBaseInput * 0.10; // Infant gets 10% of Adult
+    }
+
+    // Display the Calculated Base Fare
+    document.getElementById("dispBase").innerText = baseFare.toLocaleString('en-PK', { minimumFractionDigits: 0 });
+
+    // 2. CALCULATE DISCOUNT
     let discountAmt = 0;
     let displayText = "";
 
-    // PARSE LOGIC
     if (discountStr.includes("%")) {
         // Percentage Logic (e.g., "-2%")
+        // Calculation: BaseFare * (Percentage / 100)
         let num = parseFloat(discountStr.replace(/[^0-9.-]/g, ''));
-        discountAmt = (basic * num) / 100;
+        discountAmt = (baseFare * num) / 100;
         displayText = `${discountStr} (${discountAmt.toFixed(2)})`;
     } else if (discountStr.includes("PKR") || discountStr.includes("PKR")) {
         // Fixed Amount Logic (e.g., "PKR 500")
+        // Calculation: BaseFare +/- Fixed Amount
         let num = parseFloat(discountStr.replace(/[^0-9.-]/g, ''));
         discountAmt = num;
         displayText = discountStr;
     } else {
-        // Try generic number
+        // Generic Number
         let num = parseFloat(discountStr);
         if(!isNaN(num)) {
             discountAmt = num;
@@ -386,8 +402,9 @@ function calculatePSF() {
         }
     }
 
-    // Calculate Net Amount
-    const netAmount = basic + discountAmt + tax;
+    // 3. CALCULATE NET AMOUNT
+    // Net = Calculated Base Fare +/- Discount + Taxes
+    const netAmount = baseFare + discountAmt + tax;
 
     // Update UI
     document.getElementById("dispDisc").innerText = displayText;
