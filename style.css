@@ -765,28 +765,32 @@ input:focus {
 /* --- TOP HEADER: Logo Left, Buttons Right --- */
 .top-header {
   width: 100% !important;
-  background-color: #0f2e5a !important; /* Blue Background */
+  background-color: #0f2e5a !important;
   padding: 15px 30px !important;
   display: flex !important;
-  justify-content: space-between !important; /* Key: Pushes items to Left and Right */
+  justify-content: space-between !important;
   align-items: center !important;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;
+}
+
+.header-controls {
+  display: flex;
+  gap: 10px;
 }
 
 /* --- BOTTOM ACTIONS: Centered --- */
 .bottom-actions {
   display: flex !important;
-  flex-direction: column !important; /* Stack buttons */
-  justify-content: center !important; /* Center horizontally */
-  align-items: center !important; /* Center vertically */
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
   text-align: center !important;
   margin-top: 30px !important;
   width: 100% !important;
 }
 
-/* Ensure Buttons don't touch edges */
 .bottom-actions button {
-  margin: 5px 0 !important; /* Space between stacked buttons */
+  margin: 5px 0 !important;
 }
 
 /* Hide Welcome Screen after 2.5s (Animation) */
@@ -795,6 +799,7 @@ input:focus {
   transition: opacity 0.8s ease-in-out;
   pointer-events: none; /* Allows clicks to pass through once hidden */
 }
+
 
 
 
