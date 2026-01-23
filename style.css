@@ -837,13 +837,14 @@ input:focus {
   width: fit-content;
   font-weight: bold;
   font-family: monospace;
-  font-size: 16px;
+  font-size: 30px;
   margin: 10px auto;
   padding: 3px 20px;
   text-align: center;
 }
 
 .service-text::before {
+  content: "For more Discount details move the cursor on the Airline Box";
   line-height: 1em;
   color: #0000; /* Text is transparent so it shows the background */
   
