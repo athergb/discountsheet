@@ -793,20 +793,6 @@ input:focus {
   margin: 5px 0 !important;
 }
 
-/* Hide Welcome Screen after 2.5s (Animation) */
-#welcome-screen {
-  opacity: 0;
-  transition: opacity 0.8s ease-in-out;
-  pointer-events: none; /* Allows clicks to pass through once hidden */
-}
-
-
-
-
-
-
-
-
 
 
 
