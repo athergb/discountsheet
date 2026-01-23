@@ -830,45 +830,39 @@ input:focus {
 }
 
 /* =========================
-   REVEAL LOADER (Service Text)
+   PROFESSIONAL SHIMMER EFFECT
 ========================= */
 .service-text {
-  /* --- ORIGINAL POSITIONING ONLY --- */
-  width: fit-content;
-  font-weight: bold;
-  font-family: monospace;
-  font-size: 16px;
+  /* --- POSITION & FONT --- */
   margin: 10px auto;
   padding: 3px 20px;
+  font-size: 16px;
+  font-weight: 600;
   text-align: center;
-}
-
-.service-text::before {
-  content: "For more Discount details move the cursor on the Airline Box";
-  line-height: 1em;
-  color: #0000; /* Text is transparent so it shows the background */
+  line-height: 1.4; /* Good for wrapping text */
   
-  /* --- THE MASKING LOGIC --- */
-  /* 1. The Flashlight is White (#fff) */
-  /* 2. The Background (Text Color) is Black (#000) */
-  background-image: radial-gradient(circle closest-side, #fff 94%, #000);
+  /* --- SHIMMER ANIMATION --- */
+  /* Gradient: Dark Grey -> White -> Dark Grey */
+  background: linear-gradient(90deg, #333 0%, #fff 50%, #333 100%);
+  background-size: 200% auto; /* Makes gradient double width for movement */
   
-  /* Apply the gradient to the text shape */
+  /* Clips the gradient to the text shape */
+  background-clip: text;
   -webkit-background-clip: text;
-          background-clip: text;
-
-  /* --- ANIMATION (MOVES THE GRADIENT) --- */
-  /* Moving Right to Left (3s), then Left to Right (3s) */
-  background-size: 200% 100%;
-  background-position: right; 
-  animation: l24 3s infinite alternate linear;
+  
+  /* Makes text transparent so background shows through */
+  color: #333; /* Fallback color if animation fails */
+  -webkit-text-fill-color: transparent; 
+  
+  /* Moves the gradient from left to right */
+  animation: shine 3s linear infinite;
 }
 
-/* =========================
-   REVEAL KEYFRAMES
-========================= */
-@keyframes l24 {
-  100% { background-position: left }
+/* KEYFRAMES FOR SHIMMER */
+@keyframes shine {
+  to {
+    background-position: 200% center;
+  }
 }
 
 
