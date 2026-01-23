@@ -331,3 +331,65 @@ async function saveForWhatsApp() {
 
 // Start the app
 window.onload = loadData;
+
+/* =========================
+   CALCULATOR LOGIC
+========================= */
+
+// 1. Open Modal and Populate Airlines
+function openCalculator() {
+    const select = document.getElementById("calcAirline");
+    
+    // Clear previous options (keep the first one)
+    select.innerHTML = '<option value="">-- Select Airline --</option>';
+    
+    // Populate unique airlines from data
+    data.forEach(item => {
+        const option = document.createElement("option");
+        option.value = item.discount; // Store discount string in value
+        option.text = item.airline;
+        select.appendChild(option);
+    });
+
+    document.getElementById("calcModal").style.display = "block";
+}
+
+// 2. Perform Calculation
+function calculatePSF() {
+    const airline = document.getElementById("calcAirline");
+    const discountStr = airline.options[airline.selectedIndex].value;
+    const basic = parseFloat(document.getElementById("calcBasic").value) || 0;
+    const tax = parseFloat(document.getElementById("calcTax").value) || 0;
+
+    if(!discountStr) return;
+
+    let discountAmt = 0;
+    let displayText = "";
+
+    // PARSE LOGIC
+    if (discountStr.includes("%")) {
+        // Percentage Logic (e.g., "-2%")
+        let num = parseFloat(discountStr.replace(/[^0-9.-]/g, ''));
+        discountAmt = (basic * num) / 100;
+        displayText = `${discountStr} (${discountAmt.toFixed(2)})`;
+    } else if (discountStr.includes("PKR") || discountStr.includes("PKR")) {
+        // Fixed Amount Logic (e.g., "PKR 500")
+        let num = parseFloat(discountStr.replace(/[^0-9.-]/g, ''));
+        discountAmt = num;
+        displayText = discountStr;
+    } else {
+        // Try generic number
+        let num = parseFloat(discountStr);
+        if(!isNaN(num)) {
+            discountAmt = num;
+            displayText = discountStr;
+        }
+    }
+
+    // Calculate Net Amount
+    const netAmount = basic + discountAmt + tax;
+
+    // Update UI
+    document.getElementById("dispDisc").innerText = displayText;
+    document.getElementById("dispTotal").innerText = netAmount.toLocaleString('en-PK', { minimumFractionDigits: 0 }) + " PKR";
+}
