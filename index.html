@@ -131,11 +131,11 @@
     </select>
 
     <label>Passenger Type</label>
-    <select id="calcPaxType">
-        <option value="adult">Adult</option>
-        <option value="child">Child (75% of Adult)</option>
-        <option value="infant">Infant (10% of Adult)</option>
-    </select>
+    <div class="pax-selector">
+        <div class="pax-btn active" data-type="adult" onclick="selectPax('adult')">Adult</div>
+        <div class="pax-btn" data-type="child" onclick="selectPax('child')">Child</div>
+        <div class="pax-btn" data-type="infant" onclick="selectPax('infant')">Infant</div>
+    </div>
 
     <div class="form-row">
         <div>
@@ -171,6 +171,7 @@
 <script src="script.js?v=7"></script>
 </body>
 </html>
+
 
 
 
