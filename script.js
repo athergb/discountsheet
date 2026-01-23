@@ -333,7 +333,7 @@ async function saveForWhatsApp() {
 window.onload = loadData;
 
 /* =========================
-   CALCULATOR LOGIC
+   CALCULATOR LOGIC (ROBUST)
 ========================= */
 
 // 1. Open Modal and Populate Airlines
@@ -344,12 +344,15 @@ function openCalculator() {
     // Populate unique airlines from data
     data.forEach(item => {
         const option = document.createElement("option");
-        option.value = item.discount; // Store discount string in value
+        
+        // Store discount string in value. If empty, store "0"
+        let discValue = item.discount || "0";
+        option.value = discValue;
         
         // FIX: Append Notification to Name if it exists
         let label = item.airline;
         if (item.notification) {
-            label += ` (${item.notification})`; // e.g. "SereneAir (Currently Closed)"
+            label += ` (${item.notification})`; 
         }
         
         option.text = label;
@@ -358,29 +361,65 @@ function openCalculator() {
 
     document.getElementById("calcModal").style.display = "block";
 }
+
 // 2. Perform Calculation
 function calculatePSF() {
-    const airline = document.getElementById("calcAirline");
-    const discountStr = airline.options[airline.selectedIndex].value;
-    const basic = parseFloat(document.getElementById("calcBasic").value) || 0;
+    const airlineSelect = document.getElementById("calcAirline");
+    const discountStr = airlineSelect.options[airlineSelect.selectedIndex].value;
+    
+    const adultBaseInput = parseFloat(document.getElementById("calcBasic").value) || 0;
     const tax = parseFloat(document.getElementById("calcTax").value) || 0;
 
-    if(!discountStr) return;
+    // If no airline selected, reset
+    if(!discountStr || discountStr === "0") {
+        // Even if discount is 0, we calculate Basic + Tax
+        updateRow(adultBaseInput, tax, "dispDiscAdult", "dispTotalAdult");
+        updateRow(adultBaseInput * 0.75, tax, "dispDiscChild", "dispTotalChild");
+        updateRow(adultBaseInput * 0.10, tax, "dispDiscInfant", "dispTotalInfant");
+        return;
+    }
 
+    // --- CALCULATE FOR ADULT (100%) ---
+    calculateSingleRow(adultBaseInput, discountStr, tax, "dispDiscAdult", "dispTotalAdult");
+
+    // --- CALCULATE FOR CHILD (75%) ---
+    const childBase = adultBaseInput * 0.75;
+    calculateSingleRow(childBase, discountStr, tax, "dispDiscChild", "dispTotalChild");
+
+    // --- CALCULATE FOR INFANT (10%) ---
+    const infantBase = adultBaseInput * 0.10;
+    calculateSingleRow(infantBase, discountStr, tax, "dispDiscInfant", "dispTotalInfant");
+}
+
+// Helper to update a row (Used when discount is 0/empty)
+function updateRow(baseFare, tax, discId, totalId) {
+    const discEl = document.getElementById(discId);
+    const totalEl = document.getElementById(totalId);
+    
+    if(discEl && totalEl) {
+        discEl.innerText = "No Discount";
+        totalEl.innerText = (baseFare + tax).toLocaleString('en-PK', { minimumFractionDigits: 0 }) + " PKR";
+    }
+}
+
+// Helper function to calculate one row
+function calculateSingleRow(baseFare, discountStr, tax, discId, totalId) {
     let discountAmt = 0;
     let displayText = "";
 
-    // PARSE LOGIC
+    // PARSE DISCOUNT STRING
     if (discountStr.includes("%")) {
-        // Percentage Logic (e.g., "-2%")
         let num = parseFloat(discountStr.replace(/[^0-9.-]/g, ''));
-        discountAmt = (basic * num) / 100;
-        displayText = `${discountStr} (${discountAmt.toFixed(2)})`;
-    } else if (discountStr.includes("PKR") || discountStr.includes("PKR")) {
-        // Fixed Amount Logic (e.g., "PKR 500")
+        if(!isNaN(num)) {
+            discountAmt = (baseFare * num) / 100;
+            displayText = `${discountStr} (${discountAmt.toFixed(2)})`;
+        }
+    } else if (discountStr.includes("PKR")) {
         let num = parseFloat(discountStr.replace(/[^0-9.-]/g, ''));
-        discountAmt = num;
-        displayText = discountStr;
+        if(!isNaN(num)) {
+            discountAmt = num;
+            displayText = discountStr;
+        }
     } else {
         // Try generic number
         let num = parseFloat(discountStr);
@@ -390,10 +429,24 @@ function calculatePSF() {
         }
     }
 
-    // Calculate Net Amount
-    const netAmount = basic + discountAmt + tax;
+    const netAmount = baseFare + discountAmt + tax;
 
-    // Update UI
-    document.getElementById("dispDisc").innerText = displayText;
-    document.getElementById("dispTotal").innerText = netAmount.toLocaleString('en-PK', { minimumFractionDigits: 0 }) + " PKR";
+    // Update specific IDs
+    const discEl = document.getElementById(discId);
+    const totalEl = document.getElementById(totalId);
+
+    if(discEl && totalEl) {
+        discEl.innerText = displayText;
+        totalEl.innerText = netAmount.toLocaleString('en-PK', { minimumFractionDigits: 0 }) + " PKR";
+    }
+}
+
+// Helper to clear displays
+function resetCalcDisplays() {
+    const ids = ["dispDiscAdult", "dispTotalAdult", "dispDiscChild", "dispTotalChild", "dispDiscInfant", "dispTotalInfant"];
+    
+    ids.forEach(id => {
+        const el = document.getElementById(id);
+        if(el) el.innerText = (id.includes("Total") ? "0.00 PKR" : "-");
+    });
 }
