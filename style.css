@@ -184,7 +184,7 @@ body {
 
 .service-text {
   margin: 10px auto;
-  padding: 12px 25px;
+  padding: 8px 20px;
   color: #333;
   font-size: 16px;
   font-weight: 600;
@@ -193,7 +193,7 @@ body {
 
 .service-text1 {
   margin: 10px auto;
-  padding: 12px 25px;
+  padding: 8px 20px;
   color: #333;
   font-size: 16px;
   font-weight: 600;
@@ -818,6 +818,7 @@ input:focus {
     object-fit: cover;     /* Ensures it covers whole screen without stretching */
     pointer-events: none;    /* Allows you to click through it */
 }
+
 
 
 
