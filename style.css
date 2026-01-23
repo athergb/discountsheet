@@ -830,33 +830,40 @@ input:focus {
 }
 
 /* =========================
-   RAINBOW SERVICE TEXT (Replaces Blink)
+   REVEAL LOADER (Service Text)
 ========================= */
 .service-text {
-  /* --- Loader Specific Styles --- */
   width: fit-content;
   font-weight: bold;
-  font-family: monospace; /* Required for rainbow effect */
-  font-size: 30px; /* Adjust size if needed */
-  color: #000;
-  overflow: hidden;
-  animation: l9 5s infinite cubic-bezier(0.3,1,0,1); /* Uses Rainbow Animation */
+  font-family: monospace;
+  font-size: 30px;
+  
+  /* --- THE MASKING LOGIC --- */
+  background: radial-gradient(circle closest-side, #000 94%, #0000) right/calc(200% - 1em) 100%;
+  animation: l24 1s infinite alternate linear;
 
-  /* --- Original Positioning --- */
+  /* --- ORIGINAL POSITIONING --- */
   margin: 10px auto;
   padding: 3px 20px;
   text-align: center;
 }
 
+.service-text::before {
+  /* I set this to your HTML text so it works automatically */
+  content: "For more Discount details move the cursor on the Airline";
+  line-height: 1em;
+  color: #0000; /* Transparent text allows background to show */
+  background: inherit;
+  background-image: radial-gradient(circle closest-side, #fff 94%, #000);
+  -webkit-background-clip: text;
+          background-clip: text;
+}
+
 /* =========================
-   UPDATED KEYFRAMES (Extended)
+   REVEAL KEYFRAMES
 ========================= */
-@keyframes l9 {
-  0% { text-shadow: 0 0 #000, 11ch 0 #8A9B0F, 22ch 0 #C02942, 33ch 0 #00A0B0, 44ch 0 #000, 55ch 0 #000 }
-  25% { text-shadow: -11ch 0 #000, 0 0 #8A9B0F, 11ch 0 #C02942, 22ch 0 #00A0B0, 33ch 0 #000, 44ch 0 #000 }
-  50% { text-shadow: -22ch 0 #000, -11ch 0 #8A9B0F, 0 0 #C02942, 11ch 0 #00A0B0, 22ch 0 #000, 33ch 0 #000 }
-  75% { text-shadow: -33ch 0 #000, -22ch 0 #8A9B0F, -11ch 0 #C02942, 0 0 #00A0B0, 11ch 0 #000, 22ch 0 #000 }
-  100% { text-shadow: -44ch 0 #000, -33ch 0 #8A9B0F, -22ch 0 #C02942, -11ch 0 #00A0B0, 0 0 #000, 11ch 0 #000 }
+@keyframes l24 {
+  100% { background-position: left }
 }
 
 
