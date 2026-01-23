@@ -2,10 +2,10 @@
    CONFIGURATION
 ========================= */
 const CONFIG = {
-    owner: "athergb",           // Your GitHub Username
-    repo: "discountsheet",      // Your Repo Name
-    filePath: "data.json",      // The data file name
-    adminPassword: "admin123"  // Your Admin Password
+    owner: "athergb",
+    repo: "discountsheet",
+    filePath: "data.json",
+    adminPassword: "admin123"
 };
 
 /* =========================
@@ -93,7 +93,6 @@ function render() {
         const expired = d < today ? "expired" : "";
         const categoryGrid = item.category === "cash" ? cashGrid : creditGrid;
 
-        // Edit & Delete buttons only visible if logged in
         const actionHtml = isEditor 
             ? `<div class="actions">
                  <button class="edit-btn" onclick="editEntry(${index})">Edit</button>
@@ -103,9 +102,8 @@ function render() {
 
         const card = document.createElement("div");
         card.className = "card";
-
-        // 3. UPDATED: Use 'item.instructions' for the Hover Data
-        // If instructions is empty, it will show nothing on hover
+        
+        // Use 'item.instructions' for the Hover Data
         card.setAttribute("data-note", item.instructions || "");
        
         card.innerHTML = `
@@ -137,7 +135,6 @@ function showLoginModal() {
 function showAddModal() {
     const modal = document.getElementById("formModal");
     if (modal) {
-        // Clear all fields
         document.getElementById("inpCategory").value = "cash";
         document.getElementById("inpAirline").value = "";
         document.getElementById("inpDiscount").value = "";
@@ -146,22 +143,14 @@ function showAddModal() {
         document.getElementById("inpNotice").value = "";
         document.getElementById("inpValidity").value = "";
         document.getElementById("inpInstructions").value = "";
-        document.getElementById("editIndex").value = ""; // Empty means ADD MODE
-        
-        // Reset Title
+        document.getElementById("editIndex").value = ""; 
         document.getElementById("modalTitle").innerText = "Add Airline";
-        
         modal.style.display = "block";
     }
 }
 
-/* =========================
-   EDIT ENTRY (NEW)
-========================= */
 function editEntry(index) {
-    const item = data[index]; // Get the data for this specific card
-    
-    // Fill the form with existing data
+    const item = data[index]; 
     document.getElementById("inpCategory").value = item.category;
     document.getElementById("inpAirline").value = item.airline;
     document.getElementById("inpDiscount").value = item.discount;
@@ -170,21 +159,14 @@ function editEntry(index) {
     document.getElementById("inpNotice").value = item.notification || "";
     document.getElementById("inpValidity").value = item.validity;
     document.getElementById("inpInstructions").value = item.instructions || "";
-    
-    // Set the hidden index so saveData knows to UPDATE, not ADD
     document.getElementById("editIndex").value = index;
-    
-    // Change Title
     document.getElementById("modalTitle").innerText = "Edit Airline";
-    
-    // Show the modal
     document.getElementById("formModal").style.display = "block";
 }
 
 function closeModals() {
     const loginModal = document.getElementById("loginModal");
     const formModal = document.getElementById("formModal");
-    
     if (loginModal) loginModal.style.display = "none";
     if (formModal) formModal.style.display = "none";
 }
@@ -192,19 +174,14 @@ function closeModals() {
 function checkPassword() {
     const input = document.getElementById("adminPassword");
     if(!input) return alert("Input field not found");
-    
     const pass = input.value;
-    
     if (pass === CONFIG.adminPassword) {
         isEditor = true;
-        
-        // Toggle Buttons
         document.getElementById("loginBtn").style.display = "none";
         document.getElementById("logoutBtn").style.display = "inline-block";
         document.getElementById("addBtn").style.display = "inline-block";
-        
         closeModals();
-        render(); // Refresh to show delete buttons
+        render(); 
         alert("Welcome Admin!");
     } else {
         alert("Incorrect Password");
@@ -329,24 +306,21 @@ async function saveForWhatsApp() {
   link.click();
 }
 
-// Start the app
 window.onload = loadData;
 
 /* =========================
-   CALCULATOR LOGIC
+   CALCULATOR LOGIC (CORRECTED)
 ========================= */
 
 // 1. Open Modal and Populate Airlines
 function openCalculator() {
     const select = document.getElementById("calcAirline");
-    
-    // Clear previous options (keep the first one)
     select.innerHTML = '<option value="">-- Select Airline --</option>';
     
     // Populate unique airlines from data
     data.forEach(item => {
         const option = document.createElement("option");
-        option.value = item.discount; // Store discount string in value
+        option.value = item.discount; 
         option.text = item.airline;
         select.appendChild(option);
     });
@@ -363,25 +337,24 @@ function calculatePSF() {
     const tax = parseFloat(document.getElementById("calcTax").value) || 0;
 
     if(!discountStr) {
-        // Clear fields if no airline selected
         resetCalcDisplays();
         return;
     }
 
     // --- CALCULATE FOR ADULT (100%) ---
-    calculateSingleRow(adultBaseInput, discountStr, tax, "Adult", "dispDiscAdult", "dispTotalAdult");
+    calculateSingleRow(adultBaseInput, discountStr, tax, "dispDiscAdult", "dispTotalAdult");
 
     // --- CALCULATE FOR CHILD (75%) ---
     const childBase = adultBaseInput * 0.75;
-    calculateSingleRow(childBase, discountStr, tax, "Child", "dispDiscChild", "dispTotalChild");
+    calculateSingleRow(childBase, discountStr, tax, "dispDiscChild", "dispTotalChild");
 
     // --- CALCULATE FOR INFANT (10%) ---
     const infantBase = adultBaseInput * 0.10;
-    calculateSingleRow(infantBase, discountStr, tax, "Infant", "dispDiscInfant", "dispTotalInfant");
+    calculateSingleRow(infantBase, discountStr, tax, "dispDiscInfant", "dispTotalInfant");
 }
 
 // Helper function to calculate one row
-function calculateSingleRow(baseFare, discountStr, tax, type, discId, totalId) {
+function calculateSingleRow(baseFare, discountStr, tax, discId, totalId) {
     let discountAmt = 0;
     let displayText = "";
 
@@ -390,7 +363,7 @@ function calculateSingleRow(baseFare, discountStr, tax, type, discId, totalId) {
         let num = parseFloat(discountStr.replace(/[^0-9.-]/g, ''));
         discountAmt = (baseFare * num) / 100;
         displayText = `${discountStr} (${discountAmt.toFixed(2)})`;
-    } else if (discountStr.includes("PKR") || discountStr.includes("PKR")) {
+    } else if (discountStr.includes("PKR")) {
         let num = parseFloat(discountStr.replace(/[^0-9.-]/g, ''));
         discountAmt = num;
         displayText = discountStr;
@@ -409,11 +382,15 @@ function calculateSingleRow(baseFare, discountStr, tax, type, discId, totalId) {
     document.getElementById(totalId).innerText = netAmount.toLocaleString('en-PK', { minimumFractionDigits: 0 }) + " PKR";
 }
 
-// Helper to clear displays
+// Helper to clear displays (Fixed Case Sensitivity)
 function resetCalcDisplays() {
-    ["Adult", "Child", "Infant"].forEach(type => {
-        const typeKey = type.charAt(0).toLowerCase() + type.slice(1); // Adult -> adult
-        document.getElementById(`dispDisc${typeKey}`).innerText = "-";
-        document.getElementById(`dispTotal${typeKey}`).innerText = "0.00 PKR";
-    });
+    // Hardcoded IDs to prevent case mismatch errors
+    document.getElementById("dispDiscAdult").innerText = "-";
+    document.getElementById("dispTotalAdult").innerText = "0.00 PKR";
+    
+    document.getElementById("dispDiscChild").innerText = "-";
+    document.getElementById("dispTotalChild").innerText = "0.00 PKR";
+    
+    document.getElementById("dispDiscInfant").innerText = "-";
+    document.getElementById("dispTotalInfant").innerText = "0.00 PKR";
 }
