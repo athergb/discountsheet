@@ -534,6 +534,17 @@ input:focus {
   font-size: 18px;
 }
 
+/* =========================
+   CALCULATOR INFO
+========================= */
+.calc-info {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 5px;
+  text-align: right;
+}
+
+
 
 
 
