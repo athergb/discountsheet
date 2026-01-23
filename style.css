@@ -191,6 +191,15 @@ body {
   text-align: center;
 }
 
+.service-text1 {
+  margin: 20px auto;
+  padding: 12px 25px;
+  color: #333;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+}
+
 h3 {
   margin-top: 30px;
   margin-bottom: 15px;
@@ -809,6 +818,7 @@ input:focus {
     object-fit: cover;     /* Ensures it covers whole screen without stretching */
     pointer-events: none;    /* Allows you to click through it */
 }
+
 
 
 
