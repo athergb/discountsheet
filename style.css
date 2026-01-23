@@ -833,16 +833,11 @@ input:focus {
    REVEAL LOADER (Service Text)
 ========================= */
 .service-text {
+  /* --- ORIGINAL POSITIONING ONLY --- */
   width: fit-content;
   font-weight: bold;
   font-family: monospace;
-  font-size: 12px;
-  
-  /* --- THE MASKING LOGIC --- */
-  background: radial-gradient(circle closest-side, #000 94%, #0000) right/calc(200% - 1em) 100%;
-  animation: l24 3s infinite alternate linear;
-
-  /* --- ORIGINAL POSITIONING --- */
+  font-size: 16px;
   margin: 10px auto;
   padding: 3px 20px;
   text-align: center;
@@ -850,11 +845,22 @@ input:focus {
 
 .service-text::before {
   line-height: 1em;
-  color: #0000; /* Transparent text allows background to show */
-  background: inherit;
+  color: #0000; /* Text is transparent so it shows the background */
+  
+  /* --- THE MASKING LOGIC --- */
+  /* 1. The Flashlight is White (#fff) */
+  /* 2. The Background (Text Color) is Black (#000) */
   background-image: radial-gradient(circle closest-side, #fff 94%, #000);
+  
+  /* Apply the gradient to the text shape */
   -webkit-background-clip: text;
           background-clip: text;
+
+  /* --- ANIMATION (MOVES THE GRADIENT) --- */
+  /* Moving Right to Left (3s), then Left to Right (3s) */
+  background-size: 200% 100%;
+  background-position: right; 
+  animation: l24 3s infinite alternate linear;
 }
 
 /* =========================
