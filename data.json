@@ -25,7 +25,8 @@
     "logo": "FJlogo.png",
     "note": "Int & Dom Flights",
     "notification": "Per Pax PSF",
-    "validity": "2026-02-28"
+    "validity": "2026-01-31",
+    "instructions": ""
   },
   {
     "category": "cash",
