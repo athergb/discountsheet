@@ -463,7 +463,7 @@ window.onload = function() {
             // Remove from DOM completely after fade finishes
             setTimeout(() => {
                 screen.style.display = "none";
-            }, 800); 
+            }, 600); 
         }
-    }, 2500); // Wait 2.5 seconds before fading
+    }, 2000); // Wait 2 seconds before fading
 };
