@@ -148,29 +148,68 @@
         </div>
     </div>
 
-    <!-- Added a line to show the Calculated Base Fare -->
-    <div class="calc-info">Calculated Base Fare: <strong id="dispBase">0.00</strong> PKR</div>
+    <!-- ===== PRICE CALCULATOR MODAL ===== -->
+<div id="calcModal" class="modal">
+  <div class="modal-content wide">
+    <h2>Discount / PSF Calculator</h2>
+    
+    <label>Select Airline</label>
+    <select id="calcAirline" onchange="calculatePSF()">
+        <option value="">-- Select Airline --</option>
+    </select>
 
-    <div class="calc-display">
-        <div class="calc-row">
-            <span>Discount /PSF Applied:</span>
-            <strong id="dispDisc">-</strong>
+    <div class="form-row">
+        <div>
+            <label>Adult Basic Fare (PKR)</label>
+            <input type="number" id="calcBasic" placeholder="0" oninput="calculatePSF()">
         </div>
-        <div class="calc-row total-row">
-            <span>Net Amount:</span>
-            <strong id="dispTotal">0.00 PKR</strong>
+        <div>
+            <label>Taxes (PKR)</label>
+            <input type="number" id="calcTax" placeholder="0" oninput="calculatePSF()">
         </div>
+    </div>
+
+    <!-- ALL 3 FARES DISPLAYED AT ONCE -->
+    <div class="calc-results">
+        
+        <!-- ADULT ROW -->
+        <div class="fare-row">
+            <div class="fare-title">ADULT</div>
+            <div class="fare-details">
+                <div>Disc: <strong id="dispDiscAdult">-</strong></div>
+                <div>Total: <span id="dispTotalAdult">0.00 PKR</span></div>
+            </div>
+        </div>
+
+        <!-- CHILD ROW -->
+        <div class="fare-row child">
+            <div class="fare-title">CHILD (75%)</div>
+            <div class="fare-details">
+                <div>Disc: <strong id="dispDiscChild">-</strong></div>
+                <div>Total: <span id="dispTotalChild">0.00 PKR</span></div>
+            </div>
+        </div>
+
+        <!-- INFANT ROW -->
+        <div class="fare-row infant">
+            <div class="fare-title">INFANT (10%)</div>
+            <div class="fare-details">
+                <div>Disc: <strong id="dispDiscInfant">-</strong></div>
+                <div>Total: <span id="dispTotalInfant">0.00 PKR</span></div>
+            </div>
+        </div>
+
     </div>
 
     <div class="modal-buttons">
-      <button class="btn-primary" onclick="calculatePSF()">Calculate</button>
       <button class="btn-secondary" onclick="document.getElementById('calcModal').style.display='none'">Close</button>
     </div>
   </div>
-</div>  
+</div>
 <script src="script.js?v=7"></script>
 </body>
 </html>
+
 
 
 
