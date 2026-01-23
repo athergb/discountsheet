@@ -840,7 +840,7 @@ input:focus {
   
   /* --- THE MASKING LOGIC --- */
   background: radial-gradient(circle closest-side, #000 94%, #0000) right/calc(200% - 1em) 100%;
-  animation: l24 1s infinite alternate linear;
+  animation: l24 3s infinite alternate linear;
 
   /* --- ORIGINAL POSITIONING --- */
   margin: 10px auto;
@@ -863,6 +863,7 @@ input:focus {
 @keyframes l24 {
   100% { background-position: left }
 }
+
 
 
 
