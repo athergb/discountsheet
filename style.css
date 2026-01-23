@@ -849,8 +849,6 @@ input:focus {
 }
 
 .service-text::before {
-  /* I set this to your HTML text so it works automatically */
-  content: "For more Discount details move the cursor on the Airline";
   line-height: 1em;
   color: #0000; /* Transparent text allows background to show */
   background: inherit;
@@ -865,6 +863,7 @@ input:focus {
 @keyframes l24 {
   100% { background-position: left }
 }
+
 
 
 
