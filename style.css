@@ -810,6 +810,17 @@ input:focus {
     pointer-events: none;    /* Allows you to click through it */
 }
 
+/* =========================
+   SERVICE TEXT
+========================= */
+.service-text {
+  margin: 20px auto;
+  padding: 12px 25px;
+  color: #333;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+}
 
 
 
