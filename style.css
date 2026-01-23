@@ -544,6 +544,40 @@ input:focus {
   text-align: right;
 }
 
+/* =========================
+   PAX SELECTOR (TABS)
+========================= */
+.pax-selector {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #ddd;
+}
+
+.pax-btn {
+  flex: 1; /* Makes all 3 buttons equal width */
+  text-align: center;
+  padding: 10px;
+  border: 1px solid transparent;
+  border-bottom: none;
+  border-radius: 8px 8px 0 0; /* Rounded top corners */
+  cursor: pointer;
+  font-weight: 600;
+  background-color: #f0f0f0;
+  color: #555;
+  transition: all 0.2s;
+}
+
+/* Style when a button is CLICKED (Active) */
+.pax-btn.active {
+  background-color: #0f2e5a; /* Blue */
+  color: white;
+  border-color: #0f2e5a;
+  border-bottom: 1px solid #0f2e5a; /* Merges with blue background */
+  margin-bottom: -2px; /* Connects visually to the line below */
+  z-index: 1;
+  position: relative;
+}
 
 
 
