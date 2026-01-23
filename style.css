@@ -794,6 +794,22 @@ input:focus {
   margin: 5px 0 !important;
 }
 
+/* =========================
+   BACKGROUND VIDEO
+========================= */
+#bg-video {
+    position: fixed;       /* Fixes it to screen, doesn't scroll */
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -99999;        /* Places it BEHIND everything (Welcome Sheet, Header, Buttons) */
+    object-fit: cover;     /* Ensures it covers whole screen without stretching */
+    pointer-events: none;    /* Allows you to click through it */
+}
+
 
 
 
