@@ -1013,6 +1013,39 @@ input:focus {
   z-index: -9999 !important;
 }
 
+/* =========================
+   FIX MODAL LAYERING (CRUCIAL)
+========================= */
+
+/* 1. FORCE CALCULATOR MODAL TO TOP */
+#calcModal {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999999 !important; /* SUPER HIGH PRIORITY */
+  background-color: rgba(0,0,0,0.6) !important; /* Darker background to block clicks */
+}
+
+/* 2. FORCE CONTENT INSIDE MODAL TO WORK */
+.modal-content {
+  position: relative !important;
+  z-index: 1000000 !important; /* HIGHEST PRIORITY */
+  pointer-events: auto !important; /* Ensures inputs and text can be clicked */
+}
+
+/* 3. FORCE FOOTER TO BOTTOM */
+.sheet-footer {
+  position: relative !important;
+  z-index: 1 !important; /* LOW PRIORITY */
+}
+
+.footer-location {
+  position: relative !important;
+  z-index: 1 !important; /* LOW PRIORITY */
+}
+
 
 
 
