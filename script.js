@@ -2,10 +2,10 @@
    CONFIGURATION
 ========================= */
 const CONFIG = {
-    owner: "athergb",           // Your GitHub Username
-    repo: "discountsheet",      // Your Repo Name
-    filePath: "data.json",      // The data file name
-    adminPassword: "admin123"  // Your Admin Password
+    owner: "athergb",           
+    repo: "discountsheet",      
+    filePath: "data.json",      
+    adminPassword: "admin123" 
 };
 
 /* =========================
@@ -14,6 +14,7 @@ const CONFIG = {
 let data = [];
 let sha = "";
 let isEditor = false;
+let resourcesFolder = "resources"; // Folder name for downloads
 
 /* =========================
    LOAD DATA (Read-Only Public)
@@ -93,7 +94,6 @@ function render() {
         const expired = d < today ? "expired" : "";
         const categoryGrid = item.category === "cash" ? cashGrid : creditGrid;
 
-        // Edit & Delete buttons only visible if logged in
         const actionHtml = isEditor 
             ? `<div class="actions">
                  <button class="edit-btn" onclick="editEntry(${index})">Edit</button>
@@ -104,7 +104,6 @@ function render() {
         const card = document.createElement("div");
         card.className = "card";
 
-        // Use 'item.instructions' for the Hover Data
         card.setAttribute("data-note", item.instructions || "");
        
         card.innerHTML = `
@@ -118,7 +117,9 @@ function render() {
         `;
         categoryGrid.appendChild(card);
     });
-   loadResources();
+
+    // LOAD RESOURCES LIST
+    loadResources();
 }
 
 /* =========================
@@ -137,7 +138,6 @@ function showLoginModal() {
 function showAddModal() {
     const modal = document.getElementById("formModal");
     if (modal) {
-        // Clear all fields
         document.getElementById("inpCategory").value = "cash";
         document.getElementById("inpAirline").value = "";
         document.getElementById("inpDiscount").value = "";
@@ -146,22 +146,16 @@ function showAddModal() {
         document.getElementById("inpNotice").value = "";
         document.getElementById("inpValidity").value = "";
         document.getElementById("inpInstructions").value = "";
-        document.getElementById("editIndex").value = ""; // Empty means ADD MODE
-        
-        // Reset Title
+        document.getElementById("editIndex").value = ""; 
         document.getElementById("modalTitle").innerText = "Add Airline";
         
         modal.style.display = "block";
     }
 }
 
-/* =========================
-   EDIT ENTRY (NEW)
-========================= */
 function editEntry(index) {
-    const item = data[index]; // Get the data for this specific card
+    const item = data[index]; 
     
-    // Fill the form with existing data
     document.getElementById("inpCategory").value = item.category;
     document.getElementById("inpAirline").value = item.airline;
     document.getElementById("inpDiscount").value = item.discount;
@@ -171,22 +165,20 @@ function editEntry(index) {
     document.getElementById("inpValidity").value = item.validity;
     document.getElementById("inpInstructions").value = item.instructions || "";
     
-    // Set the hidden index so saveData knows to UPDATE, not ADD
     document.getElementById("editIndex").value = index;
-    
-    // Change Title
     document.getElementById("modalTitle").innerText = "Edit Airline";
     
-    // Show the modal
     document.getElementById("formModal").style.display = "block";
 }
 
 function closeModals() {
     const loginModal = document.getElementById("loginModal");
     const formModal = document.getElementById("formModal");
+    const calcModal = document.getElementById("calcModal"); // Close Calc too
     
     if (loginModal) loginModal.style.display = "none";
     if (formModal) formModal.style.display = "none";
+    if (calcModal) calcModal.style.display = "none";
 }
 
 function checkPassword() {
@@ -197,14 +189,11 @@ function checkPassword() {
     
     if (pass === CONFIG.adminPassword) {
         isEditor = true;
-        
-        // Toggle Buttons
         document.getElementById("loginBtn").style.display = "none";
         document.getElementById("logoutBtn").style.display = "inline-block";
         document.getElementById("addBtn").style.display = "inline-block";
-        
         closeModals();
-        render(); // Refresh to show delete buttons
+        render(); 
         alert("Welcome Admin!");
     } else {
         alert("Incorrect Password");
@@ -254,13 +243,12 @@ function saveData() {
 }
 
 /* =========================
-   JPG EXPORT (FIXED TYPO)
+   JPG EXPORT
 ========================= */
 async function saveAsJPG() {
   const sheet = document.getElementById("sheet");
   const headerBtns = document.querySelector(".header-controls");
   const bottomBtns = document.querySelector(".bottom-actions");
-  
   if(headerBtns) headerBtns.style.display = "none";
   if(bottomBtns) bottomBtns.style.display = "none";
 
@@ -276,7 +264,7 @@ async function saveAsJPG() {
   wrapper.appendChild(clone);
   document.body.appendChild(wrapper);
 
-  const canvas = await html2canvas(clone, { // FIXED TYPO HERE
+  const canvas = await html2canvas(clone, {
     scale: 2,
     backgroundColor: "#ffffff",
     useCORS: true
@@ -297,7 +285,6 @@ async function saveForWhatsApp() {
   const sheet = document.getElementById("sheet");
   const headerBtns = document.querySelector(".header-controls");
   const bottomBtns = document.querySelector(".bottom-actions");
-  
   if(headerBtns) headerBtns.style.display = "none";
   if(bottomBtns) bottomBtns.style.display = "none";
 
@@ -312,7 +299,7 @@ async function saveForWhatsApp() {
   wrapper.appendChild(clone);
   document.body.appendChild(wrapper);
 
-  const canvas = await html2canvas(clone, { // FIXED TYPO HERE
+  const canvas = await html2canvas(clone, {
     scale: 1.5,
     backgroundColor: "#ffffff",
     useCORS: true
@@ -330,23 +317,18 @@ async function saveForWhatsApp() {
 }
 
 /* =========================
-   CALCULATOR LOGIC (FIXED LOCALE)
+   CALCULATOR LOGIC
 ========================= */
 
-// 1. Open Modal and Populate Airlines
 function openCalculator() {
     const select = document.getElementById("calcAirline");
     select.innerHTML = '<option value="">-- Select Airline --</option>';
     
-    // Populate unique airlines from data
     data.forEach(item => {
         const option = document.createElement("option");
-        
-        // Store discount string in value. If empty, store "0"
         let discValue = item.discount || "0";
         option.value = discValue;
         
-        // FIX: Append Notification to Name if it exists
         let label = item.airline;
         if (item.notification) {
             label += ` (${item.notification})`; 
@@ -359,7 +341,6 @@ function openCalculator() {
     document.getElementById("calcModal").style.display = "block";
 }
 
-// 2. Perform Calculation
 function calculatePSF() {
     const airlineSelect = document.getElementById("calcAirline");
     const discountStr = airlineSelect.options[airlineSelect.selectedIndex].value;
@@ -367,28 +348,20 @@ function calculatePSF() {
     const adultBaseInput = parseFloat(document.getElementById("calcBasic").value) || 0;
     const tax = parseFloat(document.getElementById("calcTax").value) || 0;
 
-    // If no airline selected, reset
     if(!discountStr || discountStr === "0") {
-        // Even if discount is 0, we calculate Basic + Tax
         updateRow(adultBaseInput, tax, "dispDiscAdult", "dispTotalAdult");
         updateRow(adultBaseInput * 0.75, tax, "dispDiscChild", "dispTotalChild");
         updateRow(adultBaseInput * 0.10, tax, "dispDiscInfant", "dispTotalInfant");
         return;
     }
 
-    // --- CALCULATE FOR ADULT (100%) ---
     calculateSingleRow(adultBaseInput, discountStr, tax, "dispDiscAdult", "dispTotalAdult");
-
-    // --- CALCULATE FOR CHILD (75%) ---
     const childBase = adultBaseInput * 0.75;
     calculateSingleRow(childBase, discountStr, tax, "dispDiscChild", "dispTotalChild");
-
-    // --- CALCULATE FOR INFANT (10%) ---
     const infantBase = adultBaseInput * 0.10;
     calculateSingleRow(infantBase, discountStr, tax, "dispDiscInfant", "dispTotalInfant");
 }
 
-// Helper to update a row (Used when discount is 0/empty)
 function updateRow(baseFare, tax, discId, totalId) {
     const discEl = document.getElementById(discId);
     const totalEl = document.getElementById(totalId);
@@ -399,12 +372,10 @@ function updateRow(baseFare, tax, discId, totalId) {
     }
 }
 
-// Helper function to calculate one row
 function calculateSingleRow(baseFare, discountStr, tax, discId, totalId) {
     let discountAmt = 0;
     let displayText = "";
 
-    // PARSE DISCOUNT STRING
     if (discountStr.includes("%")) {
         let num = parseFloat(discountStr.replace(/[^0-9.-]/g, ''));
         if(!isNaN(num)) {
@@ -418,7 +389,6 @@ function calculateSingleRow(baseFare, discountStr, tax, discId, totalId) {
             displayText = discountStr;
         }
     } else {
-        // Try generic number
         let num = parseFloat(discountStr);
         if(!isNaN(num)) {
             discountAmt = num;
@@ -428,7 +398,6 @@ function calculateSingleRow(baseFare, discountStr, tax, discId, totalId) {
 
     const netAmount = baseFare + discountAmt + tax;
 
-    // Update specific IDs
     const discEl = document.getElementById(discId);
     const totalEl = document.getElementById(totalId);
 
@@ -438,10 +407,8 @@ function calculateSingleRow(baseFare, discountStr, tax, discId, totalId) {
     }
 }
 
-// Helper to clear displays
 function resetCalcDisplays() {
     const ids = ["dispDiscAdult", "dispTotalAdult", "dispDiscChild", "dispTotalChild", "dispDiscInfant", "dispTotalInfant"];
-    
     ids.forEach(id => {
         const el = document.getElementById(id);
         if(el) el.innerText = (id.includes("Total") ? "0.00 PKR" : "-");
@@ -449,32 +416,10 @@ function resetCalcDisplays() {
 }
 
 /* =========================
-   MASTER INITIALIZATION
-========================= */
-window.onload = function() {
-    // 1. Load Airline Data
-    loadData();
-
-    // 2. Handle Welcome Screen Animation
-    setTimeout(() => {
-        const screen = document.getElementById("welcome-screen");
-        if (screen) {
-            screen.style.opacity = "0"; // Fade out
-            
-            // Remove from DOM completely after fade finishes
-            setTimeout(() => {
-                screen.style.display = "none";
-            }, 600); 
-        }
-    }, 2000); // Wait 2 seconds before fading
-};
-
-/* =========================
    RESOURCES MANAGER
 ========================= */
-let resourcesFolder = "resources"; // Folder name on GitHub
 
-// 1. Load files from GitHub
+// Load files from 'resources' folder
 async function loadResources() {
     const listContainer = document.getElementById("resourceList");
     const uploadSection = document.getElementById("uploadSection");
@@ -482,12 +427,11 @@ async function loadResources() {
     if(!listContainer) return;
 
     try {
+        // No token needed for public read
         const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${resourcesFolder}`;
-        const res = await fetch(url, {
-            headers: { 'Authorization': `token ${githubToken}` }
-        });
-
-        if (!res.ok) throw new Error("Failed to load resources");
+        const res = await fetch(url);
+        
+        if (!res.ok) throw new Error("Failed to load folder");
 
         const files = await res.json();
         
@@ -498,31 +442,23 @@ async function loadResources() {
             uploadSection.style.display = "block";
         }
 
-        // Populate List
         if(files.length === 0) {
-            listContainer.innerHTML = "<div style='text-align:center;padding:10px;color:#777'>No files found.</div>";
+            listContainer.innerHTML = "<div style='text-align:center;padding:10px;color:#777'>Folder is empty.</div>";
             return;
         }
 
         files.forEach(file => {
-            // Skip the placeholder .gitkeep file
             if (file.name === ".gitkeep") return;
 
             const item = document.createElement("div");
             item.className = "resource-item";
 
-            // Download Link (Uses ?raw=true for direct download)
             const linkUrl = `https://raw.githubusercontent.com/${CONFIG.owner}/${CONFIG.repo}/main/${resourcesFolder}/${file.name}`;
             
-            let html = `
-                <a href="${linkUrl}" class="resource-link" target="_blank">${file.name}</a>
-            `;
+            let html = `<a href="${linkUrl}" class="resource-link" target="_blank" download="${file.name}">${file.name}</a>`;
 
-            // Delete Button (Admin Only)
             if(isEditor) {
-                html += `
-                    <button class="delete-res-btn" onclick="deleteResource('${file.name}', '${file.sha}')">×</button>
-                `;
+                html += `<button class="delete-res-btn" onclick="deleteResource('${file.name}', '${file.sha}')">×</button>`;
             }
 
             item.innerHTML = html;
@@ -531,11 +467,11 @@ async function loadResources() {
 
     } catch (error) {
         console.error("Error loading resources:", error);
-        document.getElementById("resourceList").innerHTML = "<div style='text-align:center;padding:10px;color:red'>Error loading files.</div>";
+        const listContainer = document.getElementById("resourceList");
+        if(listContainer) listContainer.innerHTML = "<div style='text-align:center;padding:10px;color:red'>Folder 'resources' not found in GitHub.</div>";
     }
 }
 
-// 2. Handle Upload
 function handleFileUpload(input) {
     const file = input.files[0];
     if (!file) return;
@@ -559,14 +495,14 @@ function handleFileUpload(input) {
                 body: JSON.stringify({
                     message: `Upload ${file.name}`,
                     content: content,
-                    branch: "main" // or your default branch
+                    branch: "main" 
                 })
             });
 
             if (!res.ok) throw new Error("Failed to upload");
 
             alert("File Uploaded Successfully!");
-            loadResources(); // Refresh list
+            loadResources(); 
         } catch (error) {
             console.error(error);
             alert("Error uploading file. Check Token/Permissions.");
@@ -575,7 +511,6 @@ function handleFileUpload(input) {
     reader.readAsDataURL(file);
 }
 
-// 3. Handle Delete
 async function deleteResource(filename, sha) {
     if(!confirm(`Are you sure you want to delete ${filename}?`)) return;
 
@@ -595,9 +530,23 @@ async function deleteResource(filename, sha) {
         if (!res.ok) throw new Error("Failed to delete");
 
         alert("File Deleted Successfully!");
-        loadResources(); // Refresh list
+        loadResources(); 
     } catch (error) {
         console.error(error);
         alert("Error deleting file. Check Token/Permissions.");
     }
 }
+
+// Master Initialization (Load Data & Animation)
+window.onload = function() {
+    loadData();
+    setTimeout(() => {
+        const screen = document.getElementById("welcome-screen");
+        if (screen) {
+            screen.style.opacity = "0"; 
+            setTimeout(() => {
+                screen.style.display = "none";
+            }, 800); 
+        }
+    }, 5000); 
+};
