@@ -118,6 +118,7 @@ function render() {
         `;
         categoryGrid.appendChild(card);
     });
+   loadResources();
 }
 
 /* =========================
