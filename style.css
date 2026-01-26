@@ -892,4 +892,66 @@ input:focus {
   }
 }
 
+/* =========================
+   RESOURCES LIST & ACTIONS
+========================= */
+.resource-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 15px;
+  font-size: 14px;
+  font-family: 'Poppins', sans-serif;
+  transition: background 0.2s;
+  cursor: pointer;
+}
+
+.resource-item:hover {
+  background-color: #f0f0f0;
+}
+
+.resource-link {
+  text-decoration: none;
+  color: #333;
+  flex-grow: 1; /* Takes up remaining space */
+  display: block;
+  width: 100%;
+}
+
+.delete-res-btn {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+.upload-trigger-btn {
+  background-color: #0f2e5a;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+}
+
+.upload-trigger-btn:hover {
+  background-color: #0b2d6b;
+}
+
+.loading-text {
+  text-align: center;
+  font-style: italic;
+  color: #999;
+  padding: 5px;
+}
 
