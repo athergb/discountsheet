@@ -467,3 +467,136 @@ window.onload = function() {
         }
     }, 2000); // Wait 2 seconds before fading
 };
+
+/* =========================
+   RESOURCES MANAGER
+========================= */
+let resourcesFolder = "resources"; // Folder name on GitHub
+
+// 1. Load files from GitHub
+async function loadResources() {
+    const listContainer = document.getElementById("resourceList");
+    const uploadSection = document.getElementById("uploadSection");
+    
+    if(!listContainer) return;
+
+    try {
+        const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${resourcesFolder}`;
+        const res = await fetch(url, {
+            headers: { 'Authorization': `token ${githubToken}` }
+        });
+
+        if (!res.ok) throw new Error("Failed to load resources");
+
+        const files = await res.json();
+        
+        listContainer.innerHTML = ""; // Clear loading text
+
+        // Show Upload Button if Editor
+        if(isEditor) {
+            uploadSection.style.display = "block";
+        }
+
+        // Populate List
+        if(files.length === 0) {
+            listContainer.innerHTML = "<div style='text-align:center;padding:10px;color:#777'>No files found.</div>";
+            return;
+        }
+
+        files.forEach(file => {
+            // Skip the placeholder .gitkeep file
+            if (file.name === ".gitkeep") return;
+
+            const item = document.createElement("div");
+            item.className = "resource-item";
+
+            // Download Link (Uses ?raw=true for direct download)
+            const linkUrl = `https://raw.githubusercontent.com/${CONFIG.owner}/${CONFIG.repo}/main/${resourcesFolder}/${file.name}`;
+            
+            let html = `
+                <a href="${linkUrl}" class="resource-link" target="_blank">${file.name}</a>
+            `;
+
+            // Delete Button (Admin Only)
+            if(isEditor) {
+                html += `
+                    <button class="delete-res-btn" onclick="deleteResource('${file.name}', '${file.sha}')">×</button>
+                `;
+            }
+
+            item.innerHTML = html;
+            listContainer.appendChild(item);
+        });
+
+    } catch (error) {
+        console.error("Error loading resources:", error);
+        document.getElementById("resourceList").innerHTML = "<div style='text-align:center;padding:10px;color:red'>Error loading files.</div>";
+    }
+}
+
+// 2. Handle Upload
+function handleFileUpload(input) {
+    const file = input.files[0];
+    if (!file) return;
+
+    const token = prompt("Enter GitHub Token to Upload:");
+    if (!token) return;
+
+    const reader = new FileReader();
+    reader.onload = async function(e) {
+        const content = e.target.result.split(',')[1]; // Base64 part
+
+        const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${resourcesFolder}/${file.name}`;
+
+        try {
+            const res = await fetch(url, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `token ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    message: `Upload ${file.name}`,
+                    content: content,
+                    branch: "main" // or your default branch
+                })
+            });
+
+            if (!res.ok) throw new Error("Failed to upload");
+
+            alert("File Uploaded Successfully!");
+            loadResources(); // Refresh list
+        } catch (error) {
+            console.error(error);
+            alert("Error uploading file. Check Token/Permissions.");
+        }
+    };
+    reader.readAsDataURL(file);
+}
+
+// 3. Handle Delete
+async function deleteResource(filename, sha) {
+    if(!confirm(`Are you sure you want to delete ${filename}?`)) return;
+
+    const token = prompt("Enter GitHub Token to Delete:");
+    if (!token) return;
+
+    const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${resourcesFolder}/${filename}`;
+
+    try {
+        const res = await fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `token ${token}`
+            }
+        });
+
+        if (!res.ok) throw new Error("Failed to delete");
+
+        alert("File Deleted Successfully!");
+        loadResources(); // Refresh list
+    } catch (error) {
+        console.error(error);
+        alert("Error deleting file. Check Token/Permissions.");
+    }
+}
