@@ -118,7 +118,7 @@ function render() {
         categoryGrid.appendChild(card);
     });
 
-    // Load Resources List (Calls every time Render is called)
+    // Load Resources List (Auto-refreshed on every render)
     loadResources();
 }
 
@@ -138,7 +138,6 @@ function showLoginModal() {
 function showAddModal() {
     const modal = document.getElementById("formModal");
     if (modal) {
-        // Clear all fields
         document.getElementById("inpCategory").value = "cash";
         document.getElementById("inpAirline").value = "";
         document.getElementById("inpDiscount").value = "";
@@ -147,7 +146,7 @@ function showAddModal() {
         document.getElementById("inpNotice").value = "";
         document.getElementById("inpValidity").value = "";
         document.getElementById("inpInstructions").value = "";
-        document.getElementById("editIndex").value = ""; // Empty means ADD MODE
+        document.getElementById("editIndex").value = ""; 
         
         // Reset Title
         document.getElementById("modalTitle").innerText = "Add Airline";
@@ -159,7 +158,6 @@ function showAddModal() {
 function editEntry(index) {
     const item = data[index]; 
     
-    // Fill the form with existing data
     document.getElementById("inpCategory").value = item.category;
     document.getElementById("inpAirline").value = item.airline;
     document.getElementById("inpDiscount").value = item.discount;
@@ -169,13 +167,10 @@ function editEntry(index) {
     document.getElementById("inpValidity").value = item.validity;
     document.getElementById("inpInstructions").value = item.instructions || "";
     
-    // Set the hidden index so saveData knows to UPDATE, not ADD
     document.getElementById("editIndex").value = index;
     
-    // Change Title
     document.getElementById("modalTitle").innerText = "Edit Airline";
     
-    // Show the modal
     document.getElementById("formModal").style.display = "block";
 }
 
@@ -198,13 +193,12 @@ function checkPassword() {
     if (pass === CONFIG.adminPassword) {
         isEditor = true;
         
-        // Toggle Buttons
         document.getElementById("loginBtn").style.display = "none";
         document.getElementById("logoutBtn").style.display = "inline-block";
         document.getElementById("addBtn").style.display = "inline-block";
         
         closeModals();
-        render(); // Refresh to show delete/upload options
+        render(); 
         alert("Welcome Admin!");
     } else {
         alert("Incorrect Password");
@@ -216,7 +210,7 @@ function logout() {
     document.getElementById("loginBtn").style.display = "inline-block";
     document.getElementById("logoutBtn").style.display = "none";
     document.getElementById("addBtn").style.display = "none";
-    render(); // Refresh to hide delete/upload options
+    render();
 }
 
 /* =========================
@@ -260,7 +254,6 @@ async function saveAsJPG() {
   const sheet = document.getElementById("sheet");
   const headerBtns = document.querySelector(".header-controls");
   const bottomBtns = document.querySelector(".bottom-actions");
-  
   if(headerBtns) headerBtns.style.display = "none";
   if(bottomBtns) bottomBtns.style.display = "none";
 
@@ -297,7 +290,6 @@ async function saveForWhatsApp() {
   const sheet = document.getElementById("sheet");
   const headerBtns = document.querySelector(".header-controls");
   const bottomBtns = document.querySelector(".bottom-actions");
-  
   if(headerBtns) headerBtns.style.display = "none";
   if(bottomBtns) bottomBtns.style.display = "none";
 
@@ -419,7 +411,6 @@ function calculateSingleRow(baseFare, discountStr, tax, discId, totalId) {
 
     const netAmount = baseFare + discountAmt + tax;
 
-    // Update specific IDs
     const discEl = document.getElementById(discId);
     const totalEl = document.getElementById(totalId);
 
@@ -442,28 +433,6 @@ function resetCalcDisplays() {
    RESOURCES MANAGER
 ========================= */
 
-// Helper: Get Icon HTML based on filename
-function getFileIcon(filename) {
-    const ext = filename.split('.').pop().toLowerCase();
-    
-    // Word (.docx)
-    if (ext === 'docx') {
-        return `<div class="file-icon"><svg class="icon-word" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 00-2 2V4a2 2 0 00-2-2H6a2 2 0 00-2v16a2 2 0 00-2z" fill="none"/></svg></div>`;
-    }
-    // Excel (.xls)
-    else if (ext === 'xls') {
-        return `<div class="file-icon"><svg class="icon-excel" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14 2H6v2a2 2 0 002 2v6a2 2 0 002-2H6a2 2 0 002-2v2a2 2 0 002-2h-8V6h-2a2 2 0 002-2h-8V2a2 2 0 002-2zm0 0h-8v2a2 2 0 002 2h8V2a2 2 0 002-2zm-4h10a2 2 0 002 2v2a2 2 0 002-2H6v6a2 2 0 002-2h6v2a2 2 0 002-2zm-4-4h10a2 2 0 002 2v2a2 2 0 002-2H6v6a2 2 0 002-2h6v2a2 2 0 002 2z" fill="none"/></svg></div>`;
-    }
-    // PDF
-    else if (ext === 'pdf') {
-        return `<div class="file-icon"><svg class="icon-pdf" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C7.79 2 4.2 2s4 2.21 2 4 2.16.21 2 4 2 24 5.11 0 5.32 0 0 9.68 0 2-4.68 2-5.32 0 0-9.68 0-5.32 0 0-9.68 0-4.68-5.32 0-4.68 16.64-2.34-9.68 0-4.68 16.64-4.68 19.32-5.32 14.32-9.68 4.68 14.32-9.68 5.32 14.32 9.68 12.02-14.32 9.68 4.68 14.32 9.68 12.02-7.34 4.68 14.32 9.68 0 12.02-5.32 14.32 0 12.02-9.68 12.02-7.34 4.68 12.02-9.68 0 12.02-9.68 9.68-4.68 9.68 0 9.68 9.68-4.68 2.34 12.02-7.34 4.68 12.02-9.68 0-12.02-9.68 9.68-7.34 4.68 9.68 0-9.68 9.68-4.68 2.34-9.68 0-2.34 12.02-7.34 4.68 12.02-9.68 0-12.02-9.68 9.68-7.34 4.68 9.68 0-9.68 9.68-5.32 4.68 9.68 0 9.68 9.68-7.34 4.68 9.68 0-9.68 9.68-9.68 5.32 4.68 9.68 0 9.68 9.68-7.34 4.68 9.68 0-9.68 9.68-9.68-7.34 4.68 9.68 0-9.68 9.68-4.68 2.34-9.68 0-12.02 9.68 9.68 0-12.02-9.68 9.68-7.34 4.68 9.68 0 9.68 9.68-9.68-9.68 5.32 4.68 9.68 0 9.68 9.68 9.68-7.34 4.68 9.68 0-9.68 9.68-9.68-7.34 4.68 9.68 0-9.68 9.68-9.68-9.68z" fill="none"/></svg></div>`;
-    }
-    // Default
-    else {
-        return `<div class="file-icon"><svg class="icon-default" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 00-2 2H6a2 2 0 00-2 2V4a2 2 0 00-2-2H4v14a2 2 0 00-2zM6 19h12v-2h10a2 2 0 002 2h8V2a2 2 0 002 2zm-2-4h8a2 2 0 002 2v2a2 2 0 002-2H6v6a2 2 0 002 2h6v2a2 2 0 002 2zm0-2h8a2 2 0 002 2v2a2 2 0 002-2H6v6a2 2 0 002 2h6v2a2 2 0 002 2z" fill="none"/></svg></div>`;
-    }
-}
-
 // Load files from 'resources' folder
 async function loadResources() {
     const listContainer = document.getElementById("resourceList");
@@ -472,7 +441,6 @@ async function loadResources() {
     if(!listContainer) return;
 
     try {
-        // No token needed for public read
         const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${resourcesFolder}`;
         
         const res = await fetch(url);
@@ -483,16 +451,14 @@ async function loadResources() {
         
         listContainer.innerHTML = ""; // Clear loading text
 
-        // --- 1. HANDLE UPLOAD BUTTON (Admin Only) ---
-        if (isEditor) {
+        // Show Upload Button if Editor
+        if(isEditor) {
             uploadSection.style.display = "block";
-        } else {
-            uploadSection.style.display = "none"; // HIDE Upload Button
         }
 
-        // --- 2. POPULATE DOWNLOAD LIST (Visible to Everyone) ---
+        // Populate Download List (Visible to Everyone)
         if(files.length === 0) {
-            listContainer.innerHTML = "<div style='text-align:center;padding:10px;color:#777'>Folder is empty or not found.</div>";
+            listContainer.innerHTML = "<div style='text-align:center;padding:10px;color:#777'>Folder is empty.</div>";
             return;
         }
 
@@ -506,15 +472,13 @@ async function loadResources() {
             const linkUrl = `https://raw.githubusercontent.com/${CONFIG.owner}/${CONFIG.repo}/main/${resourcesFolder}/${file.name}`;
             
             let html = `
-                <a href="${linkUrl}" class="resource-link" download="${file.name}">
-                    ${getFileIcon(file.name)}
-                </a>
+                <a href="${linkUrl}" class="resource-link" download="${file.name}">${file.name}</a>
             `;
 
             // Delete Button (Admin Only)
             if (isEditor) {
                 html += `
-                        <button class="delete-res-btn" onclick="deleteResource('${file.name}', '${file.sha}')">×</button>
+                            <button class="delete-res-btn" onclick="deleteResource('${file.name}', '${file.sha}')">×</button>
                 `;
             }
 
@@ -525,7 +489,7 @@ async function loadResources() {
     } catch (error) {
         console.error("Error loading resources:", error);
         const listContainer = document.getElementById("resourceList");
-        if(listContainer) listContainer.innerHTML = "<div style='text-align:center;padding:10px;color:red'>Folder 'resources' not found in GitHub.</div>";
+        if(listContainer) listContainer.innerHTML = "<div style='text-align:center;padding:10px;color:red'>Folder 'resources' folder not found in GitHub.</div>";
     }
 }
 
@@ -534,7 +498,7 @@ function handleFileUpload(input) {
     const file = input.files[0];
     if (!file) return;
 
-    const token = prompt("Enter GitHub Token to Upload:");
+    const token = prompt("Enter your GitHub Token to Upload:");
     if (!token) return;
 
     const reader = new FileReader();
@@ -553,7 +517,7 @@ function handleFileUpload(input) {
                 body: JSON.stringify({
                     message: `Upload ${file.name}`,
                     content: content,
-                    branch: "main" 
+                    branch: "main"
                 })
             });
 
