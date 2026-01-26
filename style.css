@@ -955,3 +955,38 @@ input:focus {
   padding: 5px;
 }
 
+/* =========================
+   RESOURCE FILE ICONS
+========================= */
+
+/* Container for Icon + Text */
+.resource-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 15px;
+  background: #f9f9f9;
+  margin-bottom: 5px;
+  border-radius: 4px;
+}
+
+/* The Icon Wrapper */
+.file-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* SVG Icons Styles */
+.file-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.file-icon .icon-word { fill: #2b579a; } /* Blue for Word */
+.file-icon .icon-excel { fill: #1d6f42; } /* Green for Excel */
+.file-icon .icon-pdf { fill: #f40f02; } /* Red for PDF */
+.file-icon .icon-default { fill: #95a5a6; } /* Grey for others */
