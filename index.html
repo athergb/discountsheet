@@ -45,11 +45,31 @@
     <!-- TOP ROW -->
     <div class="sheet-top-row">
       <div class="sheet-logo">
-        <img src="QFClogo.png">
-        <button class="calc-btn" onclick="openCalculator()">
-        <div class="screen">Discount Calculator</div>
-      </button>
-      </div>
+        <!-- DOWNLOAD GROUP -->
+  <div class="download-group">
+    
+    <!-- Calculator Button -->
+    <button class="calc-btn" onclick="openCalculator()">
+      <div class="screen">CALC</div>
+    </button>
+
+    <!-- File 1 -->
+    <button class="file-btn" onclick="downloadFile(1)">
+      <div class="screen">F1</div>
+    </button>
+
+    <!-- File 2 -->
+    <button class="file-btn" onclick="downloadFile(2)">
+      <div class="screen">F2</div>
+    </button>
+
+    <!-- File 3 -->
+    <button class="file-btn" onclick="downloadFile(3)">
+      <div class="screen">F3</div>
+    </button>
+
+  </div>
+</div>
     
         <div class="gds-logos">
         <div class="logo-box"><img src="1A.png"></div>
@@ -205,6 +225,7 @@
 <script src="script.js?v=9"></script>
 </body>
 </html>
+
 
 
 
