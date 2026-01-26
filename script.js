@@ -93,7 +93,6 @@ function render() {
         const expired = d < today ? "expired" : "";
         const categoryGrid = item.category === "cash" ? cashGrid : creditGrid;
 
-        // Edit & Delete buttons only visible if logged in
         const actionHtml = isEditor 
             ? `<div class="actions">
                  <button class="edit-btn" onclick="editEntry(${index})">Edit</button>
@@ -119,7 +118,7 @@ function render() {
         categoryGrid.appendChild(card);
     });
 
-    // LOAD RESOURCES LIST (Runs every time Render runs)
+    // Load Resources List (Calls every time Render is called)
     loadResources();
 }
 
@@ -139,6 +138,7 @@ function showLoginModal() {
 function showAddModal() {
     const modal = document.getElementById("formModal");
     if (modal) {
+        // Clear all fields
         document.getElementById("inpCategory").value = "cash";
         document.getElementById("inpAirline").value = "";
         document.getElementById("inpDiscount").value = "";
@@ -148,6 +148,8 @@ function showAddModal() {
         document.getElementById("inpValidity").value = "";
         document.getElementById("inpInstructions").value = "";
         document.getElementById("editIndex").value = ""; // Empty means ADD MODE
+        
+        // Reset Title
         document.getElementById("modalTitle").innerText = "Add Airline";
         
         modal.style.display = "block";
@@ -202,7 +204,7 @@ function checkPassword() {
         document.getElementById("addBtn").style.display = "inline-block";
         
         closeModals();
-        render(); // Refresh to show delete buttons AND show Upload Option
+        render(); // Refresh to show delete/upload options
         alert("Welcome Admin!");
     } else {
         alert("Incorrect Password");
@@ -214,7 +216,7 @@ function logout() {
     document.getElementById("loginBtn").style.display = "inline-block";
     document.getElementById("logoutBtn").style.display = "none";
     document.getElementById("addBtn").style.display = "none";
-    render(); // Refresh to hide Delete/Upload buttons
+    render(); // Refresh to hide delete/upload options
 }
 
 /* =========================
@@ -338,12 +340,9 @@ function openCalculator() {
     // Populate unique airlines from data
     data.forEach(item => {
         const option = document.createElement("option");
-        
-        // Store discount string in value. If empty, store "0"
         let discValue = item.discount || "0";
         option.value = discValue;
         
-        // FIX: Append Notification to Name if it exists
         let label = item.airline;
         if (item.notification) {
             label += ` (${item.notification})`; 
@@ -440,8 +439,30 @@ function resetCalcDisplays() {
 }
 
 /* =========================
-   RESOURCES MANAGER (LOGIN/LOGOUT LOGIC)
+   RESOURCES MANAGER
 ========================= */
+
+// Helper: Get Icon HTML based on filename
+function getFileIcon(filename) {
+    const ext = filename.split('.').pop().toLowerCase();
+    
+    // Word (.docx)
+    if (ext === 'docx') {
+        return `<div class="file-icon"><svg class="icon-word" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 00-2 2V4a2 2 0 00-2-2H6a2 2 0 00-2v16a2 2 0 00-2z" fill="none"/></svg></div>`;
+    }
+    // Excel (.xls)
+    else if (ext === 'xls') {
+        return `<div class="file-icon"><svg class="icon-excel" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14 2H6v2a2 2 0 002 2v6a2 2 0 002-2H6a2 2 0 002-2v2a2 2 0 002-2h-8V6h-2a2 2 0 002-2h-8V2a2 2 0 002-2zm0 0h-8v2a2 2 0 002 2h8V2a2 2 0 002-2zm-4h10a2 2 0 002 2v2a2 2 0 002-2H6v6a2 2 0 002-2h6v2a2 2 0 002-2zm-4-4h10a2 2 0 002 2v2a2 2 0 002-2H6v6a2 2 0 002-2h6v2a2 2 0 002 2z" fill="none"/></svg></div>`;
+    }
+    // PDF
+    else if (ext === 'pdf') {
+        return `<div class="file-icon"><svg class="icon-pdf" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C7.79 2 4.2 2s4 2.21 2 4 2.16.21 2 4 2 24 5.11 0 5.32 0 0 9.68 0 2-4.68 2-5.32 0 0-9.68 0-5.32 0 0-9.68 0-4.68-5.32 0-4.68 16.64-2.34-9.68 0-4.68 16.64-4.68 19.32-5.32 14.32-9.68 4.68 14.32-9.68 5.32 14.32 9.68 12.02-14.32 9.68 4.68 14.32 9.68 12.02-7.34 4.68 14.32 9.68 0 12.02-5.32 14.32 0 12.02-9.68 12.02-7.34 4.68 12.02-9.68 0 12.02-9.68 9.68-4.68 9.68 0 9.68 9.68-4.68 2.34 12.02-7.34 4.68 12.02-9.68 0-12.02-9.68 9.68-7.34 4.68 9.68 0-9.68 9.68-4.68 2.34-9.68 0-2.34 12.02-7.34 4.68 12.02-9.68 0-12.02-9.68 9.68-7.34 4.68 9.68 0-9.68 9.68-5.32 4.68 9.68 0 9.68 9.68-7.34 4.68 9.68 0-9.68 9.68-9.68 5.32 4.68 9.68 0 9.68 9.68-7.34 4.68 9.68 0-9.68 9.68-9.68-7.34 4.68 9.68 0-9.68 9.68-4.68 2.34-9.68 0-12.02 9.68 9.68 0-12.02-9.68 9.68-7.34 4.68 9.68 0 9.68 9.68-9.68-9.68 5.32 4.68 9.68 0 9.68 9.68 9.68-7.34 4.68 9.68 0-9.68 9.68-9.68-7.34 4.68 9.68 0-9.68 9.68-9.68-9.68z" fill="none"/></svg></div>`;
+    }
+    // Default
+    else {
+        return `<div class="file-icon"><svg class="icon-default" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 00-2 2H6a2 2 0 00-2 2V4a2 2 0 00-2-2H4v14a2 2 0 00-2zM6 19h12v-2h10a2 2 0 002 2h8V2a2 2 0 002 2zm-2-4h8a2 2 0 002 2v2a2 2 0 002-2H6v6a2 2 0 002 2h6v2a2 2 0 002 2zm0-2h8a2 2 0 002 2v2a2 2 0 002-2H6v6a2 2 0 002 2h6v2a2 2 0 002 2z" fill="none"/></svg></div>`;
+    }
+}
 
 // Load files from 'resources' folder
 async function loadResources() {
@@ -451,7 +472,7 @@ async function loadResources() {
     if(!listContainer) return;
 
     try {
-        // Public read (no token needed)
+        // No token needed for public read
         const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${resourcesFolder}`;
         
         const res = await fetch(url);
@@ -476,7 +497,6 @@ async function loadResources() {
         }
 
         files.forEach(file => {
-            // Skip the placeholder .gitkeep file
             if (file.name === ".gitkeep") return;
 
             const item = document.createElement("div");
@@ -486,7 +506,9 @@ async function loadResources() {
             const linkUrl = `https://raw.githubusercontent.com/${CONFIG.owner}/${CONFIG.repo}/main/${resourcesFolder}/${file.name}`;
             
             let html = `
-                <a href="${linkUrl}" class="resource-link" download="${file.name}">${file.name}</a>
+                <a href="${linkUrl}" class="resource-link" download="${file.name}">
+                    ${getFileIcon(file.name)}
+                </a>
             `;
 
             // Delete Button (Admin Only)
@@ -503,7 +525,7 @@ async function loadResources() {
     } catch (error) {
         console.error("Error loading resources:", error);
         const listContainer = document.getElementById("resourceList");
-        if(listContainer) listContainer.innerHTML = "<div style='text-align:center;padding:10px;color:red'>Error: 'resources' folder not found in GitHub.</div>";
+        if(listContainer) listContainer.innerHTML = "<div style='text-align:center;padding:10px;color:red'>Folder 'resources' not found in GitHub.</div>";
     }
 }
 
@@ -531,7 +553,7 @@ function handleFileUpload(input) {
                 body: JSON.stringify({
                     message: `Upload ${file.name}`,
                     content: content,
-                    branch: "main"
+                    branch: "main" 
                 })
             });
 
@@ -582,7 +604,7 @@ window.onload = function() {
     setTimeout(() => {
         const screen = document.getElementById("welcome-screen");
         if (screen) {
-            screen.style.opacity = "0"; // Fade out
+            screen.style.opacity = "0"; 
             
             // Remove from DOM completely after fade finishes
             setTimeout(() => {
