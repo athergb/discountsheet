@@ -499,20 +499,19 @@ input:focus {
   margin-bottom: 10px;
 }
 
-/* --- LINK STYLING --- */
-.footer-location a {
-  text-decoration: none; /* Removes underline from link */
-  display: flex;
-  align-items: center;
-   gap: 10px;
-  transition: transform 0.2s;
-}
-
-.footer-location img {
+/* --- LOCAL SVG ICON --- */
+.location-img {
   width: 24px;
   height: 24px;
   flex-shrink: 0;
   object-fit: contain;
+}
+
+.sheet-footer p {
+  font-size: 13px;
+  color: #555;
+  font-weight: 500;
+  margin: 0;
 }
 
 /* Hover Effect: Icon pops up */
@@ -927,6 +926,7 @@ input:focus {
     background-position: 200% center;
   }
 }
+
 
 
 
