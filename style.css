@@ -991,27 +991,4 @@ input:focus {
 .file-icon .icon-pdf { fill: #f40f02; } /* Red for PDF */
 .file-icon .icon-default { fill: #95a5a6; } /* Grey for others */
 
-/* =========================
-   SHEET FIX (Priority Stack Override)
-========================= */
-/* 
---- RESET MODALS (Important) --- */
-.modal, #loginModal, #formModal, #calcModal {
-  position: fixed !important;
-  z-index: 99999 !important; /* Higher than the main z-index */
-}
 
-/* --- RESET WRAPPER Z-INDEX (The Likely Fix) --- */
-#sheet-wrapper {
-  position: relative !important;
-  z-index: 1 !important; /* Ensures it is not stacking above other content */
-}
-
-/* --- RESET DROPDOWN MENUS (Z-Index Fixes) --- */
-.drop-down-menu {
-  z-index: 10002 !important; /* Ensures it is ALWAYS on top of everything */
-  position: absolute;
-  top: 20px;
-  left: 50%; /* Center it nicely */
-  transform: translateX(-50%); /* Center aligns horizontally */
-}
