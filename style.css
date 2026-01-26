@@ -500,7 +500,7 @@ input:focus {
 ========================= */
 .calc-btn {
   /* --- BUTTON STYLES --- */
-  background-color: #27ae60;
+  background-color: #3427ae;
   color: white;
   border: none;
   padding: 5px 10px;
@@ -894,6 +894,7 @@ input:focus {
     background-position: 200% center;
   }
 }
+
 
 
 
