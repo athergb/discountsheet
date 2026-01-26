@@ -496,19 +496,29 @@ input:focus {
   justify-content: center;
   gap: 10px; /* Space between Icon and Text */
   margin-top: 5px;
+  margin-bottom: 10px;
 }
 
 /* --- LINK STYLING --- */
 .footer-location a {
   text-decoration: none; /* Removes underline from link */
-  display: inline-flex;
+  display: flex;
   align-items: center;
+   gap: 10px;
   transition: transform 0.2s;
+}
+
+.footer-location img {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  object-fit: contain;
 }
 
 /* Hover Effect: Icon pops up */
 .footer-location a:hover {
-  transform: scale(1.2);
+ transform: scale(1.0.5);
+ color: #0f2e5a;  
 }
 
 .sheet-footer p {
@@ -917,6 +927,7 @@ input:focus {
     background-position: 200% center;
   }
 }
+
 
 
 
