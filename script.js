@@ -65,7 +65,7 @@ async function saveToGitHub() {
         if (!res.ok) throw new Error("Failed to save");
         
         const json = await res.json();
-        sha = json.content.sha; 
+        sha = json.content.sha; // UPDATE: Ensures we keep the latest SHA so next save doesn't fail
         alert("Saved Successfully!");
         render();
     } catch (error) {
@@ -103,7 +103,6 @@ function render() {
         const card = document.createElement("div");
         card.className = "card";
 
-        // Use 'item.instructions' for Hover Data
         card.setAttribute("data-note", item.instructions || "");
        
         card.innerHTML = `
@@ -118,7 +117,7 @@ function render() {
         categoryGrid.appendChild(card);
     });
 
-    // Load Resources List (Auto-refreshed on every render)
+    // Load Resources List
     loadResources();
 }
 
@@ -148,7 +147,6 @@ function showAddModal() {
         document.getElementById("inpInstructions").value = "";
         document.getElementById("editIndex").value = ""; 
         
-        // Reset Title
         document.getElementById("modalTitle").innerText = "Add Airline";
         
         modal.style.display = "block";
@@ -158,6 +156,7 @@ function showAddModal() {
 function editEntry(index) {
     const item = data[index]; 
     
+    // Fill the form with existing data
     document.getElementById("inpCategory").value = item.category;
     document.getElementById("inpAirline").value = item.airline;
     document.getElementById("inpDiscount").value = item.discount;
@@ -167,10 +166,12 @@ function editEntry(index) {
     document.getElementById("inpValidity").value = item.validity;
     document.getElementById("inpInstructions").value = item.instructions || "";
     
+    // Set the hidden index so saveData knows to UPDATE, not ADD
     document.getElementById("editIndex").value = index;
     
     document.getElementById("modalTitle").innerText = "Edit Airline";
     
+    // Show the modal
     document.getElementById("formModal").style.display = "block";
 }
 
@@ -192,13 +193,12 @@ function checkPassword() {
     
     if (pass === CONFIG.adminPassword) {
         isEditor = true;
-        
         document.getElementById("loginBtn").style.display = "none";
         document.getElementById("logoutBtn").style.display = "inline-block";
         document.getElementById("addBtn").style.display = "inline-block";
         
         closeModals();
-        render(); 
+        render(); // Refresh to show delete/upload options
         alert("Welcome Admin!");
     } else {
         alert("Incorrect Password");
@@ -322,7 +322,7 @@ async function saveForWhatsApp() {
 }
 
 /* =========================
-   CALCULATOR LOGIC
+   CALCULATOR LOGIC (FIXED TYPO)
 ========================= */
 
 function openCalculator() {
@@ -355,7 +355,6 @@ function calculatePSF() {
     const tax = parseFloat(document.getElementById("calcTax").value) || 0;
 
     if(!discountStr || discountStr === "0") {
-        // Even if discount is 0, we calculate Basic + Tax
         updateRow(adultBaseInput, tax, "dispDiscAdult", "dispTotalAdult");
         updateRow(adultBaseInput * 0.75, tax, "dispDiscChild", "dispTotalChild");
         updateRow(adultBaseInput * 0.10, tax, "dispDiscInfant", "dispTotalInfant");
@@ -411,6 +410,7 @@ function calculateSingleRow(baseFare, discountStr, tax, discId, totalId) {
 
     const netAmount = baseFare + discountAmt + tax;
 
+    // Update specific IDs
     const discEl = document.getElementById(discId);
     const totalEl = document.getElementById(totalId);
 
@@ -433,6 +433,28 @@ function resetCalcDisplays() {
    RESOURCES MANAGER
 ========================= */
 
+// Helper: Get Icon HTML (With Colors)
+function getFileIcon(filename) {
+    const ext = filename.split('.').pop().toLowerCase();
+    
+    // Word (.docx)
+    if (ext === 'docx') {
+        return `<div class="file-icon"><svg class="icon-word" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 00-2 2H4a2 2 0 00-2-2V4a2 2 0 00-2 2V4a2 2 0 00-2zM4a2 2 0 00-2 2zM4a2 2 0 00-2 2V4a2 2 0 00-2zMz" fill="none"/></svg></div>`;
+    }
+    // Excel (.xls)
+    else if (ext === 'xls') {
+        return `<div class="file-icon"><svg class="icon-excel" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14 2H6v2a2 2 0 002 2v6a2 2 0 002 2H6a2 2 0 002-2V4a2 2 0 002-2h-8V6h-2a2 0 002 2H6V2a2 0 002-2H6V4a2 2 0 002-2H6a2 2 0 002-2H6V2a2 0 002-2zm0 0h-8V2a2 0 002-2h8V2a2 0 002-2H6V6a2 0 002-2zm-4h10a2 2 0 002-2v2a2 0 002-2H6V6a2 0 002-2H6v2a2 0 002-2H6v2a2 0 002-2zm-4h10a2 2 0 002-2v2a2 0 002-2H6V6a2 0 002-2zm-4-4h10a2 2 0 002-2v2a2 0 002-2H6V6a2 0 002-2H6v2a2 0 002-2H6v6a2 0 002-2z" fill="none"/></svg></div>`;
+    }
+    // PDF
+    else if (ext === 'pdf') {
+        return `<div class="file-icon"><svg class="icon-pdf" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C7.79 2 4.2 2s4 2.21 2.4 2.16.21 2 4 2.24 5.11 0 5.32 0 0 9.68 0 2-4.68 16.64-2.34 9.68 0 5.32 0-9.68-2.5.32 14.32 9.68-2-4.68 19.32-9.68 12.02-14.32 9.68 0 4.68 14.32 9.68 0-4.68 19.32-9.68 0 9.68 12.02-14.32-9.68 0-4.68 14.32-9.68 0-9.68 12.02-7.34-4.68 9.68 0 4.68 14.32-9.68 0-9.68 9.68-4.68 14.32-9.68 0-9.68 9.68-5.32 14.32-9.68 0-5.32 14.32-9.68 0-9.68 9.68-5.32 14.32-9.68 0-5.32 14.32-9.68 0-9.68 9.68-5.32 14.32-9.68 0-9.68 9.68-5.32 14.32-9.68 0-9.68 9.68-5.32 14.32-9.68 0-9.68 9.68-5.32 14.32-9.68 0-9.68 9.68-9.68z" fill="none"/></svg></div>`;
+    }
+    // Default
+    else {
+        return `<div class="file-icon"><svg class="icon-default" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 00-2 2H6a2 2 0 00-2 2V4a2 2 0 00-2 2V4a2 2 0 00-2 2H4v14a2 2 0 00-2 2H6a2 2 0 00-2 2V4a2 2 0 00-2 2V4a2 2 0 00-2 2z" fill="none"/></svg></div>`;
+    }
+}
+
 // Load files from 'resources' folder
 async function loadResources() {
     const listContainer = document.getElementById("resourceList");
@@ -441,6 +463,7 @@ async function loadResources() {
     if(!listContainer) return;
 
     try {
+        // No token needed for public read
         const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${resourcesFolder}`;
         
         const res = await fetch(url);
@@ -451,14 +474,16 @@ async function loadResources() {
         
         listContainer.innerHTML = ""; // Clear loading text
 
-        // Show Upload Button if Editor
-        if(isEditor) {
+        // --- 1. HANDLE UPLOAD BUTTON (Admin Only) ---
+        if (isEditor) {
             uploadSection.style.display = "block";
+        } else {
+            uploadSection.style.display = "none"; // HIDE Upload Button
         }
 
-        // Populate Download List (Visible to Everyone)
+        // --- 2. POPULATE DOWNLOAD LIST (Visible to Everyone) ---
         if(files.length === 0) {
-            listContainer.innerHTML = "<div style='text-align:center;padding:10px;color:#777'>Folder is empty.</div>";
+            listContainer.innerHTML = "<div style='text-align:center;padding:10px;color:#777'>Folder is empty or not found.</div>";
             return;
         }
 
@@ -478,7 +503,7 @@ async function loadResources() {
             // Delete Button (Admin Only)
             if (isEditor) {
                 html += `
-                            <button class="delete-res-btn" onclick="deleteResource('${file.name}', '${file.sha}')">×</button>
+                        <button class="delete-res-btn" onclick="deleteResource('${file.name}', '${file.sha}')">×</button>
                 `;
             }
 
@@ -498,7 +523,7 @@ function handleFileUpload(input) {
     const file = input.files[0];
     if (!file) return;
 
-    const token = prompt("Enter your GitHub Token to Upload:");
+    const token = prompt("Enter GitHub Token to Upload:");
     if (!token) return;
 
     const reader = new FileReader();
@@ -555,8 +580,7 @@ async function deleteResource(filename, sha) {
         alert("File Deleted Successfully!");
         loadResources(); // Refresh list
     } catch (error) {
-        console.error(error);
-        alert("Error deleting file. Check Token/Permissions.");
+        console.error("Error deleting file. Check Token/Permissions.");
     }
 }
 
