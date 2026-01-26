@@ -979,6 +979,41 @@ input:focus {
   }
 }
 
+/* =========================
+   Z-INDEX FORCE (CRITICAL FIX)
+========================= */
+
+/* 1. FORCE MODALS TO TOP LAYER */
+.modal {
+  position: fixed !important;
+  z-index: 100001 !important; /* MUST be higher than Welcome Screen (10000) */
+}
+
+/* 2. FORCE FOOTER TO BOTTOM LAYER */
+/* Ensure the footer isn't floating on top of the modal */
+.sheet-footer {
+  position: relative !important; /* Resets any accidental 'fixed' positioning */
+  z-index: 10 !important; /* Ensures it stays below modal */
+}
+
+/* Ensure Location Container doesn't float */
+.footer-location {
+  position: relative !important;
+  z-index: 11 !important;
+  pointer-events: auto; /* Allows clicking on footer */
+}
+
+/* 3. ENSURE WELCOME SCREEN IS TOP */
+#welcome-screen {
+  z-index: 100002 !important; /* Slightly higher than modals */
+}
+
+/* 4. ENSURE BACKGROUND VIDEO IS BOTTOM */
+#bg-video {
+  z-index: -9999 !important;
+}
+
+
 
 
 
