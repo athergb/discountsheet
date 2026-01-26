@@ -55,6 +55,18 @@
         <div class="logo-box"><img src="1A.png"></div>
         <div class="logo-box"><img src="1G.png"></div>
         <div class="logo-box"><img src="1S.png"></div>
+            <div class="drop-content" id="resourceList">
+        <!-- Javascript will populate this list -->
+        <div class="loading-text">Loading files...</div>
+    </div>
+
+    <!-- ADMIN ONLY: UPLOAD SECTION -->
+    <div id="uploadSection" style="display:none; border-top:1px solid #ddd; padding-top:10px;">
+        <button class="upload-trigger-btn" onclick="document.getElementById('fileToUpload').click()">
+            + Upload New File
+        </button>
+        <input type="file" id="fileToUpload" hidden onchange="handleFileUpload(this)">
+    </div>
       </div>
     </div>
 
@@ -200,6 +212,7 @@
 <script src="script.js?v=9"></script>
 </body>
 </html>
+
 
 
 
