@@ -467,3 +467,41 @@ window.onload = function() {
         }
     }, 2000); // Wait 2 seconds before fading
 };
+
+/* =========================
+   FILE DOWNLOAD MANAGER
+========================= */
+function downloadFile(fileNumber) {
+    const links = {
+        1: {
+            name: "Info.txt",
+            content: "QFC Discount Info", // Text content
+            type: "text/plain"
+        },
+        2: {
+            name: "Address.txt",
+            content: "Rizwan Plaza, Blue Area, Islamabad", // Example content
+            type: "text/plain"
+        },
+        3: {
+            name: "Rates.txt",
+            content: "Rates updated 2026", // Example content
+            type: "text/plain"
+        }
+    };
+
+    const file = links[fileNumber];
+    
+    if (!file) return alert("File not configured.");
+
+    // Create text file and download
+    const blob = new Blob([file.content], { type: file.type });
+    const url = window.URL.createObjectURL(blob);
+    
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = file.name;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
