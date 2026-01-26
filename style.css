@@ -536,6 +536,7 @@ input:focus {
    CALCULATOR BUTTON
 ========================= */
 .calc-btn {
+  /* --- YOUR ORIGINAL STYLES --- */
   background-color: #27ae60;
   color: white;
   border: none;
@@ -545,6 +546,28 @@ input:focus {
   cursor: pointer;
   margin-top: 10px;
   width: 100%;
+  
+  /* --- ANIMATION --- */
+  animation: greenPulse 2s infinite;
+  transition: transform 0.2s;
+}
+
+/* Hover Effect */
+.calc-btn:hover {
+  transform: scale(1.05); /* Button grows slightly */
+}
+
+/* KEYFRAMES */
+@keyframes greenPulse {
+  0% { 
+    box-shadow: 0 0 0 0 rgba(39, 174, 96, 0); /* No glow */
+  }
+  70% { 
+    box-shadow: 0 0 0 10px rgba(39, 174, 96, 0); /* Spreading green glow */
+  }
+  100% { 
+    box-shadow: 0 0 0 0 rgba(39, 174, 96, 0); /* Back to no glow */
+  }
 }
 
 /* =========================
@@ -868,5 +891,6 @@ input:focus {
     background-position: 200% center;
   }
 }
+
 
 
