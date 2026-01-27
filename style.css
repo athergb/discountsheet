@@ -149,6 +149,7 @@ body {
 .gds-logos {
   display: flex;
   gap: 20px;
+  align-items: center;
 }
 
 .logo-box {
@@ -167,6 +168,160 @@ body {
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
+}
+
+/* =========================
+   DOCUMENTS DROPDOWN
+========================= */
+.documents-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-btn {
+  background-color: #0f2e5a;
+  color: white;
+  border: none;
+  padding: 12px 15px;
+  border-radius: 6px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 130px;
+  transition: background 0.3s;
+}
+
+.dropdown-btn:hover {
+  background-color: #0b2d6b;
+}
+
+.dropdown-arrow {
+  margin-left: 8px;
+  font-size: 10px;
+  transition: transform 0.3s;
+}
+
+.dropdown-btn.active .dropdown-arrow {
+  transform: rotate(180deg);
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #fff;
+  min-width: 300px;
+  max-height: 400px;
+  overflow-y: auto;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  border-radius: 6px;
+  z-index: 1000;
+  border: 1px solid #ddd;
+  margin-top: 5px;
+}
+
+.dropdown-content.show {
+  display: block;
+}
+
+/* Resource items in dropdown */
+.drop-content {
+  padding: 10px;
+}
+
+.resource-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 13px;
+  background: #f9f9f9;
+  margin-bottom: 5px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.resource-item:hover {
+  background-color: #f0f0f0;
+}
+
+.resource-item:last-child {
+  border-bottom: none;
+}
+
+.resource-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #333;
+  flex-grow: 1;
+  width: 100%;
+}
+
+.resource-link:hover {
+  color: #0f2e5a;
+}
+
+.file-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+
+.file-name {
+  flex-grow: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.delete-res-btn {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  margin-left: 10px;
+  flex-shrink: 0;
+}
+
+.upload-trigger-btn {
+  background-color: #0f2e5a;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.upload-trigger-btn:hover {
+  background-color: #0b2d6b;
+}
+
+.loading-text {
+  text-align: center;
+  font-style: italic;
+  color: #999;
+  padding: 15px;
 }
 
 /* =========================
@@ -696,7 +851,7 @@ input:focus {
  .credits {
   margin-top: 15px;
   font-size: 12px;      /* Small font */
-  color: #FFF;          /* white for a subtle look */
+  color: #333;          /* Dark color for visibility */
   font-weight: 500;
   letter-spacing: 0.5px;
   /* --- Blinking Logic Added Below --- */
@@ -893,108 +1048,3 @@ input:focus {
     background-position: 200% center;
   }
 }
-
-/* =========================
-   RESOURCES LIST & ACTIONS
-========================= */
-.resource-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 15px;
-  font-size: 14px;
-  font-family: 'Poppins', sans-serif;
-  transition: background 0.2s;
-  cursor: pointer;
-}
-
-.resource-item:hover {
-  background-color: #f0f0f0;
-}
-
-.resource-link {
-  text-decoration: none;
-  color: #333;
-  flex-grow: 1; /* Takes up remaining space */
-  display: block;
-  width: 100%;
-}
-
-.delete-res-btn {
-  background: #e74c3c;
-  color: white;
-  border: none;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-}
-
-.upload-trigger-btn {
-  background-color: #0f2e5a;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 4px;
-  font-size: 12px;
-  cursor: pointer;
-  width: 100%;
-  text-align: center;
-}
-
-.upload-trigger-btn:hover {
-  background-color: #0b2d6b;
-}
-
-.loading-text {
-  text-align: center;
-  font-style: italic;
-  color: #999;
-  padding: 5px;
-}
-
-/* =========================
-   RESOURCE FILE ICONS
-========================= */
-
-/* Container for Icon + Text */
-.resource-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px 15px;
-  background: #f9f9f9;
-  margin-bottom: 5px;
-  border-radius: 4px;
-}
-
-/* The Icon Wrapper */
-.file-icon {
-  width: 24px;
-  height: 24px;
-  margin-right: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* SVG Icons Styles */
-.file-icon svg {
-  width: 100%;
-  height: 100%;
-}
-
-.file-icon .icon-word { fill: #2b579a; } /* Blue for Word */
-.file-icon .icon-excel { fill: #1d6f42; } /* Green for Excel */
-.file-icon .icon-pdf { fill: #f40f02; } /* Red for PDF */
-.file-icon .icon-default { fill: #95a5a6; } /* Grey for others */
-
-
-
-
-
-
