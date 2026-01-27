@@ -152,7 +152,7 @@ function render() {
 }
 
 /* =========================
-   RESOURCES MANAGER
+   RESOURCES MANAGER (UPDATED FOR IMAGE FILES)
 ========================= */
 
 // Load files from 'resources' folder
@@ -160,7 +160,10 @@ async function loadResources() {
     const listContainer = document.getElementById("resourceList");
     const uploadSection = document.getElementById("uploadSection");
     
-    if(!listContainer) return;
+    if(!listContainer) {
+        console.error("Resource list container not found!");
+        return;
+    }
 
     try {
         // No token needed for public read
@@ -168,43 +171,73 @@ async function loadResources() {
         
         const res = await fetch(url);
         
-        if (!res.ok) throw new Error("Failed to load folder. Did you create a 'resources' folder?");
+        if (!res.ok) {
+            // If folder doesn't exist, show empty message
+            listContainer.innerHTML = "<div style='text-align:center;padding:10px;color:#777'>No documents available.</div>";
+            if (uploadSection) uploadSection.style.display = "none";
+            return;
+        }
 
         const files = await res.json();
         
-        listContainer.innerHTML = ""; // Clear loading text
+        // Clear loading text
+        listContainer.innerHTML = "";
 
         // --- 1. HANDLE UPLOAD BUTTON (Admin Only) ---
-        if (isEditor) {
+        if (isEditor && uploadSection) {
             uploadSection.style.display = "block";
-        } else {
-            uploadSection.style.display = "none"; // HIDE Upload Button
+        } else if (uploadSection) {
+            uploadSection.style.display = "none";
         }
 
         // --- 2. POPULATE DOWNLOAD LIST (Visible to Everyone) ---
-        if(files.length === 0) {
+        if(!Array.isArray(files) || files.length === 0) {
             listContainer.innerHTML = "<div style='text-align:center;padding:10px;color:#777'>No documents available.</div>";
             return;
         }
 
+        let hasFiles = false;
+        
         files.forEach(file => {
-            if (file.name === ".gitkeep") return;
-
+            if (file.name === ".gitkeep" || file.type !== "file") return;
+            
+            hasFiles = true;
+            
             const item = document.createElement("div");
             item.className = "resource-item";
 
-            // Use raw.githubusercontent.com for direct download
+            // Use raw.githubusercontent.com for direct download/view
             const linkUrl = `https://raw.githubusercontent.com/${CONFIG.owner}/${CONFIG.repo}/main/${resourcesFolder}/${file.name}`;
             
             // Get file icon based on extension
             const fileIcon = getFileIconHTML(file.name);
             
-            let html = `
-                <a href="${linkUrl}" class="resource-link" download="${file.name}">
-                    ${fileIcon}
-                    <span class="file-name">${file.name}</span>
-                </a>
-            `;
+            // Get file extension
+            const fileExt = file.name.split('.').pop().toLowerCase();
+            
+            // Check if it's an image file
+            const isImageFile = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'svg'].includes(fileExt);
+            
+            let html = '';
+            
+            if (isImageFile) {
+                // For image files: Open in new tab (not download)
+                html = `
+                    <a href="${linkUrl}" class="resource-link" target="_blank" title="View image in new tab">
+                        ${fileIcon}
+                        <span class="file-name">${file.name}</span>
+                        <span class="view-label">(View)</span>
+                    </a>
+                `;
+            } else {
+                // For non-image files: Download as usual
+                html = `
+                    <a href="${linkUrl}" class="resource-link" download="${file.name}">
+                        ${fileIcon}
+                        <span class="file-name">${file.name}</span>
+                    </a>
+                `;
+            }
 
             // Delete Button (Admin Only)
             if (isEditor) {
@@ -217,10 +250,15 @@ async function loadResources() {
             listContainer.appendChild(item);
         });
 
+        if (!hasFiles) {
+            listContainer.innerHTML = "<div style='text-align:center;padding:10px;color:#777'>No documents available.</div>";
+        }
+
     } catch (error) {
         console.error("Error loading resources:", error);
-        const listContainer = document.getElementById("resourceList");
-        if(listContainer) listContainer.innerHTML = "<div style='text-align:center;padding:10px;color:red'>Unable to load documents.</div>";
+        if (listContainer) {
+            listContainer.innerHTML = "<div style='text-align:center;padding:10px;color:red'>Unable to load documents.</div>";
+        }
     }
 }
 
@@ -230,14 +268,14 @@ function getFileIconHTML(filename) {
     
     if (ext === 'docx') {
         return `<div class="file-icon" style="color: #2b579a;">📝</div>`;
-    } else if (ext === 'jpg' || ext === 'jpeg') {
-        return `<div class="file-icon" style="color: #e74c3c;">🖼️</div>`;
-    } else if (ext === 'png') {
+    } else if (['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'svg'].includes(ext)) {
         return `<div class="file-icon" style="color: #e74c3c;">🖼️</div>`;
     } else if (ext === 'pdf') {
         return `<div class="file-icon" style="color: #f40f02;">📄</div>`;
     } else if (ext === 'xls' || ext === 'xlsx') {
         return `<div class="file-icon" style="color: #1d6f42;">📊</div>`;
+    } else if (ext === 'txt') {
+        return `<div class="file-icon" style="color: #555;">📃</div>`;
     } else {
         return `<div class="file-icon" style="color: #95a5a6;">📎</div>`;
     }
