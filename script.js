@@ -17,6 +17,36 @@ let isEditor = false;
 let resourcesFolder = "resources"; // Folder name on GitHub
 
 /* =========================
+   DROPDOWN FUNCTIONS
+========================= */
+
+// Toggle dropdown visibility
+function toggleDropdown() {
+    const dropdown = document.getElementById('documentsDropdown');
+    const dropdownBtn = document.querySelector('.dropdown-btn');
+    
+    if (dropdown) {
+        dropdown.classList.toggle('show');
+        if (dropdownBtn) {
+            dropdownBtn.classList.toggle('active');
+        }
+    }
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function(event) {
+    const dropdown = document.getElementById('documentsDropdown');
+    const dropdownBtn = document.querySelector('.dropdown-btn');
+    
+    if (dropdown && dropdownBtn && 
+        !dropdown.contains(event.target) && 
+        !dropdownBtn.contains(event.target)) {
+        dropdown.classList.remove('show');
+        dropdownBtn.classList.remove('active');
+    }
+});
+
+/* =========================
    LOAD DATA (Read-Only Public)
 ========================= */
 async function loadData() {
@@ -119,6 +149,170 @@ function render() {
 
     // Load Resources List
     loadResources();
+}
+
+/* =========================
+   RESOURCES MANAGER
+========================= */
+
+// Load files from 'resources' folder
+async function loadResources() {
+    const listContainer = document.getElementById("resourceList");
+    const uploadSection = document.getElementById("uploadSection");
+    
+    if(!listContainer) return;
+
+    try {
+        // No token needed for public read
+        const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${resourcesFolder}`;
+        
+        const res = await fetch(url);
+        
+        if (!res.ok) throw new Error("Failed to load folder. Did you create a 'resources' folder?");
+
+        const files = await res.json();
+        
+        listContainer.innerHTML = ""; // Clear loading text
+
+        // --- 1. HANDLE UPLOAD BUTTON (Admin Only) ---
+        if (isEditor) {
+            uploadSection.style.display = "block";
+        } else {
+            uploadSection.style.display = "none"; // HIDE Upload Button
+        }
+
+        // --- 2. POPULATE DOWNLOAD LIST (Visible to Everyone) ---
+        if(files.length === 0) {
+            listContainer.innerHTML = "<div style='text-align:center;padding:10px;color:#777'>No documents available.</div>";
+            return;
+        }
+
+        files.forEach(file => {
+            if (file.name === ".gitkeep") return;
+
+            const item = document.createElement("div");
+            item.className = "resource-item";
+
+            // Use raw.githubusercontent.com for direct download
+            const linkUrl = `https://raw.githubusercontent.com/${CONFIG.owner}/${CONFIG.repo}/main/${resourcesFolder}/${file.name}`;
+            
+            // Get file icon based on extension
+            const fileIcon = getFileIconHTML(file.name);
+            
+            let html = `
+                <a href="${linkUrl}" class="resource-link" download="${file.name}">
+                    ${fileIcon}
+                    <span class="file-name">${file.name}</span>
+                </a>
+            `;
+
+            // Delete Button (Admin Only)
+            if (isEditor) {
+                html += `
+                    <button class="delete-res-btn" onclick="deleteResource('${file.name}', '${file.sha}')">×</button>
+                `;
+            }
+
+            item.innerHTML = html;
+            listContainer.appendChild(item);
+        });
+
+    } catch (error) {
+        console.error("Error loading resources:", error);
+        const listContainer = document.getElementById("resourceList");
+        if(listContainer) listContainer.innerHTML = "<div style='text-align:center;padding:10px;color:red'>Unable to load documents.</div>";
+    }
+}
+
+// Helper function to get file icon HTML
+function getFileIconHTML(filename) {
+    const ext = filename.split('.').pop().toLowerCase();
+    
+    if (ext === 'docx') {
+        return `<div class="file-icon" style="color: #2b579a;">📝</div>`;
+    } else if (ext === 'jpg' || ext === 'jpeg') {
+        return `<div class="file-icon" style="color: #e74c3c;">🖼️</div>`;
+    } else if (ext === 'png') {
+        return `<div class="file-icon" style="color: #e74c3c;">🖼️</div>`;
+    } else if (ext === 'pdf') {
+        return `<div class="file-icon" style="color: #f40f02;">📄</div>`;
+    } else if (ext === 'xls' || ext === 'xlsx') {
+        return `<div class="file-icon" style="color: #1d6f42;">📊</div>`;
+    } else {
+        return `<div class="file-icon" style="color: #95a5a6;">📎</div>`;
+    }
+}
+
+// Handle Upload (Admin Only)
+function handleFileUpload(input) {
+    const file = input.files[0];
+    if (!file) return;
+
+    const token = prompt("Enter GitHub Token to Upload:");
+    if (!token) return;
+
+    const reader = new FileReader();
+    reader.onload = async function(e) {
+        const content = e.target.result.split(',')[1]; // Base64 part
+
+        const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${resourcesFolder}/${file.name}`;
+
+        try {
+            const res = await fetch(url, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `token ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    message: `Upload ${file.name}`,
+                    content: content,
+                    branch: "main"
+                })
+            });
+
+            if (!res.ok) throw new Error("Failed to upload");
+
+            alert("File Uploaded Successfully!");
+            loadResources(); // Refresh list
+        } catch (error) {
+            console.error(error);
+            alert("Error uploading file. Check Token/Permissions.");
+        }
+    };
+    reader.readAsDataURL(file);
+}
+
+// Handle Delete (Admin Only)
+async function deleteResource(filename, sha) {
+    if(!confirm(`Are you sure you want to delete ${filename}?`)) return;
+
+    const token = prompt("Enter GitHub Token to Delete:");
+    if (!token) return;
+
+    const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${resourcesFolder}/${filename}`;
+
+    try {
+        const res = await fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `token ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                message: `Delete ${filename}`,
+                sha: sha,
+                branch: "main"
+            })
+        });
+
+        if (!res.ok) throw new Error("Failed to delete");
+
+        alert("File Deleted Successfully!");
+        loadResources(); // Refresh list
+    } catch (error) {
+        console.error("Error deleting file. Check Token/Permissions.");
+    }
 }
 
 /* =========================
@@ -430,165 +624,12 @@ function resetCalcDisplays() {
 }
 
 /* =========================
-   RESOURCES MANAGER
-========================= */
-
-// Helper: Get Icon HTML (With Colors)
-function getFileIcon(filename) {
-    const ext = filename.split('.').pop().toLowerCase();
-    
-    // Word (.docx)
-    if (ext === 'docx') {
-        return `<div class="file-icon"><svg class="icon-word" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 00-2 2H4a2 2 0 00-2-2V4a2 2 0 00-2 2V4a2 2 0 00-2zM4a2 2 0 00-2 2zM4a2 2 0 00-2 2V4a2 2 0 00-2zMz" fill="none"/></svg></div>`;
-    }
-    // Excel (.xls)
-    else if (ext === 'xls') {
-        return `<div class="file-icon"><svg class="icon-excel" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14 2H6v2a2 2 0 002 2v6a2 2 0 002 2H6a2 2 0 002-2V4a2 2 0 002-2h-8V6h-2a2 0 002 2H6V2a2 0 002-2H6V4a2 2 0 002-2H6a2 2 0 002-2H6V2a2 0 002-2zm0 0h-8V2a2 0 002-2h8V2a2 0 002-2H6V6a2 0 002-2zm-4h10a2 2 0 002-2v2a2 0 002-2H6V6a2 0 002-2H6v2a2 0 002-2H6v2a2 0 002-2zm-4h10a2 2 0 002-2v2a2 0 002-2H6V6a2 0 002-2zm-4-4h10a2 2 0 002-2v2a2 0 002-2H6V6a2 0 002-2H6v2a2 0 002-2H6v6a2 0 002-2z" fill="none"/></svg></div>`;
-    }
-    // PDF
-    else if (ext === 'pdf') {
-        return `<div class="file-icon"><svg class="icon-pdf" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C7.79 2 4.2 2s4 2.21 2.4 2.16.21 2 4 2.24 5.11 0 5.32 0 0 9.68 0 2-4.68 16.64-2.34 9.68 0 5.32 0-9.68-2.5.32 14.32 9.68-2-4.68 19.32-9.68 12.02-14.32 9.68 0 4.68 14.32 9.68 0-4.68 19.32-9.68 0 9.68 12.02-14.32-9.68 0-4.68 14.32-9.68 0-9.68 12.02-7.34-4.68 9.68 0 4.68 14.32-9.68 0-9.68 9.68-4.68 14.32-9.68 0-9.68 9.68-5.32 14.32-9.68 0-5.32 14.32-9.68 0-9.68 9.68-5.32 14.32-9.68 0-5.32 14.32-9.68 0-9.68 9.68-5.32 14.32-9.68 0-9.68 9.68-5.32 14.32-9.68 0-9.68 9.68-5.32 14.32-9.68 0-9.68 9.68-5.32 14.32-9.68 0-9.68 9.68-9.68z" fill="none"/></svg></div>`;
-    }
-    // Default
-    else {
-        return `<div class="file-icon"><svg class="icon-default" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 00-2 2H6a2 2 0 00-2 2V4a2 2 0 00-2 2V4a2 2 0 00-2 2H4v14a2 2 0 00-2 2H6a2 2 0 00-2 2V4a2 2 0 00-2 2V4a2 2 0 00-2 2z" fill="none"/></svg></div>`;
-    }
-}
-
-// Load files from 'resources' folder
-async function loadResources() {
-    const listContainer = document.getElementById("resourceList");
-    const uploadSection = document.getElementById("uploadSection");
-    
-    if(!listContainer) return;
-
-    try {
-        // No token needed for public read
-        const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${resourcesFolder}`;
-        
-        const res = await fetch(url);
-        
-        if (!res.ok) throw new Error("Failed to load folder. Did you create a 'resources' folder?");
-
-        const files = await res.json();
-        
-        listContainer.innerHTML = ""; // Clear loading text
-
-        // --- 1. HANDLE UPLOAD BUTTON (Admin Only) ---
-        if (isEditor) {
-            uploadSection.style.display = "block";
-        } else {
-            uploadSection.style.display = "none"; // HIDE Upload Button
-        }
-
-        // --- 2. POPULATE DOWNLOAD LIST (Visible to Everyone) ---
-        if(files.length === 0) {
-            listContainer.innerHTML = "<div style='text-align:center;padding:10px;color:#777'>Folder is empty or not found.</div>";
-            return;
-        }
-
-        files.forEach(file => {
-            if (file.name === ".gitkeep") return;
-
-            const item = document.createElement("div");
-            item.className = "resource-item";
-
-            // Use raw.githubusercontent.com for direct download
-            const linkUrl = `https://raw.githubusercontent.com/${CONFIG.owner}/${CONFIG.repo}/main/${resourcesFolder}/${file.name}`;
-            
-            let html = `
-                <a href="${linkUrl}" class="resource-link" download="${file.name}">${file.name}</a>
-            `;
-
-            // Delete Button (Admin Only)
-            if (isEditor) {
-                html += `
-                        <button class="delete-res-btn" onclick="deleteResource('${file.name}', '${file.sha}')">×</button>
-                `;
-            }
-
-            item.innerHTML = html;
-            listContainer.appendChild(item);
-        });
-
-    } catch (error) {
-        console.error("Error loading resources:", error);
-        const listContainer = document.getElementById("resourceList");
-        if(listContainer) listContainer.innerHTML = "<div style='text-align:center;padding:10px;color:red'>Folder 'resources' folder not found in GitHub.</div>";
-    }
-}
-
-// Handle Upload (Admin Only)
-function handleFileUpload(input) {
-    const file = input.files[0];
-    if (!file) return;
-
-    const token = prompt("Enter GitHub Token to Upload:");
-    if (!token) return;
-
-    const reader = new FileReader();
-    reader.onload = async function(e) {
-        const content = e.target.result.split(',')[1]; // Base64 part
-
-        const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${resourcesFolder}/${file.name}`;
-
-        try {
-            const res = await fetch(url, {
-                method: 'PUT',
-                headers: {
-                    'Authorization': `token ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    message: `Upload ${file.name}`,
-                    content: content,
-                    branch: "main"
-                })
-            });
-
-            if (!res.ok) throw new Error("Failed to upload");
-
-            alert("File Uploaded Successfully!");
-            loadResources(); // Refresh list
-        } catch (error) {
-            console.error(error);
-            alert("Error uploading file. Check Token/Permissions.");
-        }
-    };
-    reader.readAsDataURL(file);
-}
-
-// Handle Delete (Admin Only)
-async function deleteResource(filename, sha) {
-    if(!confirm(`Are you sure you want to delete ${filename}?`)) return;
-
-    const token = prompt("Enter GitHub Token to Delete:");
-    if (!token) return;
-
-    const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${resourcesFolder}/${filename}`;
-
-    try {
-        const res = await fetch(url, {
-            method: 'DELETE',
-            headers: {
-                'Authorization': `token ${token}`
-            }
-        });
-
-        if (!res.ok) throw new Error("Failed to delete");
-
-        alert("File Deleted Successfully!");
-        loadResources(); // Refresh list
-    } catch (error) {
-        console.error("Error deleting file. Check Token/Permissions.");
-    }
-}
-
-/* =========================
    WELCOME SCREEN LOGIC
 ========================= */
 window.onload = function() {
     loadData(); // Load Airline Data
+    loadResources(); // Load documents dropdown
+    
     setTimeout(() => {
         const screen = document.getElementById("welcome-screen");
         if (screen) {
