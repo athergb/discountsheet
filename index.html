@@ -55,18 +55,28 @@
         <div class="logo-box"><img src="1A.png"></div>
         <div class="logo-box"><img src="1G.png"></div>
         <div class="logo-box"><img src="1S.png"></div>
-            <div class="drop-content" id="resourceList">
-        <!-- Javascript will populate this list -->
-        <div class="loading-text">Loading files...</div>
-    </div>
+        
+        <!-- DOCUMENTS DROPDOWN CONTAINER -->
+        <div class="documents-dropdown">
+            <button class="dropdown-btn" onclick="toggleDropdown()">
+                📁 Documents
+                <span class="dropdown-arrow">▼</span>
+            </button>
+            <div class="dropdown-content" id="documentsDropdown">
+                <div class="drop-content" id="resourceList">
+                    <!-- Javascript will populate this list -->
+                    <div class="loading-text">Loading files...</div>
+                </div>
 
-    <!-- ADMIN ONLY: UPLOAD SECTION -->
-    <div id="uploadSection" style="display:none; border-top:1px solid #ddd; padding-top:10px;">
-        <button class="upload-trigger-btn" onclick="document.getElementById('fileToUpload').click()">
-            + Upload New File
-        </button>
-        <input type="file" id="fileToUpload" hidden onchange="handleFileUpload(this)">
-    </div>
+                <!-- ADMIN ONLY: UPLOAD SECTION -->
+                <div id="uploadSection" style="display:none; border-top:1px solid #ddd; padding-top:10px;">
+                    <button class="upload-trigger-btn" onclick="document.getElementById('fileToUpload').click()">
+                        + Upload New File
+                    </button>
+                    <input type="file" id="fileToUpload" hidden onchange="handleFileUpload(this)">
+                </div>
+            </div>
+        </div>
       </div>
     </div>
 
@@ -225,21 +235,3 @@ s0.parentNode.insertBefore(s1,s0);
 <!--End of Tawk.to Script-->  
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
