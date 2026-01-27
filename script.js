@@ -14,10 +14,10 @@ const CONFIG = {
 let data = [];
 let sha = "";
 let isEditor = false;
-let resourcesFolder = "resources"; // Folder name on GitHub
+let resourcesFolder = "resources";
 
 /* =========================
-   LOAD DATA (Read-Only Public)
+   LOAD DATA
 ========================= */
 async function loadData() {
     const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${CONFIG.filePath}`;
@@ -65,7 +65,7 @@ async function saveToGitHub() {
         if (!res.ok) throw new Error("Failed to save");
         
         const json = await res.json();
-        sha = json.content.sha; // UPDATE: Ensures we keep the latest SHA so next save doesn't fail
+        sha = json.content.sha; 
         alert("Saved Successfully!");
         render();
     } catch (error) {
@@ -103,13 +103,14 @@ function render() {
         const card = document.createElement("div");
         card.className = "card";
 
+        // Hover Instructions Logic (Integrated from resources)
         card.setAttribute("data-note", item.instructions || "");
        
         card.innerHTML = `
            <div class="discount">${item.discount}</div>
             ${item.logo ? `<img src="${item.logo}">` : ""}
             <p><b>${item.airline}</b></p>
-            <p class="note-text">${item.note}</p>
+            ${item.note ? `<p class="note-text">${item.note}</p>` : ""}
             ${item.notification ? `<div class="alert-box">${item.notification}</div>` : ""}
             <p class="validity ${expired}">Valid till: ${d.toLocaleDateString('en-GB')}</p>
             ${actionHtml}
@@ -145,8 +146,7 @@ function showAddModal() {
         document.getElementById("inpNotice").value = "";
         document.getElementById("inpValidity").value = "";
         document.getElementById("inpInstructions").value = "";
-        document.getElementById("editIndex").value = ""; 
-        
+        document.getElementById("editIndex").value = ""; // Empty means ADD MODE
         document.getElementById("modalTitle").innerText = "Add Airline";
         
         modal.style.display = "block";
@@ -156,7 +156,6 @@ function showAddModal() {
 function editEntry(index) {
     const item = data[index]; 
     
-    // Fill the form with existing data
     document.getElementById("inpCategory").value = item.category;
     document.getElementById("inpAirline").value = item.airline;
     document.getElementById("inpDiscount").value = item.discount;
@@ -166,9 +165,9 @@ function editEntry(index) {
     document.getElementById("inpValidity").value = item.validity;
     document.getElementById("inpInstructions").value = item.instructions || "";
     
-    // Set the hidden index so saveData knows to UPDATE, not ADD
     document.getElementById("editIndex").value = index;
     
+    // Change Title
     document.getElementById("modalTitle").innerText = "Edit Airline";
     
     // Show the modal
@@ -198,7 +197,7 @@ function checkPassword() {
         document.getElementById("addBtn").style.display = "inline-block";
         
         closeModals();
-        render(); // Refresh to show delete/upload options
+        render(); 
         alert("Welcome Admin!");
     } else {
         alert("Incorrect Password");
@@ -210,7 +209,7 @@ function logout() {
     document.getElementById("loginBtn").style.display = "inline-block";
     document.getElementById("logoutBtn").style.display = "none";
     document.getElementById("addBtn").style.display = "none";
-    render();
+    render(); 
 }
 
 /* =========================
@@ -322,14 +321,13 @@ async function saveForWhatsApp() {
 }
 
 /* =========================
-   CALCULATOR LOGIC (FIXED TYPO)
+   CALCULATOR LOGIC
 ========================= */
 
 function openCalculator() {
     const select = document.getElementById("calcAirline");
     select.innerHTML = '<option value="">-- Select Airline --</option>';
     
-    // Populate unique airlines from data
     data.forEach(item => {
         const option = document.createElement("option");
         let discValue = item.discount || "0";
@@ -355,6 +353,7 @@ function calculatePSF() {
     const tax = parseFloat(document.getElementById("calcTax").value) || 0;
 
     if(!discountStr || discountStr === "0") {
+        // Even if discount is 0, we calculate Basic + Tax
         updateRow(adultBaseInput, tax, "dispDiscAdult", "dispTotalAdult");
         updateRow(adultBaseInput * 0.75, tax, "dispDiscChild", "dispTotalChild");
         updateRow(adultBaseInput * 0.10, tax, "dispDiscInfant", "dispTotalInfant");
@@ -362,24 +361,39 @@ function calculatePSF() {
     }
 
     // --- CALCULATE FOR ADULT (100%) ---
-    calculateSingleRow(adultBaseInput, discountStr, tax, "dispDiscAdult", "dispTotalAdult");
+    calculateSingleRow(adultBaseInput, discountStr, tax, discId, totalId) {
+    let discountAmt = 0;
+    let displayText = "";
 
-    // --- CALCULATE FOR CHILD (75%) ---
-    const childBase = adultBaseInput * 0.75;
-    calculateSingleRow(childBase, discountStr, tax, "dispDiscChild", "dispTotalChild");
+    // PARSE DISCOUNT STRING
+    if (discountStr.includes("%")) {
+        let num = parseFloat(discountStr.replace(/[^0-9.-]/g, ''));
+        if(!isNaN(num)) {
+            discountAmt = (baseFare * num) / 100;
+            displayText = `${discountStr} (${discountAmt.toFixed(2)})`;
+        }
+    } else if (discountStr.includes("PKR")) {
+        let num = parseFloat(discountStr.replace(/[^0-9.-]/g, ''));
+        if(!isNaN(num)) {
+            discountAmt = num;
+            displayText = discountStr;
+        }
+    } else {
+        let num = parseFloat(discountStr);
+        if(!isNaN(num)) {
+            discountAmt = num;
+            displayText = discountStr;
+        }
+    }
 
-    // --- CALCULATE FOR INFANT (10%) ---
-    const infantBase = adultBaseInput * 0.10;
-    calculateSingleRow(infantBase, discountStr, tax, "dispDiscInfant", "dispTotalInfant");
-}
+    const netAmount = baseFare + discountAmt + tax;
 
-function updateRow(baseFare, tax, discId, totalId) {
     const discEl = document.getElementById(discId);
     const totalEl = document.getElementById(totalId);
-    
+
     if(discEl && totalEl) {
-        discEl.innerText = "No Discount";
-        totalEl.innerText = (baseFare + tax).toLocaleString('en-GB', { minimumFractionDigits: 0 }) + " PKR";
+        discEl.innerText = displayText;
+        totalEl.innerText = netAmount.toLocaleString('en-GB', { minimumFractionDigits: 0 }) + " PKR";
     }
 }
 
@@ -433,155 +447,100 @@ function resetCalcDisplays() {
    RESOURCES MANAGER
 ========================= */
 
-// Helper: Get Icon HTML (With Colors)
+// Helper: Get Icon HTML
 function getFileIcon(filename) {
     const ext = filename.split('.').pop().toLowerCase();
     
     // Word (.docx)
     if (ext === 'docx') {
-        return `<div class="file-icon"><svg class="icon-word" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 00-2 2H4a2 2 0 00-2-2V4a2 2 0 00-2 2V4a2 2 0 00-2zM4a2 2 0 00-2 2zM4a2 2 0 00-2 2V4a2 2 0 00-2zMz" fill="none"/></svg></div>`;
+        return `<div class="file-icon"><svg class="icon-word" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 00-2 2H6a2 2 0 00-2 2V4a2 2 0 00-2 2H6a2 2 0 00-2 2V4a2 2 0 00-2 2H4v14a2 2 0 00-2 2H6a2 2 0 00-2 2z" fill="#2b579a"/></svg></div>`;
     }
     // Excel (.xls)
     else if (ext === 'xls') {
-        return `<div class="file-icon"><svg class="icon-excel" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14 2H6v2a2 2 0 002 2v6a2 2 0 002 2H6a2 2 0 002-2V4a2 2 0 002-2h-8V6h-2a2 0 002 2H6V2a2 0 002-2H6V4a2 2 0 002-2H6a2 2 0 002-2H6V2a2 0 002-2zm0 0h-8V2a2 0 002-2h8V2a2 0 002-2H6V6a2 0 002-2zm-4h10a2 2 0 002-2v2a2 0 002-2H6V6a2 0 002-2H6v2a2 0 002-2H6v2a2 0 002-2zm-4h10a2 2 0 002-2v2a2 0 002-2H6V6a2 0 002-2zm-4-4h10a2 2 0 002-2v2a2 0 002-2H6V6a2 0 002-2H6v2a2 0 002-2H6v6a2 0 002-2z" fill="none"/></svg></div>`;
+        return `<div class="file-icon"><svg class="icon-excel" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 00-2 2H6a2 2 0 00-2 2V4a2 2 0 00-2 2zm0 0h-8v2a2 2 0 00-2 2h8V2a2 2 0 00-2 2H6V6a2 2 0 00-2 2H6V2a2 0 00-2 2h8V6a2 2 0 00-2 2H6V6a2 0 00-2 2zm-4h10a2 2 0 002 2v6a2 0 00-2 2H6V4a2 2 0 00-2 2zm0-4h8a2 2 0 002 2h8V2a2 0 00-2 2H6V6a2 2 0 00-2-2H6V6a2 0 00-2-2zm-4-4h10a2 2 0 002 2v6a2 0 00-2 2H6V4a2 0 00-2 2H6V6a2 0 00-2 2zm-4-4h10a2 0 002 2v6a2 0 00-2 2H6V4a2 0 00-2 2zm-4-4h10a2 0 002 2v6a2 0 00-2 2H6V4a2 0 00-2 2H6V6a2 0 00-2 2z" fill="none"/></svg></div>`;
     }
     // PDF
     else if (ext === 'pdf') {
-        return `<div class="file-icon"><svg class="icon-pdf" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C7.79 2 4.2 2s4 2.21 2.4 2.16.21 2 4 2.24 5.11 0 5.32 0 0 9.68 0 2-4.68 16.64-2.34 9.68 0 5.32 0-9.68-2.5.32 14.32 9.68-2-4.68 19.32-9.68 12.02-14.32 9.68 0 4.68 14.32 9.68 0-4.68 19.32-9.68 0 9.68 12.02-14.32-9.68 0-4.68 14.32-9.68 0-9.68 12.02-7.34-4.68 9.68 0 4.68 14.32-9.68 0-9.68 9.68-4.68 14.32-9.68 0-9.68 9.68-5.32 14.32-9.68 0-5.32 14.32-9.68 0-9.68 9.68-5.32 14.32-9.68 0-5.32 14.32-9.68 0-9.68 9.68-5.32 14.32-9.68 0-9.68 9.68-5.32 14.32-9.68 0-9.68 9.68-5.32 14.32-9.68 0-9.68 9.68-5.32 14.32-9.68 0-9.68 9.68-9.68z" fill="none"/></svg></div>`;
-    }
-    // Default
-    else {
-        return `<div class="file-icon"><svg class="icon-default" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 00-2 2H6a2 2 0 00-2 2V4a2 2 0 00-2 2V4a2 2 0 00-2 2H4v14a2 2 0 00-2 2H6a2 2 0 00-2 2V4a2 2 0 00-2 2V4a2 2 0 00-2 2z" fill="none"/></svg></div>`;
-    }
+        return `<div class="file-icon"><svg class="icon-pdf" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C7.79 2 4 2.2s4 2.21 2 4 2.16.21 2.4 2.24 5.11 0 5.32 0 0 9.68 0 2-4.68 2-5.32 0 9.68 0 2-9.68 0-4.68 16.64-2.34 9.68 0 4.68 19.32 9.68 0 5.32 0 9.68 12.02-14.32 9.68 0-4.68 14.32 9.68 0-4.68 14.32-9.68 0 0 0 9.68 0 4.68 14.32-9.68 0-9.68 4.68-16.64-2.34-9.68 0-4.68 19.32-9.68 0 0 9.68 12.02-14.32-9.68 0-4.68 14.32-9.68 0-9.68 9.68 4.68 19.32-9.68 0 9.68 9.68 0.9.68 0 12.02-14.32-9.68 0 4.68 14.32-9.68 0 9.68 9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 4.68 14.32-9.68 0 9.68 9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-9.68-7.34-9.68 0-4.68 19.32-9.68 0 9.68 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-9.68 7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-9.68 7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-9.68 7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-9.68 7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-9.68 7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4. 68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4. 68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4. 68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9. 68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4. 68 19.32-9. 68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4. 68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4. 68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4. 68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4. 68 19.32-9. 68 0 9.68 12.02-7.34-9.68 0 9.68 4. 68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9. 68 4. 68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4. 68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4. 68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4. 68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4. 68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4. 68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4. 68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4. 68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9. 68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4. 68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4. 68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4. 68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4. 68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4. 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4. 68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4. 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4. 68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4. 68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4. 68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4. 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4. 68 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4. 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4. 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4. 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4. 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4. 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4. 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4. 19.32-9.68 0 9.68.12.02-7.34-9.68 0 9.68 4. 19.32-9.68 0 9.68.12.02-7.34-9.68 0 9.68 4. 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68.4.19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4. 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68.4.19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68.4.19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68.4. 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68. 19.32-9.68 0.9.68 12.02-7.34-9.68 0 9. 68 4.19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4. 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68.4. 19.32-9. 68 0 9.68.12.02-7.34-9.68 0 9.68 4. 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4. 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68. 4. 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9. 68.4. 19.32-9.68 0.9.68 12.02-7.34-9.68 0 9. 68.4. 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4.19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68 4. 19.32-9.68 0 9.68.12.02-7.34-9.68 0 9.68 4. 19.32-9.68 0 9.68.12.02-7.34-9.68 0 9.68 4. 19.32-9.68 0 9.68 12.02-7.34-9.68.0 9.68.4. 19.32-9.68.0 9.68 12.02-7.34-9.68 0 9.68.4. 19.32-9.68 0 9.68. 12.02-7.34-9.68.0 9.68 4.19.32-9.68.0 9.68 12.02-7.34-9.68. 0.9.68.4. 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68. 4. 19.32-9.68 0 9.68.12.02-7.34-9.68 0 9.68.4. 19.32-9.68 0 9.68.12.02-7.34-9.68 0 9.68 4. 19.32-9.68 0 9. 68.12.02-7.34-9.68.0 9.68. 4. 19.32-9.68 0 9. 68.12.02-7.34-9.68 0 9.68.4.19.32-9.68.0 9.68.12.02-7.34-9.68 0 9.68.4. 19.32-9.68.0 9.68 12.02-7.34-9.68.0 9.68. 4.19.32-9.68 0 9.68.12.02-7.34-9.68 0 9.68. 4. 19.32-9.68.0 9.68.12.02-7.34-9.68. 0 9.68.4. 19.32-9.68.0 9.68.12.02-7.34-9.68 0 9.68.4.19.32-9.68 0 9.68.12.02-7.34-9.68.0 9.68.4. 19.32-9.68 0 9.68.12.02-7.34-9.68 0 9.68.4. 19.32-9.68. 0 9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68. 0 9.68.12.02-7.34-9.68. 0 9.68.4. 19.32-9.68 0 9.68 12.02-7.34-9.68 0 9.68.4.19.32-9.68.0 9.68.12.02-7.34-9.68.0 9.68.4. 19.32-9.68. 0 9.68.12.02-7.34-9.68 0 9.68.4. 19.32-9.68.0 9.68.12.02-7.34-9.68 0 9.68.4. 19.32-9.68.0 9.68.12.02-7.34-9.68.0 9.68.4. 19.32-9.68.0 9.68.12.02-7.34-9.68 0 9.68.4. 19.32-9.68 0 9.68.12.02-7.34-9.68 0 9.68.4. 19.32-9.68.0 9.68.12.02-7.34-9.68 0 9.68.4. 19.32-9.68. 0 9.68.12.02-7.34-9.68.0 9.68.4. 19.32-9.68.0 9.68.12.02-7.34-9.68.0.9. 68. 19.32-9.68 0 9.68.12.02-7.34-9.68.0 9.68.4. 19.32-9.68 0.9.68.12.02-7.34-9.68 0 9.68.4. 19.32-9.68 0 9.68.12.02-7.34-9.68.0 9.68. 4. 19.32-9.68. 0 9.68.12.02-7.34-9.68 0 9.68.4. 19.32-9.68 0 9.68.12.02-7.34-9.68 0 9.68.4. 19.32-9.68. 0 9.68.12.02-7.34-9. 68.0 9.68.4. 19.32-9.68. 0 9.68.12.02-7.34-9.68.0 9.68.4. 19.32-9.68.0 9.68.12.02-7.34-9.68 0 9.68.4. 19.32-9.68.0 9.68.12.02-7.34-9.68.0 9.68.4. 19.32-9.68. 0 9.68.12.02-7.34-9.68.0 9.68.4. 19.32-9.68.0 9.68.12.02-7.34-9.68. 0 9.68. 4. 19.32-9.68.0 9.68.12.02-7.34-9.68.0.  9.68.4. 19.32-9.68.0 9.68.12.02-7.34-9.68 0 9.68.4. 19.32-9.68.0 9.68.12.02-7.34-9.68 0 9.68.4.19.32-9.68. 0 9.68.12.02-7.34-9.68 0 9.68.4. 19.32-9.68. 0 9.68.12.02-7.34-9.68.0 9.68.4. 19.32-9.68. 0 9.68.12.02-7.34-9.68 0 9. 68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68. 0.9. 68.4. 19. 32-9. 68.0.9.68.12.02-7.34-9.68 0.9.68.4. 19.32-9. 68.0 9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0 9.68. 4. 19.32-9.68. 0 9.68.12.02-7.34-9.68 0 9.68.4. 19.32-9. 68.0.9.68.12.02-7.34-9.68.0.9.68. 4. 19.32-9.68.0 9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0 9.68.12.02-7.34-9.68 0.9.68.4. 19.32-9.68 0 9.68.12.02-7.34-9.68 0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68 0 9.68.4. 19.32-9.68. 0.9.68 12.02-7.34-9.68 0 9.68.4. 19.32-9.68.0 9.68.12.02-7.34-9.68.0 9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68 0.9.68.4. 19.32-9.68.0 9.68.12.02-7.34-9.68 0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68 0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9. 9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68 0.9.68.4. 19.32-9.68.0 9.68.12.02-7.34-9.68.0 9.68.4. 19.32-9.68. 0.9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68 0.9.68.12.02-7.34-9.68 0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68 0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68 0.9.68.4. 19.32-9.68. 9.68.12.02-7.34-9.68.0. 9.68.4. 19.32-9.68.0.9.68. 12.02-7.34-9.68. 0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68. 0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68. 0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68. 4.19.32-9.68.0.9.68.12.02-7.34-9.68 0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68. 12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68. 0.9.68. 4. 19.32-9.68.0.9.68.12.02-7.34-9.68. 0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0. 9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9. 68.4. 19.32-9.68.0.9. 68. 12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68. 4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68. 0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68. 12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68. 12.02-7.34-9.68.0.9.68.4.19.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68. 12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68. 4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68. 12.02-7.34-9.68.0.9.68.4.19. 19.32-9.68.0.9.68. 12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68. 12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68. 12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68. 12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68. 12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68. 12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19.32-9. 68.0.9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68. 4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19.68.0.9.68.12.02-7.34-9.68. 0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9. 68.4. 19.32-9.68.0.9.68. 12.02-7.34-9.68. 0.9.68.4. 19.32-9.68.0.9.68. 12.34-9.68.0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9. 68.4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68. 9.68.4.19.32-9.68.0. 9.68.12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68. 0.9.68.4.19.32-9.68.0.9.68. 12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68. 0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68. 12.02-7.34-9.68.0.9.68. 4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68. 4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19. 19.32-9.68.0.9.68. 12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19.32-9.68. 0.9.68. 12.02-7.34-9.68.0.9.68.4.19.32-9.68. 0.9.68. 12.02-7.34-9.68.0.9.68.4. 19.32-9.68.0.9.68. 12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.68.4.19.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4. 19. 32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68. 4.19.32-9.68.0.9.68. 12.02-7.34-9.68.0.9.68. 4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68. 4.19.32-9.68.0.9.68. 12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68. 12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19. 9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19.9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19.9.68.0.9.68. 12.02-7.34-9.68.0.9.68.4.19.9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68. 12.02-7.34-9.68.0.9.68.4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68. 4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68. 4.19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68. 4.19.32-9.68.0.9.68. 12.02-7.34-9.68.0.9.68. 4. 19.32-9.68.0.9.68.12.02-7.34-9.68.0.9.68.4.19.18px; /* Small font size for readability */
 }
 
-// Load files from 'resources' folder
-async function loadResources() {
-    const listContainer = document.getElementById("resourceList");
-    const uploadSection = document.getElementById("uploadSection");
-    
-    if(!listContainer) return;
-
-    try {
-        // No token needed for public read
-        const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${resourcesFolder}`;
-        
-        const res = await fetch(url);
-        
-        if (!res.ok) throw new Error("Failed to load folder. Did you create a 'resources' folder?");
-
-        const files = await res.json();
-        
-        listContainer.innerHTML = ""; // Clear loading text
-
-        // --- 1. HANDLE UPLOAD BUTTON (Admin Only) ---
-        if (isEditor) {
-            uploadSection.style.display = "block";
-        } else {
-            uploadSection.style.display = "none"; // HIDE Upload Button
-        }
-
-        // --- 2. POPULATE DOWNLOAD LIST (Visible to Everyone) ---
-        if(files.length === 0) {
-            listContainer.innerHTML = "<div style='text-align:center;padding:10px;color:#777'>Folder is empty or not found.</div>";
-            return;
-        }
-
-        files.forEach(file => {
-            if (file.name === ".gitkeep") return;
-
-            const item = document.createElement("div");
-            item.className = "resource-item";
-
-            // Use raw.githubusercontent.com for direct download
-            const linkUrl = `https://raw.githubusercontent.com/${CONFIG.owner}/${CONFIG.repo}/main/${resourcesFolder}/${file.name}`;
-            
-            let html = `
-                <a href="${linkUrl}" class="resource-link" download="${file.name}">${file.name}</a>
-            `;
-
-            // Delete Button (Admin Only)
-            if (isEditor) {
-                html += `
-                        <button class="delete-res-btn" onclick="deleteResource('${file.name}', '${file.sha}')">×</button>
-                `;
-            }
-
-            item.innerHTML = html;
-            listContainer.appendChild(item);
-        });
-
-    } catch (error) {
-        console.error("Error loading resources:", error);
-        const listContainer = document.getElementById("resourceList");
-        if(listContainer) listContainer.innerHTML = "<div style='text-align:center;padding:10px;color:red'>Folder 'resources' folder not found in GitHub.</div>";
-    }
+/* =========================
+   SHEET FOOTER
+========================= */
+.sheet-footer {
+  margin-top: 50px;
+  text-align: center;
+  border-top: 2px solid #0f2e5a;
+  padding-top: 20px;
 }
 
-// Handle Upload (Admin Only)
-function handleFileUpload(input) {
-    const file = input.files[0];
-    if (!file) return;
-
-    const token = prompt("Enter GitHub Token to Upload:");
-    if (!token) return;
-
-    const reader = new FileReader();
-    reader.onload = async function(e) {
-        const content = e.target.result.split(',')[1]; // Base64 part
-
-        const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${resourcesFolder}/${file.name}`;
-
-        try {
-            const res = await fetch(url, {
-                method: 'PUT',
-                headers: {
-                    'Authorization': `token ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    message: `Upload ${file.name}`,
-                    content: content,
-                    branch: "main"
-                })
-            });
-
-            if (!res.ok) throw new Error("Failed to upload");
-
-            alert("File Uploaded Successfully!");
-            loadResources(); // Refresh list
-        } catch (error) {
-            console.error(error);
-            alert("Error uploading file. Check Token/Permissions.");
-        }
-    };
-    reader.readAsDataURL(file);
+.sheet-footer h4 {
+  font-size: 18px;
+  margin-bottom: 5px;
+  color: #0f2e5a; /* Matches Header Color */
 }
 
-// Handle Delete (Admin Only)
-async function deleteResource(filename, sha) {
-    if(!confirm(`Are you sure you want to delete ${filename}?`)) return;
+.sheet-footer p {
+  font-size: 13px;
+  color: #555;
+  font-weight: 500;
+  border-radius: 50px;
+}
 
-    const token = prompt("Enter GitHub Token to Delete:");
-    if (!token) return;
+.credits {
+  margin-top: 15px;
+  font-size: 12px;
+  color: #333;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  animation: blink 1s infinite steps(1, end);
+}
 
-    const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${resourcesFolder}/${filename}`;
+/* =========================
+   WELCOME SCREEN ANIMATION
+========================= */
+#welcome-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #0f2e5a;
+    z-index: 99999; /* SITS ON TOP */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: opacity: 0.8s ease-in-out;
+    opacity: 1 !important; /* FORCE VISIBLE */
+    padding-bottom: 50px; /* Adds space below title */
+}
 
-    try {
-        const res = await fetch(url, {
-            method: 'DELETE',
-            headers: {
-                'Authorization': `token ${token}`
-            }
-        });
+.welcome-logo {
+    width: 150px;
+    height: 150px;
+    animation: zoomIn 1.5s ease-out;
+}
 
-        if (!res.ok) throw new Error("Failed to delete");
+.welcome-text {
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    margin-top: 20px;
+    opacity: 0;
+    animation: slideUp 1s ease-out 0.5s forwards; /* Slides text from below logo */
+}
 
-        alert("File Deleted Successfully!");
-        loadResources(); // Refresh list
-    } catch (error) {
-        console.error("Error deleting file. Check Token/Permissions.");
-    }
+/* Animation Keyframes */
+@keyframes zoomIn {
+    0% { transform: scale(0); opacity: 0; }
+ 100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes slideUp {
+    0% { transform: translateY(20px); opacity: 0; }
+ 100% { transform: translateY(0); opacity: 1; }
 }
 
 /* =========================
@@ -593,24 +552,9 @@ window.onload = function() {
         const screen = document.getElementById("welcome-screen");
         if (screen) {
             screen.style.opacity = "0"; 
-            
-            // Remove from DOM completely after fade finishes
             setTimeout(() => {
                 screen.style.display = "none";
             }, 800); 
         }
-    }, 5000); // Wait 5 seconds before fading
+    }, 5000); 
 };
-
-/* =========================
-   CHATWAY WIDGET LOGIC
-========================= */
-function openChatWay() {
-    const script = document.createElement("script");
-    script.src = "https://cdn.chatway.app/widget.js?id=Ogb5Fio";
-    
-    // This ensures the widget loads even if internet is slow.
-    script.async = true; 
-    
-    document.body.appendChild(script);
-}
