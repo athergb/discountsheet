@@ -118,6 +118,8 @@ body {
   display: flex;
   justify-content: center;
   margin-top: 30px;
+  position: relative; /* Ensures it respects Welcome Screen z-index */
+  z-index: 10; /* Lower than Welcome Screen */
 }
 
 #sheet {
@@ -990,6 +992,7 @@ input:focus {
 .file-icon .icon-excel { fill: #1d6f42; } /* Green for Excel */
 .file-icon .icon-pdf { fill: #f40f02; } /* Red for PDF */
 .file-icon .icon-default { fill: #95a5a6; } /* Grey for others */
+
 
 
 
