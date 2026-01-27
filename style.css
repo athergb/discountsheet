@@ -28,7 +28,7 @@ body {
 }
 
 /* =========================
-   WELCOME SCREEN ANIMATION
+   WELCOME SCREEN - SIMPLIFIED
 ========================= */
 #welcome-screen {
     position: fixed;
@@ -37,29 +37,70 @@ body {
     width: 100%;
     height: 100%;
     background-color: #0f2e5a;
-    z-index: 99999;
+    z-index: 10000;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     transition: opacity 0.8s ease-in-out;
-    opacity: 1 !important; /* FORCE VISIBLE */
 }
 
-.welcome-logo {
-    width: 150px;
-    height: 150px;
-    animation: zoomIn 1.5s ease-out; /* Logo pops in */
+/* QFC MAIN LOGO (APPEARS FIRST) */
+.qfc-main-logo {
+    width: 180px;
+    height: 180px;
+    animation: zoomIn 1.2s ease-out;
+    margin-bottom: 40px;
 }
 
+/* PARTNER LOGOS CONTAINER (BELOW QFC LOGO) */
+.partner-logos-container {
+    margin-bottom: 40px;
+    width: 90%;
+    max-width: 800px;
+    opacity: 0;
+    animation: fadeIn 0.8s ease-out 1s forwards;
+}
+
+.partner-logos-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.partner-logo-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    height: 100px;
+}
+
+.partner-logo-img {
+    width: 100%;
+    height: 100%;
+    max-width: 80px;
+    max-height: 70px;
+    object-fit: contain;
+    /* Removed filter: Shows original colors immediately */
+}
+
+/* WELCOME TEXT (BELOW ALL LOGOS) */
 .welcome-text {
     color: white;
     font-family: 'Poppins', sans-serif;
     font-size: 24px;
     font-weight: 600;
-    margin-top: 20px;
-    opacity: 0; /* Start invisible */
-    animation: slideUp 1s ease-out 0.5s forwards; /* Text slides up after logo */
+    text-align: center;
+    opacity: 0;
+    animation: slideUp 1s ease-out 1.8s forwards;
+    padding: 15px 30px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 /* Animation Keyframes */
@@ -68,10 +109,93 @@ body {
     100% { transform: scale(1); opacity: 1; }
 }
 
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
 @keyframes slideUp {
     0% { transform: translateY(20px); opacity: 0; }
     100% { transform: translateY(0); opacity: 1; }
 }
+
+/* Individual partner logo animations */
+.partner-logo-item {
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+.partner-logo-item:nth-child(1) { animation: slideUpLogo 0.5s ease-out 1.3s forwards; }
+.partner-logo-item:nth-child(2) { animation: slideUpLogo 0.5s ease-out 1.4s forwards; }
+.partner-logo-item:nth-child(3) { animation: slideUpLogo 0.5s ease-out 1.5s forwards; }
+.partner-logo-item:nth-child(4) { animation: slideUpLogo 0.5s ease-out 1.6s forwards; }
+
+@keyframes slideUpLogo {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .qfc-main-logo {
+        width: 140px;
+        height: 140px;
+        margin-bottom: 30px;
+    }
+    
+    .partner-logos-container {
+        width: 90%;
+        margin-bottom: 30px;
+    }
+    
+    .partner-logos-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+    
+    .partner-logo-item {
+        height: 60px;
+        padding: 8px;
+    }
+    
+    .partner-logo-img {
+        max-width: 50px;
+        max-height: 40px;
+    }
+    
+    .welcome-text {
+        font-size: 20px;
+        padding: 12px 25px;
+    }
+}
+
+@media (max-width: 480px) {
+    .qfc-main-logo {
+        width: 120px;
+        height: 120px;
+        margin-bottom: 25px;
+    }
+    
+    .partner-logos-grid {
+        gap: 10px;
+    }
+    
+    .partner-logo-item {
+        height: 80px;
+        padding: 12px;
+    }
+    
+    .partner-logo-img {
+        max-width: 60px;
+        max-height: 50px;
+    }
+    
+    .welcome-text {
+        font-size: 18px;
+        padding: 10px 20px;
+    }
+}
+
 .header-content {
   display: flex;
   align-items: center;
@@ -873,7 +997,7 @@ input:focus {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #0f2e5a; /* Matches your Header Blue */
+    background-color: #b6e8f3; /* Matches your Header Blue */
     z-index: 10000;         /* Sits on top of everything */
     display: flex;
     flex-direction: column;
@@ -889,7 +1013,7 @@ input:focus {
 }
 
 .welcome-text {
-    color: white;
+    color: #0f2e5a;
     font-family: 'Poppins', sans-serif;
     font-size: 24px;
     font-weight: 600;
