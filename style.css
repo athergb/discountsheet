@@ -51,6 +51,7 @@ body {
     height: 180px;
     animation: zoomIn 1.2s ease-out;
     margin-bottom: 40px;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
 }
 
 /* PARTNER LOGOS CONTAINER (BELOW QFC LOGO) */
@@ -65,7 +66,7 @@ body {
 .partner-logos-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+    gap: 25px;
     justify-content: center;
     align-items: center;
 }
@@ -81,15 +82,16 @@ body {
 .partner-logo-img {
     width: 100%;
     height: 100%;
-    max-width: 80px;
-    max-height: 70px;
+    max-width: 90px;
+    max-height: 80px;
     object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
     /* Removed filter: Shows original colors immediately */
 }
 
 /* WELCOME TEXT (BELOW ALL LOGOS) */
 .welcome-text {
-    color: white;
+    color: #0f2e5a;
     font-family: 'Poppins', sans-serif;
     font-size: 24px;
     font-weight: 600;
@@ -97,10 +99,11 @@ body {
     opacity: 0;
     animation: slideUp 1s ease-out 1.8s forwards;
     padding: 15px 30px;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.7);
     border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(15, 46, 90, 0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
 }
 
 /* Animation Keyframes */
@@ -144,23 +147,23 @@ body {
     }
     
     .partner-logos-container {
-        width: 90%;
+        width: 95%;
         margin-bottom: 30px;
     }
     
     .partner-logos-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
+        gap: 20px;
     }
     
     .partner-logo-item {
-        height: 60px;
-        padding: 8px;
+        height: 90px;
+        padding: 12px;
     }
     
     .partner-logo-img {
-        max-width: 50px;
-        max-height: 40px;
+        max-width: 70px;
+        max-height: 60px;
     }
     
     .welcome-text {
@@ -177,12 +180,12 @@ body {
     }
     
     .partner-logos-grid {
-        gap: 10px;
+        gap: 15px;
     }
     
     .partner-logo-item {
         height: 80px;
-        padding: 12px;
+        padding: 10px;
     }
     
     .partner-logo-img {
