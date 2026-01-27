@@ -601,3 +601,16 @@ window.onload = function() {
         }
     }, 5000); // Wait 5 seconds before fading
 };
+
+/* =========================
+   CHATWAY WIDGET LOGIC
+========================= */
+function openChatWay() {
+    const script = document.createElement("script");
+    script.src = "https://cdn.chatway.app/widget.js?id=Ogb5Fio";
+    
+    // This ensures the widget loads even if internet is slow.
+    script.async = true; 
+    
+    document.body.appendChild(script);
+}
