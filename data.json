@@ -211,12 +211,12 @@
   {
     "category": "credit",
     "airline": "China Southern",
-    "discount": "-5.5%",
+    "discount": "-5%",
     "logo": "CZlogo.png",
     "note": "",
     "notification": "GDS Fares",
     "validity": "2026-02-28",
-    "instructions": ""
+    "instructions": "Discount is applicable on EX-Pakistan only, no discount on SOTO Tickets"
   },
   {
     "category": "credit",
