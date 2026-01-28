@@ -211,7 +211,7 @@
   {
     "category": "credit",
     "airline": "China Southern",
-    "discount": "-5%",
+    "discount": "-5.5%",
     "logo": "CZlogo.png",
     "note": "",
     "notification": "GDS Fares",
