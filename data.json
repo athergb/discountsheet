@@ -467,5 +467,15 @@
     "notification": "GDS Fares",
     "validity": "2026-02-28",
     "instructions": ""
+  },
+  {
+    "category": "cash",
+    "airline": "Air Asia",
+    "discount": "PKR 500",
+    "logo": "AAlogo.png",
+    "note": "",
+    "notification": "Per Pax PSF",
+    "validity": "2026-02-28",
+    "instructions": ""
   }
 ]
