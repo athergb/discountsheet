@@ -93,27 +93,37 @@
 </div>
   
 <!-- ===== SHEET WRAPPER ===== -->
+<!-- ===== SHEET WRAPPER ===== -->
 <div id="sheet-wrapper">
   <div id="sheet">
 
-    <!-- TOP ROW -->
+    <!-- TOP ROW - REORGANIZED -->
     <div class="sheet-top-row">
+      <!-- LEFT: LOGO -->
       <div class="sheet-logo">
         <img src="QFClogo.png">
-        <button class="calc-btn" onclick="openCalculator()">
-        <div class="screen">Discount Calculator</div>
-      </button>
       </div>
-    
-        <div class="gds-logos">
+      
+      <!-- MIDDLE: GDS LOGOS -->
+      <div class="gds-logos">
         <div class="logo-box"><img src="1A.png"></div>
         <div class="logo-box"><img src="1G.png"></div>
         <div class="logo-box"><img src="1S.png"></div>
+      </div>
+      
+      <!-- RIGHT: TOOLS BUTTONS -->
+      <div class="tools-container">
+        <!-- CALCULATOR BUTTON -->
+        <button class="tool-btn calculator-btn" onclick="openCalculator()">
+          <span class="tool-icon">🧮</span>
+          <span class="tool-text">Discount Calculator</span>
+        </button>
         
-        <!-- DOCUMENTS DROPDOWN CONTAINER -->
+        <!-- DOCUMENTS DROPDOWN -->
         <div class="documents-dropdown">
-            <button class="dropdown-btn" onclick="toggleDropdown()">
-                📁 Documents
+            <button class="tool-btn dropdown-btn" onclick="toggleDropdown()">
+                <span class="tool-icon">📁</span>
+                <span class="tool-text">Documents</span>
                 <span class="dropdown-arrow">▼</span>
             </button>
             <div class="dropdown-content" id="documentsDropdown">
@@ -289,7 +299,6 @@ s0.parentNode.insertBefore(s1,s0);
 <!--End of Tawk.to Script-->  
 </body>
 </html>
-
 
 
 
