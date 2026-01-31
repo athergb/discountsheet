@@ -1,1630 +1,304 @@
-/* =========================
-   GLOBAL RESET & FONTS
-========================= */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>QFC Airline Discount Sheet</title>
+<link rel="icon" type="image/png" href="QFClogo.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css?v=8">
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
 
-body {
-  font-family: 'Poppins', sans-serif;
-  background-color: #f0f2f5;
-  color: #333;
-  padding-bottom: 50px;
-}
-
-/* =========================
-   HEADER
-========================= */
-.top-header {
-  background-color: #0f2e5a;
-  color: white;
-  padding: 15px 30px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
-
-/* =========================
-   WELCOME SCREEN - SIMPLIFIED
-========================= */
-#welcome-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #0f2e5a;
-    z-index: 10000;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    transition: opacity 0.8s ease-in-out;
-}
-
-/* QFC MAIN LOGO (APPEARS FIRST) */
-.qfc-main-logo {
-    width: 180px;
-    height: 180px;
-    animation: zoomIn 1.2s ease-out;
-    margin-bottom: 40px;
-    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
-}
-
-/* PARTNER LOGOS CONTAINER (BELOW QFC LOGO) */
-.partner-logos-container {
-    margin-bottom: 40px;
-    width: 90%;
-    max-width: 800px;
-    opacity: 0;
-    animation: fadeIn 0.8s ease-out 1s forwards;
-}
-
-.partner-logos-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 25px;
-    justify-content: center;
-    align-items: center;
-}
-
-.partner-logo-item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 15px;
-    height: 100px;
-}
-
-.partner-logo-img {
-    width: 100%;
-    height: 100%;
-    max-width: 90px;
-    max-height: 80px;
-    object-fit: contain;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
-    /* Removed filter: Shows original colors immediately */
-}
-
-/* WELCOME TEXT (BELOW ALL LOGOS) */
-.welcome-text {
-    color: #0f2e5a;
-    font-family: 'Poppins', sans-serif;
-    font-size: 24px;
-    font-weight: 600;
-    text-align: center;
-    opacity: 0;
-    animation: slideUp 1s ease-out 1.8s forwards;
-    padding: 15px 30px;
-    background: rgba(255, 255, 255, 0.7);
-    border-radius: 10px;
-    border: 1px solid rgba(15, 46, 90, 0.2);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(5px);
-}
-
-/* Animation Keyframes */
-@keyframes zoomIn {
-    0% { transform: scale(0); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
-}
-
-@keyframes fadeIn {
-    0% { opacity: 0; transform: translateY(10px); }
-    100% { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes slideUp {
-    0% { transform: translateY(20px); opacity: 0; }
-    100% { transform: translateY(0); opacity: 1; }
-}
-
-/* Individual partner logo animations */
-.partner-logo-item {
-    opacity: 0;
-    transform: translateY(10px);
-}
-
-.partner-logo-item:nth-child(1) { animation: slideUpLogo 0.5s ease-out 1.3s forwards; }
-.partner-logo-item:nth-child(2) { animation: slideUpLogo 0.5s ease-out 1.4s forwards; }
-.partner-logo-item:nth-child(3) { animation: slideUpLogo 0.5s ease-out 1.5s forwards; }
-.partner-logo-item:nth-child(4) { animation: slideUpLogo 0.5s ease-out 1.6s forwards; }
-
-@keyframes slideUpLogo {
-    0% { opacity: 0; transform: translateY(10px); }
-    100% { opacity: 1; transform: translateY(0); }
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .qfc-main-logo {
-        width: 140px;
-        height: 140px;
-        margin-bottom: 30px;
-    }
+<body>
+<!-- ===== BACKGROUND VIDEO ===== -->
+<video autoplay muted loop playsinline id="bg-video">
+  <source src="background.mp4" type="video/mp4">
+</video>
     
-    /* ===== GLASS EMBOSSED PARTNER LOGOS (STATIC) ===== */
-.partner-logos-container {
-    margin: 40px 0;
-    padding: 25px;
-    background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%);
-    border-radius: 25px;
-    backdrop-filter: blur(15px);
-    border: 1px solid rgba(255,255,255,0.15);
-    box-shadow: 
-        inset 0 4px 20px rgba(255,255,255,0.2),
-        inset 0 -4px 20px rgba(0,0,0,0.1),
-        0 15px 40px rgba(0,0,0,0.25);
-}
+<!-- ===== WELCOME OVERLAY ===== -->
+<div id="welcome-screen">
+    <!-- QFC LOGO (FIRST) -->
+    <img src="QFClogo.png" class="qfc-main-logo">
+    
+    <!-- PARTNER LOGOS BELOW QFC LOGO -->
+    <div class="partner-logos-container">
+        <div class="partner-logos-grid">
+            <!-- Partner Logo 1: QBlogo.png -->
+            <div class="partner-logo-item">
+                <img src="QBlogo.png" alt="QB Logo" class="partner-logo-img">
+            </div>
+            
+            <!-- Partner Logo 2: FClogo.png -->
+            <div class="partner-logo-item">
+                <img src="FClogo.png" alt="FC Logo" class="partner-logo-img">
+            </div>
+            
+            <!-- Partner Logo 3: TDlogo.jpeg -->
+            <div class="partner-logo-item">
+                <img src="TDlogo.jpeg" alt="TD Logo" class="partner-logo-img">
+            </div>
+            
+            <!-- Partner Logo 4: TPlogo.png -->
+            <div class="partner-logo-item">
+                <img src="TPlogo.png" alt="TP Logo" class="partner-logo-img">
+            </div>
+        </div>
+    </div>
+    
+    <!-- WELCOME TEXT (BELOW ALL LOGOS) -->
+    <div class="welcome-text">Welcome to QFC Group Pvt Ltd</div>
+</div>
 
-.partner-logos-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 35px;
-    max-width: 500px;
-    margin: 0 auto;
-}
+<!-- ===== TOP HEADER ===== -->
+<header class="top-header">
+  <div class="header-content">
+    <img src="QFClogo.png" class="main-logo">
+    <div class="header-text">
+      <h1>QFC Group Pvt Ltd</h1>
+      <p>Discount Sheet Structure</p>
+    </div>
+  </div>
+  <div class="header-controls">
+      <button id="loginBtn" onclick="showLoginModal()">Admin Login</button>
+      <button id="logoutBtn" onclick="logout()" style="display:none;">Logout</button>
+      <button id="addBtn" onclick="showAddModal()" style="display:none;">+ Add Airline</button>
+     </div>
+</header>
 
-.partner-logo-item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    
-    /* Glass embossed background */
-    background: linear-gradient(145deg, 
-        rgba(255, 255, 255, 0.25) 0%,
-        rgba(255, 255, 255, 0.15) 50%,
-        rgba(255, 255, 255, 0.05) 100%);
-    
-    padding: 30px;
-    border-radius: 18px;
-    position: relative;
-    overflow: hidden;
-    
-    /* Static glass embossed effect */
-    box-shadow: 
-        /* Outer glow */
-        0 0 0 1px rgba(255, 255, 255, 0.2),
+<!-- ===== RUNNING TEXT MARQUEE ===== -->
+<div class="marquee-bar">
+    <div class="marquee-container" id="marqueeContainer">
+        <div class="marquee-text" id="marqueeText">
+            <span>✨ <span class="highlight">SPECIAL OFFER:</span> Get additional discount up to PKR 1600 per ticket</span>
+            <span>📅 <span class="highlight">VALIDITY:</span> All offers valid until further notice</span>
+            <span>📞 <span class="highlight">CONTACT:</span> For bookings call +92-308-8296519</span>
+            <span>⚡ <span class="highlight">SAME DAY CASH:</span> Instant discount on spot payment</span>
+            <span>💳 <span class="highlight">CREDIT OPTIONS:</span> Flexible payment plans available</span>
+            <span>📢 <span class="highlight">NEW:</span> Additional PSF calculator tool available</span>
+            <span>📄 <span class="highlight">DOCUMENTS:</span> Check documents section for latest policies</span>
+            <span>🔄 <span class="highlight">REISSUE/REFUND/VOID:</span> Service charges apply PKR 500/-</span>
+            
+            <!-- Repeat for seamless loop -->
+            <span>✨ <span class="highlight">SPECIAL OFFER:</span> Get additional discount up to PKR 1600 per ticket</span>
+            <span>📅 <span class="highlight">VALIDITY:</span> All offers valid until further notice</span>
+            <span>📞 <span class="highlight">CONTACT:</span> For bookings call +92-308-8296519</span>
+            <span>⚡ <span class="highlight">SAME DAY CASH:</span> Instant discount on spot payment</span>
+            <span>💳 <span class="highlight">CREDIT OPTIONS:</span> Flexible payment plans available</span>
+            <span>📢 <span class="highlight">NEW:</span> Additional PSF calculator tool available</span>
+            <span>📄 <span class="highlight">DOCUMENTS:</span> Check documents section for latest policies</span>
+            <span>🔄 <span class="highlight">REISSUE/REFUND/VOID:</span> Service charges apply PKR 500/-</span>
+        </div>
+    </div>
+</div>
+  
+<!-- ===== SHEET WRAPPER ===== -->
+<!-- ===== SHEET WRAPPER ===== -->
+<div id="sheet-wrapper">
+  <div id="sheet">
+
+    <!-- TOP ROW - REORGANIZED -->
+    <div class="sheet-top-row">
+      <!-- LEFT: LOGO -->
+      <div class="sheet-logo">
+        <img src="QFClogo.png">
+      </div>
+      
+      <!-- MIDDLE: GDS LOGOS -->
+      <div class="gds-logos">
+        <div class="logo-box"><img src="1A.png"></div>
+        <div class="logo-box"><img src="1G.png"></div>
+        <div class="logo-box"><img src="1S.png"></div>
+      </div>
+      
+      <!-- RIGHT: TOOLS BUTTONS -->
+      <div class="tools-container">
+        <!-- CALCULATOR BUTTON -->
+        <button class="tool-btn calculator-btn" onclick="openCalculator()">
+          <span class="tool-icon">🧮</span>
+          <span class="tool-text">Discount Calculator</span>
+        </button>
         
-        /* Top-left light */
-        -10px -10px 25px rgba(255, 255, 255, 0.5),
+        <!-- DOCUMENTS DROPDOWN -->
+        <div class="documents-dropdown">
+            <button class="tool-btn dropdown-btn" onclick="toggleDropdown()">
+                <span class="tool-icon">📁</span>
+                <span class="tool-text">Documents</span>
+                <span class="dropdown-arrow">▼</span>
+            </button>
+            <div class="dropdown-content" id="documentsDropdown">
+                <div class="drop-content" id="resourceList">
+                    <!-- Javascript will populate this list -->
+                    <div class="loading-text">Loading files...</div>
+                </div>
+
+                <!-- ADMIN ONLY: UPLOAD SECTION -->
+                <div id="uploadSection" style="display:none; border-top:1px solid #ddd; padding-top:10px;">
+                    <button class="upload-trigger-btn" onclick="document.getElementById('fileToUpload').click()">
+                        + Upload New File
+                    </button>
+                    <input type="file" id="fileToUpload" hidden onchange="handleFileUpload(this)">
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OFFER TEXT -->
+    <div class="gds-offer-text">
+      Get Additional Discount upto <strong>PKR 1600/-</strong> per ticket
+    </div>
+    
+    <div class="service-text1">
+      Reissue/Re-Validation <strong>PKR 500/-</strong> Refund Charges <strong>PKR 500/-</strong> Void Charges <strong>PKR 500/-</strong> 
+    </div>
+    
+    <div class="service-text">
+    For more Discount details move the cursor on the Airline Box
+    </div>
+      
+    <h3>SAME DAY CASH</h3>
+    <div class="grid" id="cashGrid"></div>
+
+    <h3>CREDIT AIRLINE</h3>
+    <div class="grid" id="creditGrid"></div>
+
+    <!-- SHEET FOOTER -->
+    <div class="sheet-footer">
+      <h4>QFC GROUP PVT LTD</h4>
+      <p>RIZWAN PLAZA, MAIN JINNAH AVENUE, BLUE AREA, ISLAMABAD</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ACTIONS -->
+<div class="bottom-actions">
+  <button onclick="saveAsJPG()">📸 Download JPG (A4)</button>
+  <button onclick="saveForWhatsApp()">📱 Download JPG (WhatsApp)</button>
+  <div class="credits">© 2026 Powered by AA Technologies. All Rights Reserved.</div>
+</div>
+
+<!-- ===== LOGIN MODAL ===== -->
+<div id="loginModal" class="modal">
+  <div class="modal-content">
+    <h2>Admin Access</h2>
+    <p style="font-size: 12px; color: #666; margin-bottom: 15px;">Restricted area</p>
+    <input type="password" id="adminPassword" placeholder="Enter Password">
+    <div class="modal-buttons">
+      <button class="btn-primary" onclick="checkPassword()">Login</button>
+      <button class="btn-secondary" onclick="closeModals()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ADD/EDIT MODAL ===== -->
+<div id="formModal" class="modal">
+  <div class="modal-content wide">
+    <h2 id="modalTitle">Manage Airline</h2>
+    <input type="hidden" id="editIndex">
+    
+    <div class="form-row">
+      <select id="inpCategory">
+          <option value="cash">Same Day Cash</option>
+          <option value="credit">Credit Airline</option>
+      </select>
+      <input type="text" id="inpAirline" placeholder="Airline Name (e.g., Emirates)">
+    </div>
+    
+    <div class="form-row">
+      <input type="text" id="inpDiscount" placeholder="Discount Text (e.g. PKR 500)">
+      <input type="text" id="inpLogo" placeholder="Logo Filename (e.g. 1A.png)">
+    </div>
+
+    <input type="text" id="inpNote" placeholder="Note (Optional)">
+    <input type="text" id="inpNotice" placeholder="Notification Alert (Optional)">
+    <input type="text" id="inpInstructions" placeholder="Instructions (Hover Text)">
+    <label style="display:block; margin-top:10px; font-size: 14px; font-weight:600;">Validity Date</label>
+    <input type="date" id="inpValidity">
+
+    <div class="modal-buttons">
+      <button class="btn-primary" onclick="saveData()">Save Changes</button>
+      <button class="btn-secondary" onclick="closeModals()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PRICE CALCULATOR MODAL ===== -->
+<div id="calcModal" class="modal">
+  <div class="modal-content wide">
+    <h2>Discount / PSF Calculator</h2>
+    
+    <label>Select Airline</label>
+    <select id="calcAirline" onchange="calculatePSF()">
+        <option value="">-- Select Airline --</option>
+    </select>
+
+    <div class="form-row">
+        <div>
+            <label>Adult Basic Fare (PKR)</label>
+            <input type="number" id="calcBasic" placeholder="0" oninput="calculatePSF()">
+        </div>
+        <div>
+            <label>Taxes (PKR)</label>
+            <input type="number" id="calcTax" placeholder="0" oninput="calculatePSF()">
+        </div>
+    </div>
+
+    <!-- ALL 3 FARES DISPLAYED AT ONCE -->
+    <div class="calc-results">
         
-        /* Bottom-right shadow */
-        10px 10px 25px rgba(0, 0, 0, 0.2),
-        
-        /* Inner embossed (raised) effect */
-        inset 3px 3px 8px rgba(0, 0, 0, 0.1),
-        inset -3px -3px 8px rgba(255, 255, 255, 0.4);
-    
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    
-    /* Glass blur effect */
-    backdrop-filter: blur(25px);
-    
-    /* No transitions - static look */
-    transition: none !important;
-}
-
-/* Glass shine/gloss overlay */
-.partner-logo-item::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 45%;
-    background: linear-gradient(180deg, 
-        rgba(255, 255, 255, 0.3) 0%, 
-        rgba(255, 255, 255, 0.15) 50%,
-        rgba(255, 255, 255, 0) 100%);
-    border-radius: 18px 18px 60% 60%;
-    z-index: 1;
-    pointer-events: none;
-}
-
-/* Subtle background pattern */
-.partner-logo-item::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 2px, transparent 2px),
-        radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 1px, transparent 1px);
-    background-size: 30px 30px;
-    border-radius: 18px;
-    z-index: 0;
-    opacity: 0.5;
-}
-
-.partner-logo-img {
-    max-width: 130px;
-    max-height: 75px;
-    object-fit: contain;
-    
-    /* Frosted glass effect on logos */
-    filter: 
-        drop-shadow(0 2px 4px rgba(0,0,0,0.3))
-        brightness(1.05)
-        contrast(1.1);
-    
-    position: relative;
-    z-index: 2;
-    
-    /* Subtle emboss on logo itself */
-    text-shadow: 
-        0 1px 0 rgba(255,255,255,0.3),
-        0 -1px 0 rgba(0,0,0,0.1);
-    
-    /* Static - no transitions */
-    transition: none !important;
-    transform: none !important;
-}
-
-/* Optional: Different glass colors for each logo */
-.partner-logo-item:nth-child(1) {
-    /* Blue tint glass */
-    background: linear-gradient(145deg, 
-        rgba(173, 216, 230, 0.25) 0%,
-        rgba(173, 216, 230, 0.15) 50%,
-        rgba(173, 216, 230, 0.05) 100%);
-    
-    box-shadow: 
-        0 0 0 1px rgba(173, 216, 230, 0.3),
-        -10px -10px 25px rgba(173, 216, 230, 0.4),
-        10px 10px 25px rgba(0, 0, 0, 0.25),
-        inset 3px 3px 8px rgba(0, 0, 0, 0.12),
-        inset -3px -3px 8px rgba(173, 216, 230, 0.35);
-}
-
-.partner-logo-item:nth-child(2) {
-    /* Green tint glass */
-    background: linear-gradient(145deg, 
-        rgba(144, 238, 144, 0.25) 0%,
-        rgba(144, 238, 144, 0.15) 50%,
-        rgba(144, 238, 144, 0.05) 100%);
-    
-    box-shadow: 
-        0 0 0 1px rgba(144, 238, 144, 0.3),
-        -10px -10px 25px rgba(144, 238, 144, 0.4),
-        10px 10px 25px rgba(0, 0, 0, 0.25),
-        inset 3px 3px 8px rgba(0, 0, 0, 0.12),
-        inset -3px -3px 8px rgba(144, 238, 144, 0.35);
-}
-
-.partner-logo-item:nth-child(3) {
-    /* Gold tint glass */
-    background: linear-gradient(145deg, 
-        rgba(255, 215, 0, 0.15) 0%,
-        rgba(255, 215, 0, 0.08) 50%,
-        rgba(255, 215, 0, 0.02) 100%);
-    
-    box-shadow: 
-        0 0 0 1px rgba(255, 215, 0, 0.25),
-        -10px -10px 25px rgba(255, 215, 0, 0.3),
-        10px 10px 25px rgba(0, 0, 0, 0.25),
-        inset 3px 3px 8px rgba(0, 0, 0, 0.12),
-        inset -3px -3px 8px rgba(255, 215, 0, 0.3);
-}
-
-.partner-logo-item:nth-child(4) {
-    /* Purple tint glass */
-    background: linear-gradient(145deg, 
-        rgba(147, 112, 219, 0.25) 0%,
-        rgba(147, 112, 219, 0.15) 50%,
-        rgba(147, 112, 219, 0.05) 100%);
-    
-    box-shadow: 
-        0 0 0 1px rgba(147, 112, 219, 0.3),
-        -10px -10px 25px rgba(147, 112, 219, 0.4),
-        10px 10px 25px rgba(0, 0, 0, 0.25),
-        inset 3px 3px 8px rgba(0, 0, 0, 0.12),
-        inset -3px -3px 8px rgba(147, 112, 219, 0.35);
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .partner-logos-container {
-        padding: 20px;
-        margin: 30px 15px;
-        border-radius: 20px;
-    }
-    
-    .partner-logos-grid {
-        grid-template-columns: 1fr;
-        gap: 25px;
-        max-width: 350px;
-    }
-    
-    .partner-logo-item {
-        padding: 25px;
-        border-radius: 16px;
-    }
-    
-    .partner-logo-img {
-        max-width: 110px;
-        max-height: 65px;
-    }
-    
-    .partner-logo-item::before {
-        border-radius: 16px 16px 60% 60%;
-    }
-}
-
-@media (max-width: 480px) {
-    .partner-logos-container {
-        padding: 15px;
-        margin: 20px 10px;
-        border-radius: 18px;
-    }
-    
-    .partner-logos-grid {
-        gap: 20px;
-    }
-    
-    .partner-logo-item {
-        padding: 20px;
-        border-radius: 14px;
-    }
-    
-    .partner-logo-img {
-        max-width: 90px;
-        max-height: 55px;
-    }
-    
-    .partner-logo-item::before {
-        border-radius: 14px 14px 60% 60%;
-    }
-}
-
-/* Optional: Add a subtle floating animation (still static look) */
-@keyframes subtleFloat {
-    0%, 100% {
-        transform: translateY(0);
-        box-shadow: 
-            0 0 0 1px rgba(255, 255, 255, 0.2),
-            -10px -10px 25px rgba(255, 255, 255, 0.5),
-            10px 10px 25px rgba(0, 0, 0, 0.2),
-            inset 3px 3px 8px rgba(0, 0, 0, 0.1),
-            inset -3px -3px 8px rgba(255, 255, 255, 0.4);
-    }
-    50% {
-        transform: translateY(-3px);
-        box-shadow: 
-            0 0 0 1px rgba(255, 255, 255, 0.25),
-            -12px -12px 28px rgba(255, 255, 255, 0.55),
-            12px 12px 28px rgba(0, 0, 0, 0.25),
-            inset 3px 3px 8px rgba(0, 0, 0, 0.1),
-            inset -3px -3px 8px rgba(255, 255, 255, 0.45);
-    }
-}
-
-/* Uncomment to add subtle floating animation (still looks static but with movement) */
-/*
-.partner-logo-item {
-    animation: subtleFloat 6s ease-in-out infinite;
-}
-
-.partner-logo-item:nth-child(1) { animation-delay: 0s; }
-.partner-logo-item:nth-child(2) { animation-delay: 1.5s; }
-.partner-logo-item:nth-child(3) { animation-delay: 3s; }
-.partner-logo-item:nth-child(4) { animation-delay: 4.5s; }
-*/
-    
-    .welcome-text {
-        font-size: 18px;
-        padding: 10px 20px;
-    }
-}
-
-.header-content {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.main-logo {
-  height: 60px;
-}
-
-.header-text h1 {
-  font-size: 24px;
-  font-weight: 600;
-  line-height: 1.2;
-}
-
-.header-text p {
-  font-size: 14px;
-  opacity: 0.8;
-  font-weight: 300;
-}
-
-.header-controls button {
-  padding: 8px 16px;
-  margin-left: 10px;
-  border: none;
-  border-radius: 6px;
-  font-family: 'Poppins', sans-serif;
-  cursor: pointer;
-  font-weight: 500;
-  transition: all 0.2s;
-}
-
-#loginBtn { background: rgba(255,255,255,0.2); color: white; border: 1px solid white;}
-#loginBtn:hover { background: white; color: #0f2e5a; }
-
-#logoutBtn { background: #e74c3c; color: white; }
-#addBtn { background: #27ae60; color: white; }
-
-/* =========================
-   SHEET & LAYOUT
-========================= */
-#sheet-wrapper {
-  display: flex;
-  justify-content: center;
-  margin-top: 30px;
-  position: relative; /* Ensures it respects Welcome Screen z-index */
-  z-index: 10; /* Lower than Welcome Screen */
-}
-
-#sheet {
-  width: 1100px; /* Fixed Width */
-  background: #ffffff;
-  padding: 40px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-  border-radius: 8px;
-}
-
-.sheet-top-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  border-bottom: 2px solid #eee;
-  padding-bottom: 20px;
-}
-
-.sheet-logo img {
-  height: 100px;
-}
-
-/* =========================
-   GDS LOGOS
-========================= */
-.gds-logos {
-  display: flex;
-  gap: 20px;
-  align-items: center;
-}
-
-.logo-box {
-  width: 100px;
-  height: 70px;
-  background: #f9f9f9;
-  border-radius: 8px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  border: 1px solid #eee;
-}
-
-.logo-box img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-}
-
-/* =========================
-   DOCUMENTS DROPDOWN
-========================= */
-.documents-dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.dropdown-btn {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    min-width: 140px;
-}
-
-.dropdown-btn:hover {
-  background-color: #0b2d6b;
-}
-
-.dropdown-arrow {
-  margin-left: 10px;
-  font-size: 5px;
-  transition: transform 0.3s;
-}
-
-.dropdown-btn.active .dropdown-arrow {
-  transform: rotate(180deg);
-}
-
-/* DROPDOWN CONTENT */
-.dropdown-content {
-    display: none;
-    position: absolute;
-    right: 0;
-    top: 100%;
-    background-color: white;
-    min-width: 250px;
-    max-height: 400px;
-    overflow-y: auto;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-    border-radius: 8px;
-    z-index: 1000;
-    margin-top: 5px;
-}
-
-.dropdown-content.show {
- display: block;
- animation: fadeIn 0.3s ease;
-}
-
-.dropdown-content .drop-content {
-    padding: 15px;
-}
-
-/* Resource items in dropdown */
-.drop-content {
-  padding: 10px;
-}
-
-.resource-item {
-  display: flex;
-  align-items: center;
-  padding: 8px 12px;
-  border-bottom: 1px solid #f0f0f0;
-  font-size: 13px;
-  background: #f9f9f9;
-  margin-bottom: 5px;
-  border-radius: 4px;
-  transition: background 0.2s;
-}
-
-.resource-item:hover {
-  background-color: #f0f0f0;
-}
-
-.resource-item:last-child {
-  border-bottom: none;
-}
-
-.resource-link {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  color: #333;
-  flex-grow: 1;
-  width: 100%;
-}
-
-.resource-link:hover {
-  color: #0f2e5a;
-}
-
-.file-icon {
-  width: 20px;
-  height: 20px;
-  margin-right: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-}
-
-.file-name {
-  flex-grow: 1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.delete-res-btn {
-  background: #e74c3c;
-  color: white;
-  border: none;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  margin-left: 10px;
-  flex-shrink: 0;
-}
-
-.upload-trigger-btn {
-  background-color: #0f2e5a;
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 4px;
-  font-size: 13px;
-  cursor: pointer;
-  width: 100%;
-  text-align: center;
-  margin-top: 10px;
-}
-
-.upload-trigger-btn:hover {
-  background-color: #0b2d6b;
-}
-
-.loading-text {
-  text-align: center;
-  font-style: italic;
-  color: #999;
-  padding: 15px;
-}
-
-/* =========================
-   TEXT STYLES
-========================= */
-.gds-offer-text {
-  margin: 20px auto;
-  padding: 12px 25px;
-  background: #fff9c4;
-  color: #333;
-  font-size: 20px;
-  font-weight: 600;
-  border-radius: 50px;
-  text-align: center;
-  border: 1px solid #fbc02d;
-}
-
-.service-text1 {
-  margin: 10px auto;
-  padding: 3px 20px;
-  color: #333;
-  font-size: 16px;
-  font-weight: 600;
-  text-align: center;
-}
-
-h3 {
-  margin-top: 30px;
-  margin-bottom: 15px;
-  color: #0f2e5a;
-  text-transform: uppercase;
-  font-size: 16px;
-  letter-spacing: 1px;
-  border-left: 5px solid #0f2e5a;
-  padding-left: 10px;
-}
-
-/* =========================
-   GRID (CHANGED TO 5 COLUMNS)
-========================= */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr); /* 5 Columns */
-  gap: 10px; /* Tighter gap to fit more */
-  margin-bottom: 30px;
-}
-
-/* =========================
-   CARDS (COMPACT SIZING)
-========================= */
-.card {
-  background: #fff;
-  border: 1px solid #e0e0e0;
-  border-radius: 6px; /* Slightly smaller radius */
-  padding: 10px;       /* Reduced padding */
-  text-align: center;
-  position: relative;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-  transition: transform 0.2s;
-  min-height: 180px; /* Ensures consistent height for buttons */
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-.card img {
-  height: 40px;       /* Consistent height */
-  width: auto;        /* Auto width prevents stretching */
-  object-fit: contain; /* Ensures the whole logo fits inside */
-  display: block;      /* Removes extra space below image */
-  margin: 0 auto 8px auto; /* Centers the logo horizontally and adds space below */
-}
-
-.discount {
-  position: absolute;
-  top: -8px;       /* Moved up slightly to make room for bigger text */
-  right: -5px;
-  transform: none;
-  background: #ffeb3b;
-  color: #333;
-  padding: 4px 10px;
-  font-weight: bold;
-  font-size: 16px; /* INCREASED FROM 10px TO 16px */
-  border-radius: 15px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  z-index: 10;      /* Ensures it sits on top of the logo */
-}
-
-/* Old .notice style is replaced by .alert-box */
-.alert-box {
-  background: #ff9800;
-  color: white;
-  font-size: 10px;
-  padding: 4px 5px;
-  border-radius: 4px;
-  margin: 4px auto; /* Centers it and adds space */
-  text-align: center;
-  display: block; /* Forces it to its own line */
-  width: 90%;     /* Limits width so it doesn't touch edges */
-}
-
-.note-text {
-    min-height: 24px; /* Ensures height for alignment */
-    margin-bottom: 0;
-}
-
-.validity {
-  font-size: 10px;
-  color: #777;
-  margin-top: 5px;
-  margin-bottom: 5px;
-}
-
-.expired {
-  color: #e74c3c;
-  font-weight: bold;
-}
-
-/* Text adjustments for 5 columns */
-.card p {
-  margin-bottom: 4px;
-  line-height: 1.2;
-  font-size: 11px; /* Smaller text */
-  min-height: auto;
-}
-
-.card p b {
-  display: block;
-  font-size: 18px;
-  margin-bottom: 2px;
-}
-
-/* =========================
-   BUTTON ACTIONS
-========================= */
-.actions {
-  position: absolute !important;
-  bottom: 8px !important;
-  left: 0 !important;
-  width: 100% !important;
-  display: flex;
-  justify-content: space-between;
-  padding: 0 5px !important; /* Tight padding */
-  box-sizing: border-box;
-  z-index: 100;
-}
-
-.edit-btn {
-  background-color: #3498db;
-  color: white;
-  border: none;
-  padding: 2px 5px;
-  border-radius: 3px;
-  font-size: 10px;
-  cursor: pointer;
-}
-
-.delete-btn {
-  background-color: #e74c3c;
-  color: white;
-  border: none;
-  padding: 2px 5px;
-  border-radius: 3px;
-  font-size: 10px;
-  cursor: pointer;
-}
-
-.edit-btn:hover, .delete-btn:hover {
-  opacity: 0.8;
-}
-
-/* =========================
-   MODALS
-========================= */
-.modal {
-  display: none; 
-  position: fixed; 
-  z-index: 1000; 
-  left: 0;
-  top: 0;
-  width: 100%; 
-  height: 100%; 
-  background-color: rgba(0,0,0,0.5); 
-  backdrop-filter: blur(2px);
-}
-
-.modal-content {
-  background-color: #fff;
-  margin: 8% auto; 
-  padding: 30px;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 400px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-}
-
-.modal-content.wide {
-    max-width: 500px;
-}
-
-.modal-content h2 {
-    margin-bottom: 15px;
-    color: #0f2e5a;
-    font-size: 20px;
-}
-
-/* Inputs */
-input, select {
-  width: 100%;
-  padding: 12px;
-  margin: 8px 0;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  font-family: 'Poppins', sans-serif;
-  font-size: 14px;
-}
-
-.form-row {
-    display: flex;
-    gap: 10px;
-}
-.form-row input, .form-row select {
-    flex: 1;
-}
-
-input:focus {
-  border-color: #0f2e5a;
-  outline: none;
-}
-
-/* Buttons in Modal */
-.modal-buttons {
-  margin-top: 20px;
-  text-align: right;
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-}
-
-.btn-primary {
-  background-color: #0f2e5a;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.btn-secondary {
-  background-color: #ecf0f1;
-  color: #333;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-/* =========================
-   BOTTOM ACTIONS
-========================= */
-.bottom-actions {
-  text-align: center;
-  margin-top: 30px;
-}
-
-.bottom-actions button {
-  background-color: #333;
-  color: white;
-  border: none;
-  padding: 12px 25px;
-  margin: 0 10px;
-  border-radius: 30px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background 0.3s;
-}
-
-.bottom-actions button:hover {
-  background-color: #555;
-}
-
-/* =========================
-   PRINT SETTINGS
-========================= */
-@media print {
-  .top-header, .bottom-actions, .header-controls, #loginModal, #formModal {
-    display: none !important;
-  }
-  #sheet {
-    box-shadow: none;
-    margin: 0;
-    width: 100%;
-  }
-}
-
-/* =========================
-   FORCE 5 COLUMNS OVERRIDE
-========================= */
-.grid {
-  grid-template-columns: repeat(5, 1fr) !important;
-}
-
-/* =========================
-   SHEET FOOTER
-========================= */
-.sheet-footer {
-  margin-top: 50px;
-  text-align: center;
-  border-top: 2px solid #0f2e5a; /* Matches Header Color */
-  padding-top: 20px;
-}
-
-.sheet-footer h4 {
-  font-size: 18px;
-  margin-bottom: 5px;
-  color: #0f2e5a;
-  text-transform: uppercase;
-}
-
-.sheet-footer p {
-  font-size: 13px;
-  color: #555;
-  font-weight: 500;
-}
-
-/* =========================
-   HOVER TOOLTIP (INSTRUCTIONS)
-========================= */
-/* The Tooltip Box */
-.card[data-note]:hover::after {
-    content: attr(data-note); /* Reads the text from the data-note attribute */
-    position: absolute;
-    bottom: 100%; /* Shows the box ABOVE the card */
-    left: 50%;
-    transform: translateX(-50%) translateY(-10px);
-    background-color: #333;
-    color: #fff;
-    padding: 8px 12px;
-    border-radius: 6px;
-    font-size: 12px;
-    width: 180px; /* Fixed width for readability */
-    text-align: center;
-    z-index: 1000;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    pointer-events: none; /* Allows mouse to pass through */
-    white-space: pre-wrap; /* Allows text to wrap to new lines */
-}
-
-/* The Little Arrow pointing down */
-.card[data-note]:hover::before {
-    content: "";
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    margin-left: -5px;
-    margin-bottom: 5px; /* Adjusts arrow position */
-    border-width: 6px;
-    border-style: solid;
-    border-color: #333 transparent transparent transparent;
-    transform: rotate(-90deg); /* Rotate arrow to point down */
-}
-
-/* =========================
-   CALCULATOR BUTTON
-========================= */
-.calc-btn {
-  /* --- YOUR ORIGINAL STYLES --- */
-  background-color: #27ae60;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 4px;
-  font-size: 12px;
-  cursor: pointer;
-  margin-top: 10px;
-  width: 100%;
-  
-  /* --- ANIMATION --- */
-  animation: greenPulse 2s infinite;
-  transition: transform 0.2s;
-}
-
-/* Hover Effect */
-.calc-btn:hover {
-  transform: scale(1.05); /* Button grows slightly */
-}
-
-/* KEYFRAMES */
-@keyframes greenPulse {
-  0% { 
-    box-shadow: 0 0 0 0 rgba(39, 174, 96, 0); /* No glow */
-  }
-  70% { 
-    box-shadow: 0 0 0 10px rgba(39, 174, 96, 0); /* Spreading green glow */
-  }
-  100% { 
-    box-shadow: 0 0 0 0 rgba(39, 174, 96, 0); /* Back to no glow */
-  }
-}
-
-/* =========================
-   CALCULATOR DISPLAY
-========================= */
-.calc-display {
-  background-color: #f8f9fa;
-  padding: 15px;
-  border-radius: 8px;
-  margin: 15px 0;
-  border: 1px solid #e0e0e0;
-}
-
-.calc-row {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 8px;
-  font-size: 14px;
-  color: #555;
-}
-
-.calc-row.total-row {
-  border-top: 1px solid #ccc;
-  padding-top: 8px;
-  font-size: 16px;
-  color: #000;
-  font-weight: bold;
-}
-
-#dispTotal {
-  color: #0f2e5a;
-  font-size: 18px;
-}
-
-/* =========================
-   CALCULATOR INFO
-========================= */
-.calc-info {
-  font-size: 12px;
-  color: #666;
-  margin-bottom: 5px;
-  text-align: right;
-}
-
-/* =========================
-   PAX SELECTOR (TABS)
-========================= */
-.pax-selector {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 15px;
-  border-bottom: 2px solid #ddd;
-}
-
-.pax-btn {
-  flex: 1; /* Makes all 3 buttons equal width */
-  text-align: center;
-  padding: 10px;
-  border: 1px solid transparent;
-  border-bottom: none;
-  border-radius: 8px 8px 0 0; /* Rounded top corners */
-  cursor: pointer;
-  font-weight: 600;
-  background-color: #f0f0f0;
-  color: #555;
-  transition: all 0.2s;
-}
-
-/* Style when a button is CLICKED (Active) */
-.pax-btn.active {
-  background-color: #0f2e5a; /* Blue */
-  color: white;
-  border-color: #0f2e5a;
-  border-bottom: 1px solid #0f2e5a; /* Merges with blue background */
-  margin-bottom: -2px; /* Connects visually to the line below */
-  z-index: 1;
-  position: relative;
-}
-
-/* =========================
-   CALCULATOR RESULTS (ONE SCREEN)
-========================= */
-.calc-results {
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  overflow: hidden;
-  margin-top: 15px;
-}
-
-.fare-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 15px;
-  border-bottom: 1px solid #eee;
-  background-color: #fff;
-}
-
-.fare-row:last-child {
-  border-bottom: none;
-}
-
-.fare-title {
-  font-weight: bold;
-  color: #333;
-  font-size: 14px;
-  width: 80px;
-}
-
-.fare-details {
-  text-align: right;
-  font-size: 13px;
-  color: #555;
-}
-
-.fare-details span {
-  display: block;
-  color: #0f2e5a;
-  font-weight: bold;
-  font-size: 15px;
-  margin-top: 2px;
-}
-
- .credits {
-  margin-top: 15px;
-  font-size: 12px;      /* Small font */
-  color: #333;          /* Dark color for visibility */
-  font-weight: 500;
-  letter-spacing: 0.5px;
-  /* --- Blinking Logic Added Below --- */
-  animation: blink 1s infinite steps(1, end);
-}
-
-@keyframes blink {
-  from, to { opacity: 1; } /* Fully visible at the start and end of the cycle */
-  50% { opacity: 0; }     /* Hidden halfway through the cycle */
-}
-
-
-/* =========================
-   WELCOME SCREEN ANIMATION
-========================= */
-#welcome-screen {
-    position: fixed;      /* Covers whole screen */
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #b6e8f3; /* Matches your Header Blue */
-    z-index: 10000;         /* Sits on top of everything */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    transition: opacity 0.8s ease-in-out; /* Smooth fade out */
-}
-
-.welcome-logo {
-    width: 150px;
-    height: 150px;
-    animation: zoomIn 1.5s ease-out; /* Logo pops in */
-}
-
-.welcome-text {
-    color: #0f2e5a;
-    font-family: 'Poppins', sans-serif;
-    font-size: 24px;
-    font-weight: 600;
-    margin-top: 20px;
-    opacity: 0; /* Start invisible */
-    animation: slideUp 1s ease-out 0.5s forwards; /* Text slides up after logo */
-}
-
-/* Animation Keyframes */
-@keyframes zoomIn {
-    0% { transform: scale(0); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
-}
-
-@keyframes slideUp {
-    0% { transform: translateY(20px); opacity: 0; }
-    100% { transform: translateY(0); opacity: 1; }
-}
-
-/* =========================
-   ALIGNMENT FIXES
-========================= */
-
-/* 1. FIX TOP HEADER (Left vs Right) */
-.top-header {
-  width: 100% !important; /* Full width of page */
-  display: flex !important;
-  justify-content: space-between !important; /* Logo Left, Buttons Right */
-  align-items: center !important;
-  background-color: #0f2e5a; /* Blue */
-}
-
-.header-controls {
-  display: flex;
-  gap: 10px;
-}
-
-
-/* 2. FIX BOTTOM ACTIONS (Centered) */
-.bottom-actions {
-  width: 100% !important;
-  display: flex !important;
-  flex-direction: column; /* Stack buttons vertically */
-  justify-content: center !important; /* Centers the column in the middle of page */
-  align-items: center !important; /* Forces items to center (fixes 'Right Side' issue) */
-  text-align: center !important;
-  background-color: transparent; /* Keeps it clean (Not Blue) */
-}
-
-/* =========================
-   FORCE LAYOUT RESTORE
-========================= */
-
-/* --- TOP HEADER: Logo Left, Buttons Right --- */
-.top-header {
-  width: 100% !important;
-  background-color: #0f2e5a !important;
-  padding: 15px 30px !important;
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: center !important;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;
-}
-
-.header-controls {
-  display: flex;
-  gap: 10px;
-}
-
-/* --- BOTTOM ACTIONS: Centered --- */
-.bottom-actions {
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: center !important;
-  align-items: center !important;
-  text-align: center !important;
-  margin-top: 30px !important;
-  width: 100% !important;
-}
-
-.bottom-actions button {
-  margin: 5px 0 !important;
-}
-
-/* =========================
-   BACKGROUND VIDEO
-========================= */
-#bg-video {
-    position: fixed;       /* Fixes it to screen, doesn't scroll */
-    right: 0;
-    bottom: 0;
-    min-width: 100%;
-    min-height: 100%;
-    width: auto;
-    height: auto;
-    z-index: -99999;        /* Places it BEHIND everything (Welcome Sheet, Header, Buttons) */
-    object-fit: cover;     /* Ensures it covers whole screen without stretching */
-    pointer-events: none;    /* Allows you to click through it */
-}
-
-/* =========================
-   BLINKING TEXT (SHARED ANIMATION)
-========================= */
-/* 2. Credits (Bottom of page) */
-.credits {
-  margin-top: 15px;
-  font-size: 12px;
-  color: #333;           /* Visible Dark Grey */
-  font-weight: 500;
-  letter-spacing: 0.5px;
-  animation: blink 1s infinite steps(1, end);
-}
-
-/* SHARED KEYFRAMES */
-@keyframes blink {
-  from, to { opacity: 1; }
-  50% { opacity: 0; }
-}
-
-/* =========================
-   GOLDEN SHIMMER EFFECT
-========================= */
-.service-text {
-  /* --- POSITION & FONT --- */
-  margin: 10px auto;
-  padding: 3px 20px;
-  font-size: 16px;
-  font-weight: 600;
-  text-align: center;
-  line-height: 1.4;
-  
-  /* --- GOLDEN GRADIENT --- */
-  /* 1. Start: Dark Grey (#333) */
-  /* 2. Middle: Gold (#FFD700) */
-  /* 3. End: Dark Grey (#333) */
-  background: linear-gradient(90deg, #333 0%, #FFD700 50%, #333 100%);
-  
-  /* Must be 200% width to allow movement */
-  background-size: 200% auto; 
-  
-  /* Clips the gradient to the text shape */
-  background-clip: text;
-  -webkit-background-clip: text;
-  
-  /* Makes text transparent so the gradient shows through */
-  color: #333; 
-  -webkit-text-fill-color: transparent; 
-  
-  /* Moves the gradient from left to right */
-  animation: shine 3s linear infinite;
-}
-
-/* KEYFRAMES FOR SHIMMER */
-@keyframes shine {
-  to {
-    background-position: 200% center;
-  }
-}
-
-/* =========================
-   DOCUMENTS DROPDOWN - IMAGE VIEW STYLING
-========================= */
-
-/* View label for image files */
-.view-label {
-    font-size: 10px;
-    color: #0f2e5a;
-    background: rgba(15, 46, 90, 0.1);
-    padding: 2px 6px;
-    border-radius: 3px;
-    margin-left: 5px;
-    font-weight: 500;
-    font-style: italic;
-}
-
-/* Hover effect for image links */
-.resource-link[target="_blank"]:hover .view-label {
-    background: rgba(15, 46, 90, 0.2);
-}
-
-/* Different cursor for image links */
-.resource-link[target="_blank"] {
-    cursor: pointer;
-}
-
-.resource-link[download] {
-    cursor: default;
-}
-
-/* ===== RUNNING TEXT MARQUEE ===== */
-.marquee-bar {
-    background: linear-gradient(90deg, #1a237e, #283593);
-    color: white;
-    padding: 10px 0;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 300;
-    font-size: 14px;
-    overflow: hidden;
-    position: relative;
-    border-bottom: 2px solid #3949ab;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-    z-index: 100;
-}
-
-.marquee-container {
-    display: flex;
-    width: max-content;
-    animation: marquee 60s linear infinite;
-}
-
-.marquee-text {
-    display: flex;
-    align-items: center;
-}
-
-.marquee-text span {
-    display: inline-flex;
-    align-items: center;
-    padding: 0 30px;
-    white-space: nowrap;
-    flex-shrink: 0;
-}
-
-.highlight {
-    background: #ff4081;
-    color: white;
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-weight: 600;
-    margin: 0 5px;
-}
-
-@keyframes marquee {
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        transform: translateX(-50%); /* Move exactly half width for seamless loop */
-    }
-}
-
-/* Pause animation on hover */
-.marquee-bar:hover .marquee-container {
-    animation-play-state: paused;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .marquee-bar {
-        font-size: 12px;
-        padding: 8px 0;
-    }
-    
-    .marquee-text span {
-        padding: 0 15px;
-    }
-    
-    .marquee-container {
-        animation-duration: 80s; /* Slower on mobile */
-    }
-}
-
-/* ===== TOOLS CONTAINER ===== */
-.tools-container {
-    display: flex;
-    gap: 15px;
-    align-items: center;
-    margin-left: auto; /* Push to right side */
-    padding-right: 20px;
-}
-
-/* TOOL BUTTON STYLES */
-.tool-btn {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: linear-gradient(135deg, #2196f3, #1976d2);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 10px 16px;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 500;
-    font-size: 14px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 6px rgba(33, 150, 243, 0.2);
-    white-space: nowrap;
-}
-
-.tool-btn:hover {
-    background: linear-gradient(135deg, #1976d2, #1565c0);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(33, 150, 243, 0.3);
-}
-
-.tool-btn:active {
-    transform: translateY(0);
-}
-
-.tool-icon {
-    font-size: 16px;
-}
-
-.tool-text {
-    font-size: 13px;
-    font-weight: 600;
-}
-
-/* CALCULATOR BUTTON SEPARATE STYLE */
-.calculator-btn {
-    background: linear-gradient(135deg, #4caf50, #388e3c);
-    box-shadow: 0 4px 6px rgba(76, 175, 80, 0.2);
-}
-
-.calculator-btn:hover {
-    background: linear-gradient(135deg, #388e3c, #2e7d32);
-    box-shadow: 0 6px 12px rgba(76, 175, 80, 0.3);
-}
-
-/* RESPONSIVE DESIGN */
-@media (max-width: 1024px) {
-    .tools-container {
-        padding-right: 10px;
-        gap: 10px;
-    }
-    
-    .tool-btn {
-        padding: 8px 12px;
-        font-size: 13px;
-    }
-    
-    .tool-text {
-        font-size: 12px;
-    }
-}
-
-@media (max-width: 768px) {
-    .sheet-top-row {
-        flex-wrap: wrap;
-        gap: 15px;
-    }
-    
-    .tools-container {
-        order: 3;
-        width: 100%;
-        justify-content: center;
-        padding-right: 0;
-        margin-top: 10px;
-    }
-    
-    .gds-logos {
-        order: 2;
-        margin: 0 auto;
-    }
-}
-
-@media (max-width: 480px) {
-    .tools-container {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 8px;
-    }
-    
-    .tool-btn {
-        justify-content: center;
-        padding: 10px;
-    }
-    
-    .dropdown-btn {
-        justify-content: center;
-    }
-    
-    .dropdown-content {
-        min-width: 200px;
-        right: 50%;
-        transform: translateX(50%);
-    }
-}
-
-
-
-
-
-
-
-
-
-
-
+        <!-- ADULT ROW -->
+        <div class="fare-row">
+            <div class="fare-title">ADULT</div>
+            <div class="fare-details">
+                <div>Disc/PSF: <strong id="dispDiscAdult">-</strong></div>
+                <div>Total: <span id="dispTotalAdult">0.00 PKR</span></div>
+            </div>
+        </div>
+
+        <!-- CHILD ROW -->
+        <div class="fare-row child">
+            <div class="fare-title">CHILD (75%)</div>
+            <div class="fare-details">
+                <div>Disc/PSF: <strong id="dispDiscChild">-</strong></div>
+                <div>Total: <span id="dispTotalChild">0.00 PKR</span></div>
+            </div>
+        </div>
+
+        <!-- INFANT ROW -->
+        <div class="fare-row infant">
+            <div class="fare-title">INFANT (10%)</div>
+            <div class="fare-details">
+                <div>Disc/PSF: <strong id="dispDiscInfant">-</strong></div>
+                <div>Total: <span id="dispTotalInfant">0.00 PKR</span></div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal-buttons">
+      <button class="btn-secondary" onclick="document.getElementById('calcModal').style.display='none'">Close</button>
+    </div>
+  </div>
+</div>
+
+<script src="script.js?v=9"></script>
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/69786fb8bef0aa197b29c0bf/1jfv78qk6';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->  
+</body>
+</html>
 
 
 
