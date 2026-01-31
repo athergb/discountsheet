@@ -146,52 +146,275 @@ body {
         margin-bottom: 30px;
     }
     
+    /* ===== GLASS EMBOSSED PARTNER LOGOS (STATIC) ===== */
+.partner-logos-container {
+    margin: 40px 0;
+    padding: 25px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%);
+    border-radius: 25px;
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255,255,255,0.15);
+    box-shadow: 
+        inset 0 4px 20px rgba(255,255,255,0.2),
+        inset 0 -4px 20px rgba(0,0,0,0.1),
+        0 15px 40px rgba(0,0,0,0.25);
+}
+
+.partner-logos-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 35px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.partner-logo-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* Glass embossed background */
+    background: linear-gradient(145deg, 
+        rgba(255, 255, 255, 0.25) 0%,
+        rgba(255, 255, 255, 0.15) 50%,
+        rgba(255, 255, 255, 0.05) 100%);
+    
+    padding: 30px;
+    border-radius: 18px;
+    position: relative;
+    overflow: hidden;
+    
+    /* Static glass embossed effect */
+    box-shadow: 
+        /* Outer glow */
+        0 0 0 1px rgba(255, 255, 255, 0.2),
+        
+        /* Top-left light */
+        -10px -10px 25px rgba(255, 255, 255, 0.5),
+        
+        /* Bottom-right shadow */
+        10px 10px 25px rgba(0, 0, 0, 0.2),
+        
+        /* Inner embossed (raised) effect */
+        inset 3px 3px 8px rgba(0, 0, 0, 0.1),
+        inset -3px -3px 8px rgba(255, 255, 255, 0.4);
+    
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    
+    /* Glass blur effect */
+    backdrop-filter: blur(25px);
+    
+    /* No transitions - static look */
+    transition: none !important;
+}
+
+/* Glass shine/gloss overlay */
+.partner-logo-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 45%;
+    background: linear-gradient(180deg, 
+        rgba(255, 255, 255, 0.3) 0%, 
+        rgba(255, 255, 255, 0.15) 50%,
+        rgba(255, 255, 255, 0) 100%);
+    border-radius: 18px 18px 60% 60%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Subtle background pattern */
+.partner-logo-item::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 2px, transparent 2px),
+        radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 1px, transparent 1px);
+    background-size: 30px 30px;
+    border-radius: 18px;
+    z-index: 0;
+    opacity: 0.5;
+}
+
+.partner-logo-img {
+    max-width: 130px;
+    max-height: 75px;
+    object-fit: contain;
+    
+    /* Frosted glass effect on logos */
+    filter: 
+        drop-shadow(0 2px 4px rgba(0,0,0,0.3))
+        brightness(1.05)
+        contrast(1.1);
+    
+    position: relative;
+    z-index: 2;
+    
+    /* Subtle emboss on logo itself */
+    text-shadow: 
+        0 1px 0 rgba(255,255,255,0.3),
+        0 -1px 0 rgba(0,0,0,0.1);
+    
+    /* Static - no transitions */
+    transition: none !important;
+    transform: none !important;
+}
+
+/* Optional: Different glass colors for each logo */
+.partner-logo-item:nth-child(1) {
+    /* Blue tint glass */
+    background: linear-gradient(145deg, 
+        rgba(173, 216, 230, 0.25) 0%,
+        rgba(173, 216, 230, 0.15) 50%,
+        rgba(173, 216, 230, 0.05) 100%);
+    
+    box-shadow: 
+        0 0 0 1px rgba(173, 216, 230, 0.3),
+        -10px -10px 25px rgba(173, 216, 230, 0.4),
+        10px 10px 25px rgba(0, 0, 0, 0.25),
+        inset 3px 3px 8px rgba(0, 0, 0, 0.12),
+        inset -3px -3px 8px rgba(173, 216, 230, 0.35);
+}
+
+.partner-logo-item:nth-child(2) {
+    /* Green tint glass */
+    background: linear-gradient(145deg, 
+        rgba(144, 238, 144, 0.25) 0%,
+        rgba(144, 238, 144, 0.15) 50%,
+        rgba(144, 238, 144, 0.05) 100%);
+    
+    box-shadow: 
+        0 0 0 1px rgba(144, 238, 144, 0.3),
+        -10px -10px 25px rgba(144, 238, 144, 0.4),
+        10px 10px 25px rgba(0, 0, 0, 0.25),
+        inset 3px 3px 8px rgba(0, 0, 0, 0.12),
+        inset -3px -3px 8px rgba(144, 238, 144, 0.35);
+}
+
+.partner-logo-item:nth-child(3) {
+    /* Gold tint glass */
+    background: linear-gradient(145deg, 
+        rgba(255, 215, 0, 0.15) 0%,
+        rgba(255, 215, 0, 0.08) 50%,
+        rgba(255, 215, 0, 0.02) 100%);
+    
+    box-shadow: 
+        0 0 0 1px rgba(255, 215, 0, 0.25),
+        -10px -10px 25px rgba(255, 215, 0, 0.3),
+        10px 10px 25px rgba(0, 0, 0, 0.25),
+        inset 3px 3px 8px rgba(0, 0, 0, 0.12),
+        inset -3px -3px 8px rgba(255, 215, 0, 0.3);
+}
+
+.partner-logo-item:nth-child(4) {
+    /* Purple tint glass */
+    background: linear-gradient(145deg, 
+        rgba(147, 112, 219, 0.25) 0%,
+        rgba(147, 112, 219, 0.15) 50%,
+        rgba(147, 112, 219, 0.05) 100%);
+    
+    box-shadow: 
+        0 0 0 1px rgba(147, 112, 219, 0.3),
+        -10px -10px 25px rgba(147, 112, 219, 0.4),
+        10px 10px 25px rgba(0, 0, 0, 0.25),
+        inset 3px 3px 8px rgba(0, 0, 0, 0.12),
+        inset -3px -3px 8px rgba(147, 112, 219, 0.35);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
     .partner-logos-container {
-        width: 95%;
-        margin-bottom: 30px;
+        padding: 20px;
+        margin: 30px 15px;
+        border-radius: 20px;
     }
     
     .partner-logos-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
+        grid-template-columns: 1fr;
+        gap: 25px;
+        max-width: 350px;
     }
     
     .partner-logo-item {
-        height: 90px;
-        padding: 12px;
+        padding: 25px;
+        border-radius: 16px;
     }
     
     .partner-logo-img {
-        max-width: 70px;
-        max-height: 60px;
+        max-width: 110px;
+        max-height: 65px;
     }
     
-    .welcome-text {
-        font-size: 20px;
-        padding: 12px 25px;
+    .partner-logo-item::before {
+        border-radius: 16px 16px 60% 60%;
     }
 }
 
 @media (max-width: 480px) {
-    .qfc-main-logo {
-        width: 120px;
-        height: 120px;
-        margin-bottom: 25px;
+    .partner-logos-container {
+        padding: 15px;
+        margin: 20px 10px;
+        border-radius: 18px;
     }
     
     .partner-logos-grid {
-        gap: 15px;
+        gap: 20px;
     }
     
     .partner-logo-item {
-        height: 80px;
-        padding: 10px;
+        padding: 20px;
+        border-radius: 14px;
     }
     
     .partner-logo-img {
-        max-width: 60px;
-        max-height: 50px;
+        max-width: 90px;
+        max-height: 55px;
     }
+    
+    .partner-logo-item::before {
+        border-radius: 14px 14px 60% 60%;
+    }
+}
+
+/* Optional: Add a subtle floating animation (still static look) */
+@keyframes subtleFloat {
+    0%, 100% {
+        transform: translateY(0);
+        box-shadow: 
+            0 0 0 1px rgba(255, 255, 255, 0.2),
+            -10px -10px 25px rgba(255, 255, 255, 0.5),
+            10px 10px 25px rgba(0, 0, 0, 0.2),
+            inset 3px 3px 8px rgba(0, 0, 0, 0.1),
+            inset -3px -3px 8px rgba(255, 255, 255, 0.4);
+    }
+    50% {
+        transform: translateY(-3px);
+        box-shadow: 
+            0 0 0 1px rgba(255, 255, 255, 0.25),
+            -12px -12px 28px rgba(255, 255, 255, 0.55),
+            12px 12px 28px rgba(0, 0, 0, 0.25),
+            inset 3px 3px 8px rgba(0, 0, 0, 0.1),
+            inset -3px -3px 8px rgba(255, 255, 255, 0.45);
+    }
+}
+
+/* Uncomment to add subtle floating animation (still looks static but with movement) */
+/*
+.partner-logo-item {
+    animation: subtleFloat 6s ease-in-out infinite;
+}
+
+.partner-logo-item:nth-child(1) { animation-delay: 0s; }
+.partner-logo-item:nth-child(2) { animation-delay: 1.5s; }
+.partner-logo-item:nth-child(3) { animation-delay: 3s; }
+.partner-logo-item:nth-child(4) { animation-delay: 4.5s; }
+*/
     
     .welcome-text {
         font-size: 18px;
