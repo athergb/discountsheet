@@ -306,20 +306,10 @@ body {
 }
 
 .dropdown-btn {
-  background-color: #0f2e5a;
-  color: white;
-  border: none;
-  padding: 12px 15px;
-  border-radius: 6px;
-  font-family: 'Poppins', sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 130px;
-  transition: background 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 140px;
 }
 
 .dropdown-btn:hover {
@@ -327,8 +317,8 @@ body {
 }
 
 .dropdown-arrow {
-  margin-left: 8px;
-  font-size: 10px;
+  margin-left: 10px;
+  font-size: 5px;
   transition: transform 0.3s;
 }
 
@@ -336,24 +326,29 @@ body {
   transform: rotate(180deg);
 }
 
+/* DROPDOWN CONTENT */
 .dropdown-content {
-  display: none;
-  position: absolute;
-  top: 100%;
-  right: 0;
-  background-color: #fff;
-  min-width: 300px;
-  max-height: 400px;
-  overflow-y: auto;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-  border-radius: 6px;
-  z-index: 1000;
-  border: 1px solid #ddd;
-  margin-top: 5px;
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background-color: white;
+    min-width: 250px;
+    max-height: 400px;
+    overflow-y: auto;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    z-index: 1000;
+    margin-top: 5px;
 }
 
 .dropdown-content.show {
-  display: block;
+ display: block;
+ animation: fadeIn 0.3s ease;
+}
+
+.dropdown-content .drop-content {
+    padding: 15px;
 }
 
 /* Resource items in dropdown */
@@ -1278,4 +1273,135 @@ input:focus {
         animation-duration: 80s; /* Slower on mobile */
     }
 }
+
+/* ===== TOOLS CONTAINER ===== */
+.tools-container {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-left: auto; /* Push to right side */
+    padding-right: 20px;
+}
+
+/* TOOL BUTTON STYLES */
+.tool-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #2196f3, #1976d2);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(33, 150, 243, 0.2);
+    white-space: nowrap;
+}
+
+.tool-btn:hover {
+    background: linear-gradient(135deg, #1976d2, #1565c0);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(33, 150, 243, 0.3);
+}
+
+.tool-btn:active {
+    transform: translateY(0);
+}
+
+.tool-icon {
+    font-size: 16px;
+}
+
+.tool-text {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* CALCULATOR BUTTON SEPARATE STYLE */
+.calculator-btn {
+    background: linear-gradient(135deg, #4caf50, #388e3c);
+    box-shadow: 0 4px 6px rgba(76, 175, 80, 0.2);
+}
+
+.calculator-btn:hover {
+    background: linear-gradient(135deg, #388e3c, #2e7d32);
+    box-shadow: 0 6px 12px rgba(76, 175, 80, 0.3);
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 1024px) {
+    .tools-container {
+        padding-right: 10px;
+        gap: 10px;
+    }
+    
+    .tool-btn {
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+    
+    .tool-text {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 768px) {
+    .sheet-top-row {
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+    
+    .tools-container {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        padding-right: 0;
+        margin-top: 10px;
+    }
+    
+    .gds-logos {
+        order: 2;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .tools-container {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+    
+    .tool-btn {
+        justify-content: center;
+        padding: 10px;
+    }
+    
+    .dropdown-btn {
+        justify-content: center;
+    }
+    
+    .dropdown-content {
+        min-width: 200px;
+        right: 50%;
+        transform: translateX(50%);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
