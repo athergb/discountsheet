@@ -685,7 +685,7 @@ window.onload = function() {
 let marqueeMessages = [
     {icon: "✨", title: "SPECIAL OFFER", text: "Get additional discount up to PKR 1600 per ticket"},
     {icon: "📅", title: "VALIDITY", text: "All offers valid until further notice"},
-    {icon: "📞", title: "CONTACT", text: "For bookings call +92-XXX-XXXXXXX"},
+    {icon: "📞", title: "CONTACT", text: "For bookings call +92-308-8296519"},
     {icon: "⚡", title: "SAME DAY CASH", text: "Instant discount on spot payment"},
     {icon: "💳", title: "CREDIT OPTIONS", text: "Flexible payment plans available"},
     {icon: "📢", title: "NEW", text: "Additional PSF calculator tool available"},
