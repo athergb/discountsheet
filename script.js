@@ -680,3 +680,83 @@ window.onload = function() {
         }
     }, 5000); // Wait 5 seconds before fading
 };
+
+// Dynamic marquee with proper sequence
+let marqueeMessages = [
+    {icon: "✨", title: "SPECIAL OFFER", text: "Get additional discount up to PKR 1600 per ticket"},
+    {icon: "📅", title: "VALIDITY", text: "All offers valid until further notice"},
+    {icon: "📞", title: "CONTACT", text: "For bookings call +92-XXX-XXXXXXX"},
+    {icon: "⚡", title: "SAME DAY CASH", text: "Instant discount on spot payment"},
+    {icon: "💳", title: "CREDIT OPTIONS", text: "Flexible payment plans available"},
+    {icon: "📢", title: "NEW", text: "Additional PSF calculator tool available"},
+    {icon: "📄", title: "DOCUMENTS", text: "Check documents section for latest policies"},
+    {icon: "🔄", title: "REISSUE/REFUND", text: "Service charges apply PKR 500/-"}
+];
+
+function initMarquee() {
+    const marqueeText = document.getElementById('marqueeText');
+    const marqueeContainer = document.getElementById('marqueeContainer');
+    
+    if (!marqueeText) return;
+    
+    // Clear existing content
+    marqueeText.innerHTML = '';
+    
+    // Calculate the total width needed for all messages
+    let totalWidth = 0;
+    
+    // Create and append all messages (2 complete sets for seamless loop)
+    for (let set = 0; set < 2; set++) {
+        marqueeMessages.forEach(msg => {
+            const span = document.createElement('span');
+            span.innerHTML = `${msg.icon} <span class="highlight">${msg.title}:</span> ${msg.text}`;
+            
+            // Create a temporary element to measure width
+            const tempSpan = document.createElement('span');
+            tempSpan.innerHTML = span.innerHTML;
+            tempSpan.style.cssText = `
+                position: absolute;
+                visibility: hidden;
+                white-space: nowrap;
+                font: 14px Poppins;
+                padding: 0 30px;
+            `;
+            document.body.appendChild(tempSpan);
+            const spanWidth = tempSpan.offsetWidth;
+            document.body.removeChild(tempSpan);
+            
+            totalWidth += spanWidth;
+            
+            marqueeText.appendChild(span);
+        });
+    }
+    
+    // Set the width of the container to exactly twice the total width of one set
+    const singleSetWidth = totalWidth / 2;
+    marqueeContainer.style.width = `${totalWidth}px`;
+    
+    // Calculate animation duration based on width
+    // 60 seconds for one complete cycle (all 8 messages)
+    const pixelsPerSecond = singleSetWidth / 60; // Each set takes 60 seconds
+    const animationDuration = totalWidth / pixelsPerSecond;
+    
+    marqueeContainer.style.animationDuration = `${animationDuration}s`;
+    
+    console.log('Marquee initialized:', {
+        singleSetWidth,
+        totalWidth,
+        animationDuration,
+        messageCount: marqueeMessages.length
+    });
+}
+
+// Initialize when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    // Add a small delay to ensure DOM is fully loaded
+    setTimeout(initMarquee, 100);
+});
+
+// Recalculate on window resize
+window.addEventListener('resize', function() {
+    setTimeout(initMarquee, 100);
+});
