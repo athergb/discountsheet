@@ -438,7 +438,209 @@ body {
 }
 
 .main-logo {
-  height: 60px;
+  height: 80px;
+  width: 80px;
+}
+
+/* Embossed Effect Container */
+    padding: 15px;
+    background: linear-gradient(145deg, 
+        rgba(255, 255, 255, 0.25) 0%,
+        rgba(255, 255, 255, 0.15) 50%,
+        rgba(255, 255, 255, 0.05) 100%);
+    
+    border-radius: 15px;
+    position: relative;
+    
+    /* Embossed Effect */
+    box-shadow: 
+        /* Outer glow */
+        0 0 0 1px rgba(255, 255, 255, 0.25),
+        
+        /* Top-left light source */
+        -8px -8px 15px rgba(255, 255, 255, 0.6),
+        
+        /* Bottom-right shadow */
+        8px 8px 15px rgba(0, 0, 0, 0.2),
+        
+        /* Inner embossed edges */
+        inset 3px 3px 6px rgba(0, 0, 0, 0.1),
+        inset -3px -3px 6px rgba(255, 255, 255, 0.4);
+    
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    
+    /* Glass blur effect */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    
+    /* Smooth transition */
+    transition: all 0.3s ease;
+}
+
+/* Embossed shine overlay */
+.main-logo::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 40%;
+    background: linear-gradient(180deg, 
+        rgba(255, 255, 255, 0.3) 0%, 
+        rgba(255, 255, 255, 0.15) 50%,
+        rgba(255, 255, 255, 0) 100%);
+    border-radius: 15px 15px 50% 50%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* The actual logo image inside the embossed container */
+.main-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    position: relative;
+    z-index: 2;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+    
+    /* Enhance logo appearance */
+    contrast(1.05);
+    brightness(1.02);
+}
+
+/* Optional: Add hover effect */
+.main-logo:hover {
+    transform: scale(1.05);
+    box-shadow: 
+        0 0 0 2px rgba(255, 255, 255, 0.3),
+        -10px -10px 20px rgba(255, 255, 255, 0.7),
+        10px 10px 20px rgba(0, 0, 0, 0.25),
+        inset 3px 3px 6px rgba(0, 0, 0, 0.1),
+        inset -3px -3px 6px rgba(255, 255, 255, 0.45);
+}
+
+/* Adjust header content spacing for larger logo */
+.header-content {
+    display: flex;
+    align-items: center;
+    gap: 25px; /* Increased from 20px to accommodate larger logo */
+    z-index: 1;
+}
+
+/* Header text adjustments for larger logo */
+.header-text h1 {
+    font-size: 26px; /* Slightly increased to balance larger logo */
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.header-text p {
+    font-size: 14px;
+    opacity: 0.8;
+    font-weight: 300;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .main-logo {
+        height: 70px;
+        width: 70px;
+        padding: 12px;
+        border-radius: 12px;
+    }
+    
+    .header-content {
+        gap: 20px;
+    }
+    
+    .header-text h1 {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-logo {
+        height: 60px;
+        width: 60px;
+        padding: 10px;
+        border-radius: 10px;
+    }
+    
+    .header-content {
+        gap: 15px;
+    }
+    
+    .header-text h1 {
+        font-size: 22px;
+    }
+    
+    .main-logo::before {
+        border-radius: 10px 10px 50% 50%;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-logo {
+        height: 50px;
+        width: 50px;
+        padding: 8px;
+        border-radius: 8px;
+    }
+    
+    .header-content {
+        gap: 12px;
+    }
+    
+    .header-text h1 {
+        font-size: 18px;
+    }
+    
+    .header-text p {
+        font-size: 12px;
+    }
+    
+    .main-logo::before {
+        border-radius: 8px 8px 50% 50%;
+    }
+}
+
+/* Alternative: Simple embossed effect (if above is too complex) */
+.main-logo.simple-embossed {
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    box-shadow: 
+        inset 2px 2px 5px rgba(255, 255, 255, 0.2),
+        inset -2px -2px 5px rgba(0, 0, 0, 0.1),
+        0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Alternative: 3D raised effect */
+.main-logo.raised-3d {
+    padding: 12px;
+    background: linear-gradient(145deg, #1a3a7a, #0f2e5a);
+    border-radius: 12px;
+    box-shadow: 
+        0 8px 16px rgba(0, 0, 0, 0.2),
+        0 4px 8px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    border: none;
+}
+
+/* =========================
+   TOP HEADER ADJUSTMENT FOR LARGER LOGO
+========================= */
+.top-header {
+    background-color: #0f2e5a;
+    color: white;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    position: relative;
+    min-height: 90px; /* Increased from 80px to accommodate larger logo */
 }
 
 .header-text h1 {
