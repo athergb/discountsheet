@@ -690,7 +690,7 @@ let marqueeMessages = [
     {icon: "💳", title: "CREDIT OPTIONS", text: "Flexible payment plans available"},
     {icon: "📢", title: "NEW", text: "Additional PSF calculator tool available"},
     {icon: "📄", title: "DOCUMENTS", text: "Check documents section for latest policies"},
-    {icon: "🔄", title: "REISSUE/REFUND", text: "Service charges apply PKR 500/-"}
+    {icon: "🔄", title: "REISSUE/REFUND/VOID", text: "Service charges apply PKR 500/-"}
 ];
 
 function initMarquee() {
