@@ -700,8 +700,443 @@ body {
   padding-bottom: 20px;
 }
 
+/* =========================
+   SHEET LOGO - TV CHANNEL LOGO MOVEMENT
+========================= */
+.sheet-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100px; /* Match your existing height */
+    width: 150px; /* Wider container for movement */
+    position: relative;
+    overflow: hidden; /* Hide logo when off-screen */
+}
+
 .sheet-logo img {
-  height: 100px;
+    height: 100%; /* Use full height of container */
+    width: auto; /* Maintain aspect ratio */
+    object-fit: contain;
+    
+    /* TV Channel Logo Movement Animation */
+    animation: tvLogoMovement 15s infinite;
+    
+    /* Smooth transformation */
+    transform-origin: center center;
+    
+    /* Optional: TV-style effects */
+    filter: drop-shadow(0 0 8px rgba(15, 46, 90, 0.3));
+    
+    /* Start off-screen to the left */
+    position: absolute;
+    left: -100%;
+}
+
+/* TV Channel Logo Movement Keyframes */
+@keyframes tvLogoMovement {
+    0% {
+        transform: translateX(-100%) scale(0.8);
+        opacity: 0;
+        left: -100%;
+    }
+    10% {
+        transform: translateX(0) scale(1);
+        opacity: 1;
+        left: 0;
+    }
+    15% {
+        transform: translateX(0) scale(1.05); /* Bounce effect */
+        left: 0;
+    }
+    20% {
+        transform: translateX(0) scale(1); /* Settle */
+        left: 0;
+    }
+    70% {
+        transform: translateX(0) scale(1); /* Stay in center */
+        left: 0;
+        opacity: 1;
+    }
+    80% {
+        transform: translateX(0) scale(0.95); /* Prepare to exit */
+        left: 0;
+        opacity: 0.9;
+    }
+    85% {
+        transform: translateX(20px) scale(0.9); /* Start exiting */
+        left: 20px;
+        opacity: 0.7;
+    }
+    90% {
+        transform: translateX(60px) scale(0.8); /* Exit faster */
+        left: 60px;
+        opacity: 0.4;
+    }
+    95% {
+        transform: translateX(100px) scale(0.6); /* Almost gone */
+        left: 100px;
+        opacity: 0.2;
+    }
+    100% {
+        transform: translateX(150%) scale(0.5); /* Completely exit */
+        left: 150%;
+        opacity: 0;
+    }
+}
+
+/* Alternative: Classic TV station ident */
+@keyframes tvStationIdent {
+    0% {
+        transform: translateX(-150%) rotateY(90deg);
+        opacity: 0;
+        filter: blur(10px);
+    }
+    15% {
+        transform: translateX(0) rotateY(0deg);
+        opacity: 1;
+        filter: blur(0);
+    }
+    20% {
+        transform: translateX(0) scale(1.1);
+        filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.5));
+    }
+    25% {
+        transform: translateX(0) scale(1);
+        filter: drop-shadow(0 0 8px rgba(15, 46, 90, 0.3));
+    }
+    75% {
+        transform: translateX(0) scale(1);
+        opacity: 1;
+    }
+    80% {
+        transform: translateX(0) scale(0.9);
+        opacity: 0.8;
+    }
+    85% {
+        transform: translateX(50px) scale(0.8) rotateY(-45deg);
+        opacity: 0.6;
+        filter: blur(5px);
+    }
+    90% {
+        transform: translateX(100px) scale(0.6) rotateY(-90deg);
+        opacity: 0.3;
+        filter: blur(10px);
+    }
+    95% {
+        transform: translateX(150px) scale(0.4) rotateY(-135deg);
+        opacity: 0.1;
+        filter: blur(15px);
+    }
+    100% {
+        transform: translateX(200%) scale(0.2) rotateY(-180deg);
+        opacity: 0;
+        filter: blur(20px);
+    }
+}
+
+.sheet-logo img.tv-station {
+    animation: tvStationIdent 20s infinite;
+}
+
+/* Alternative: News channel ticker effect */
+@keyframes newsChannelTicker {
+    0% {
+        transform: translateX(-100%) scale(1);
+        opacity: 0;
+        left: -100%;
+    }
+    10% {
+        transform: translateX(0) scale(1);
+        opacity: 1;
+        left: 0;
+    }
+    15% {
+        transform: translateX(0) scale(1.02); /* Subtle pulse */
+        left: 0;
+    }
+    20% {
+        transform: translateX(0) scale(1);
+        left: 0;
+    }
+    40% {
+        transform: translateX(0) scale(1); /* Stay longer for news */
+        left: 0;
+        opacity: 1;
+    }
+    50% {
+        transform: translateX(10px) scale(0.98);
+        left: 10px;
+        opacity: 0.9;
+    }
+    60% {
+        transform: translateX(30px) scale(0.95);
+        left: 30px;
+        opacity: 0.7;
+    }
+    70% {
+        transform: translateX(60px) scale(0.9);
+        left: 60px;
+        opacity: 0.5;
+    }
+    80% {
+        transform: translateX(100px) scale(0.8);
+        left: 100px;
+        opacity: 0.3;
+    }
+    90% {
+        transform: translateX(150px) scale(0.7);
+        left: 150px;
+        opacity: 0.1;
+    }
+    100% {
+        transform: translateX(200%) scale(0.6);
+        left: 200%;
+        opacity: 0;
+    }
+}
+
+.sheet-logo img.news-channel {
+    animation: newsChannelTicker 25s infinite;
+}
+
+/* Alternative: Sports channel dynamic effect */
+@keyframes sportsChannel {
+    0% {
+        transform: translateX(-120%) scale(0.5) rotate(-30deg);
+        opacity: 0;
+        filter: brightness(1.5) contrast(1.2);
+    }
+    10% {
+        transform: translateX(0) scale(1) rotate(0deg);
+        opacity: 1;
+        filter: brightness(1) contrast(1);
+    }
+    15% {
+        transform: translateX(0) scale(1.1) rotate(5deg);
+        filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.5));
+    }
+    20% {
+        transform: translateX(0) scale(1) rotate(0deg);
+        filter: drop-shadow(0 0 10px rgba(15, 46, 90, 0.3));
+    }
+    70% {
+        transform: translateX(0) scale(1);
+        opacity: 1;
+    }
+    75% {
+        transform: translateX(0) scale(0.95) rotate(-5deg);
+        opacity: 0.9;
+    }
+    80% {
+        transform: translateX(40px) scale(0.9) rotate(-15deg);
+        opacity: 0.7;
+        filter: brightness(1.2) contrast(1.1);
+    }
+    85% {
+        transform: translateX(80px) scale(0.8) rotate(-25deg);
+        opacity: 0.5;
+        filter: brightness(1.4) contrast(1.2);
+    }
+    90% {
+        transform: translateX(120px) scale(0.7) rotate(-35deg);
+        opacity: 0.3;
+        filter: brightness(1.6) contrast(1.3);
+    }
+    95% {
+        transform: translateX(160px) scale(0.6) rotate(-45deg);
+        opacity: 0.1;
+        filter: brightness(1.8) contrast(1.4);
+    }
+    100% {
+        transform: translateX(200%) scale(0.5) rotate(-60deg);
+        opacity: 0;
+        filter: brightness(2) contrast(1.5);
+    }
+}
+
+.sheet-logo img.sports-channel {
+    animation: sportsChannel 18s infinite;
+}
+
+/* Alternative: Movie channel cinematic effect */
+@keyframes movieChannel {
+    0% {
+        transform: translateX(-100%) scale(0.3);
+        opacity: 0;
+        filter: blur(20px) brightness(0.5);
+    }
+    20% {
+        transform: translateX(0) scale(1.2);
+        opacity: 1;
+        filter: blur(0) brightness(1);
+    }
+    25% {
+        transform: translateX(0) scale(1);
+        filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.7));
+    }
+    30% {
+        transform: translateX(0) scale(1);
+        filter: drop-shadow(0 0 15px rgba(15, 46, 90, 0.5));
+    }
+    75% {
+        transform: translateX(0) scale(1);
+        opacity: 1;
+    }
+    80% {
+        transform: translateX(0) scale(0.9);
+        opacity: 0.8;
+        filter: blur(5px) brightness(0.9);
+    }
+    85% {
+        transform: translateX(50px) scale(0.8);
+        opacity: 0.6;
+        filter: blur(10px) brightness(0.8);
+    }
+    90% {
+        transform: translateX(100px) scale(0.7);
+        opacity: 0.4;
+        filter: blur(15px) brightness(0.7);
+    }
+    95% {
+        transform: translateX(150px) scale(0.6);
+        opacity: 0.2;
+        filter: blur(20px) brightness(0.6);
+    }
+    100% {
+        transform: translateX(200%) scale(0.5);
+        opacity: 0;
+        filter: blur(25px) brightness(0.5);
+    }
+}
+
+.sheet-logo img.movie-channel {
+    animation: movieChannel 30s infinite;
+}
+
+/* Optional: Add a screen border effect */
+.sheet-logo::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    pointer-events: none;
+    z-index: 1;
+    box-shadow: 
+        inset 0 0 20px rgba(255, 255, 255, 0.05),
+        0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Optional: Add scan lines for TV effect */
+.sheet-logo::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        to bottom,
+        transparent 50%,
+        rgba(255, 255, 255, 0.03) 50%
+    );
+    background-size: 100% 4px;
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0.3;
+    mix-blend-mode: overlay;
+}
+
+/* Pause animation on hover */
+.sheet-logo:hover img {
+    animation-play-state: paused;
+    transform: translateX(0) scale(1.1); /* Return to center and zoom */
+    opacity: 1;
+    filter: drop-shadow(0 0 15px rgba(15, 46, 90, 0.5));
+}
+
+/* Different timing options */
+.sheet-logo img.slow-tv {
+    animation-duration: 20s;
+}
+
+.sheet-logo img.fast-tv {
+    animation-duration: 10s;
+}
+
+.sheet-logo img.instant-tv {
+    animation-duration: 8s;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .sheet-logo {
+        height: 80px;
+        width: 120px;
+    }
+    
+    .sheet-logo img {
+        animation-duration: 12s; /* Adjust timing for mobile */
+    }
+    
+    /* Adjust movement distance for smaller screens */
+    @keyframes tvLogoMovement {
+        0% {
+            transform: translateX(-80%) scale(0.8);
+            left: -80%;
+        }
+        100% {
+            transform: translateX(120%) scale(0.5);
+            left: 120%;
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .sheet-logo {
+        height: 60px;
+        width: 100px;
+    }
+    
+    .sheet-logo img {
+        animation-duration: 10s;
+    }
+    
+    @keyframes tvLogoMovement {
+        0% {
+            transform: translateX(-60%) scale(0.8);
+            left: -60%;
+        }
+        100% {
+            transform: translateX(100%) scale(0.5);
+            left: 100%;
+        }
+    }
+}
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .sheet-logo {
+        height: 80px;
+        width: 80px;
+    }
+    
+    .sheet-logo img {
+        animation-duration: 12s; /* Slower on mobile */
+    }
+}
+
+@media (max-width: 480px) {
+    .sheet-logo {
+        height: 60px;
+        width: 60px;
+    }
+    
+    .sheet-logo img {
+        animation-duration: 15s; /* Even slower on small mobile */
+    }
 }
 
 /* =========================
