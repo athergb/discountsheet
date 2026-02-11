@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QFC - Competitor Comparison</title>
+    <link rel="icon" type="image/png" href="QFClogo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #2c5364;
+            padding-bottom: 20px;
+        }
+
+        .header h1 {
+            color: #2c5364;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            display: block;
+        }
+
+        .our-data-section {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border: 2px solid #2196f3;
+        }
+
+        .our-data-section h2 {
+            color: #1565c0;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e3f2fd;
+            padding-bottom: 10px;
+        }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-group label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .input-group input,
+        .input-group select {
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            width: 100%;
+            background: #f9f9f9;
+        }
+
+        .discount-display {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            display: none;
+        }
+
+        .discount-display.active {
+            display: block;
+        }
+
+        .discount-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .discount-label {
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .discount-value {
+            font-weight: 600;
+            color: #2196f3;
+        }
+
+        .calculation-results {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            display: none;
+        }
+
+        .calculation-results.active {
+            display: block;
+        }
+
+        .fare-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            margin: 8px 0;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border-left: 4px solid #2196f3;
+        }
+
+        .fare-row.child {
+            border-left-color: #ff9800;
+        }
+
+        .fare-row.infant {
+            border-left-color: #4caf50;
+        }
+
+        .fare-title {
+            font-weight: 600;
+            color: #333;
+            min-width: 120px;
+        }
+
+        .fare-details {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .total-price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2196f3;
+            text-align: center;
+            margin: 15px 0;
+            padding: 10px;
+            background: #e3f2fd;
+            border-radius: 8px;
+        }
+
+        .competitors-section {
+            margin-top: 40px;
+        }
+
+        .competitors-section h2 {
+            color: #333;
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 2rem;
+            border-bottom: 2px solid #dee2e6;
+            padding-bottom: 10px;
+        }
+
+        .competitors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 25px;
+        }
+
+        .competitor-box {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e0e0e0;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .competitor-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .competitor-box.our-offer {
+            border: 2px solid #2196f3;
+            background: #f0f8ff;
+        }
+
+        .competitor-box.best-price {
+            border: 2px solid #4caf50;
+            background: #f1f8e9;
+        }
+
+        .best-price-badge {
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            background: #4caf50;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .competitor-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .competitor-logo {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            border-radius: 8px;
+            background: white;
+            padding: 5px;
+        }
+
+        .competitor-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .adjustment-input-group {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .adjustment-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .adjustment-label span {
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .adjustment-field {
+            display: flex;
+            gap: 10px;
+        }
+
+        .adjustment-field select {
+            padding: 8px 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            background: white;
+            width: 100px;
+        }
+
+        .adjustment-field input {
+            padding: 8px 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            width: 120px;
+            background: white;
+        }
+
+        .adjustment-field input:focus,
+        .adjustment-field select:focus {
+            outline: none;
+            border-color: #2196f3;
+        }
+
+        .adjustment-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .adjustment-fee {
+            background: #ffecb3;
+            color: #ff6f00;
+        }
+
+        .adjustment-discount {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .adjustment-commission {
+            background: #e1f5fe;
+            color: #0277bd;
+        }
+
+        .competitor-price {
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #ff5722;
+            margin: 15px 0;
+            padding: 12px;
+            background: #fff3e0;
+            border-radius: 8px;
+        }
+
+        .price-difference {
+            text-align: center;
+            font-size: 1rem;
+            padding: 10px;
+            border-radius: 6px;
+            margin: 10px 0;
+            font-weight: 500;
+        }
+
+        .price-difference.cheaper {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .price-difference.expensive {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .price-difference.equal {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+
+        .competitor-details {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed #ddd;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+        .recalculate-btn {
+            background: #ff9800;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .recalculate-btn:hover {
+            background: #f57c00;
+        }
+
+        .suggestion-box {
+            background: #fffde7;
+            border: 1px solid #ffd600;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 40px;
+            text-align: center;
+            display: none;
+        }
+
+        .suggestion-box.active {
+            display: block;
+        }
+
+        .recommendation {
+            background: #4caf50;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            margin-top: 15px;
+        }
+
+        .calculate-btn {
+            background: #2196f3;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto;
+            width: 100%;
+            max-width: 250px;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+        }
+
+        .nav-btn {
+            padding: 10px 25px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            background: #757575;
+            color: white;
+        }
+
+        .nav-btn.refresh-btn {
+            background: #2196f3;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #2196f3;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 15px; }
+            .input-grid { grid-template-columns: 1fr; }
+            .competitors-grid { grid-template-columns: 1fr; }
+            .navigation { flex-direction: column; gap: 10px; }
+            .nav-btn { width: 100%; }
+            .adjustment-field { flex-direction: column; }
+            .adjustment-field select { width: 100%; }
+            .adjustment-field input { width: 100%; }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- CORS WARNING MESSAGE -->
+    <div id="cors-warning" style="display: none; background: #ff9800; color: white; padding: 10px; text-align: center; margin-bottom: 15px; border-radius: 5px;">
+        ⚠️ You're opening this file directly from disk. To load data.json properly, please use a local server.
+        <button onclick="useEmbeddedData()" style="background: white; color: #ff9800; border: none; padding: 5px 15px; border-radius: 3px; margin-left: 10px; cursor: pointer;">
+            Use Embedded Data Now
+        </button>
+    </div>
+
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <img src="QFClogo.png" alt="QFC Logo" class="logo">
+            <h1>📊 Competitor Discount Comparison</h1>
+            <p>Compare our fees & discounts with competitors - Edit competitor adjustments in real-time</p>
+        </div>
+
+        <!-- OUR DATA SECTION -->
+        <div class="our-data-section">
+            <h2>🏢 Our Pricing Data</h2>
+
+            <div class="input-grid">
+                <div class="input-group">
+                    <label for="calcAirline">Select Airline</label>
+                    <select id="calcAirline" onchange="loadAirlineDiscount()">
+                        <option value="">-- Select Airline --</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="calcBasic">Adult Basic Fare (PKR)</label>
+                    <input type="number" id="calcBasic" placeholder="0" value="1000"
+                        oninput="calculateOurPrice()">
+                </div>
+
+                <div class="input-group">
+                    <label for="calcTax">Taxes (PKR)</label>
+                    <input type="number" id="calcTax" placeholder="0" value="200" oninput="calculateOurPrice()">
+                </div>
+            </div>
+
+            <!-- Discount Display -->
+            <div class="discount-display" id="discountDisplay">
+                <div class="discount-row">
+                    <span class="discount-label">Adjustment:</span>
+                    <span class="discount-value" id="dispDiscount">-</span>
+                </div>
+                <div class="discount-row">
+                    <span class="discount-label">Category:</span>
+                    <span class="discount-value" id="categoryText">-</span>
+                </div>
+                <div class="discount-row">
+                    <span class="discount-label">Notification:</span>
+                    <span class="discount-value" id="notificationText">-</span>
+                </div>
+                <div class="discount-row">
+                    <span class="discount-label">Validity:</span>
+                    <span class="discount-value" id="validityText">-</span>
+                </div>
+                <div class="discount-row">
+                    <span class="discount-label">Instructions:</span>
+                    <span class="discount-value" id="instructionsText">-</span>
+                </div>
+            </div>
+
+            <!-- Calculation Results -->
+            <div class="calculation-results" id="calculationResults">
+                <h3>Price Calculation</h3>
+
+                <div class="calc-results">
+                    <div class="fare-row">
+                        <div class="fare-title">ADULT</div>
+                        <div class="fare-details">
+                            <div>Adjustment: <strong id="discAdultText">-</strong></div>
+                            <div>Total: <span id="totalAdult">0.00 PKR</span></div>
+                        </div>
+                    </div>
+                    <div class="fare-row child">
+                        <div class="fare-title">CHILD (75%)</div>
+                        <div class="fare-details">
+                            <div>Adjustment: <strong id="discChildText">-</strong></div>
+                            <div>Total: <span id="totalChild">0.00 PKR</span></div>
+                        </div>
+                    </div>
+                    <div class="fare-row infant">
+                        <div class="fare-title">INFANT (10%)</div>
+                        <div class="fare-details">
+                            <div>Adjustment: <strong id="discInfantText">-</strong></div>
+                            <div>Total: <span id="totalInfant">0.00 PKR</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="total-price">
+                    Our Final Price: <span id="ourFinalPrice">1200.00 PKR</span>
+                </div>
+            </div>
+
+            <button class="calculate-btn" onclick="calculateOurPrice()">
+                🧮 Calculate Price
+            </button>
+        </div>
+
+        <!-- COMPETITORS SECTION -->
+        <div class="competitors-section">
+            <h2>🆚 Competitor Comparison</h2>
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Loading airlines from data.json...</p>
+            </div>
+            <div class="competitors-grid" id="competitorsGrid"></div>
+        </div>
+
+        <!-- SUGGESTION BOX -->
+        <div class="suggestion-box" id="suggestionBox">
+            <h3 style="color: #f57c00; margin-bottom: 10px;">💡 Our Recommendation</h3>
+            <p class="suggestion-text" id="suggestionText" style="font-size: 1.1rem; margin-bottom: 10px;">Select an
+                airline to see comparison</p>
+            <div class="recommendation" id="recommendation">Waiting for selection...</div>
+        </div>
+
+        <!-- NAVIGATION -->
+        <div class="navigation">
+            <button class="nav-btn" onclick="goBack()">← Back to Main Page</button>
+            <button class="nav-btn refresh-btn" onclick="refreshComparison()">🔄 Refresh</button>
+            <button class="nav-btn" onclick="debugDataJson()" style="background: #9c27b0;">🔍 Debug</button>
+        </div>
+    </div>
+
+    <script>
+        // ========== GLOBAL VARIABLES ==========
+        let airlinesData = [];
+        let currentAirline = null;
+        let ourFinalPrice = 1200;
+        let competitors = [];
+
+        // Show CORS warning if opening from file://
+        if (window.location.protocol === 'file:') {
+            document.getElementById('cors-warning').style.display = 'block';
+            // Auto-use embedded data after 1 second
+            setTimeout(() => {
+                if (airlinesData.length === 0) {
+                    useEmbeddedData();
+                }
+            }, 1000);
+        }
+
+        // ========== LOAD DATA FROM data.json ==========
+        async function loadDataFromJson() {
+            console.log('🔄 Loading data.json...');
+            const loadingEl = document.getElementById('loading');
+
+            try {
+                const response = await fetch('data.json', {
+                    cache: 'no-cache',
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status} - File not found`);
+                }
+
+                const data = await response.json();
+                
+                if (!Array.isArray(data)) {
+                    throw new Error('data.json must be an array');
+                }
+
+                console.log(`✅ Loaded ${data.length} airlines`);
+                airlinesData = data;
+                
+                const count = populateDropdown();
+                loadingEl.innerHTML = `<p style="color: #4caf50;">✅ Successfully loaded ${count} airlines</p>`;
+                
+                setTimeout(autoSelectFirstAirline, 100);
+
+            } catch (error) {
+                console.error('❌ Error:', error);
+                loadingEl.innerHTML = `
+                    <div style="color: #d32f2f; padding: 20px; background: #ffebee; border-radius: 8px;">
+                        <strong>❌ Cannot load data.json</strong><br>
+                        <p style="margin-top: 10px;">${error.message}</p>
+                        <button onclick="useEmbeddedData()" style="margin-top: 15px; background: #ff9800; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+                            📦 Use Embedded Data
+                        </button>
+                    </div>
+                `;
+                useEmbeddedData();
+            }
+        }
+
+        // ========== POPULATE DROPDOWN ==========
+        function populateDropdown() {
+            const select = document.getElementById('calcAirline');
+            
+            while (select.options.length > 1) {
+                select.remove(1);
+            }
+
+            const cashAirlines = airlinesData.filter(item => item.category === 'cash');
+            const creditAirlines = airlinesData.filter(item => item.category === 'credit');
+
+            if (cashAirlines.length > 0) {
+                const cashGroup = document.createElement('optgroup');
+                cashGroup.label = '💰 Same Day Cash';
+                
+                cashAirlines.sort((a, b) => a.airline.localeCompare(b.airline));
+                
+                cashAirlines.forEach(airline => {
+                    if (!airline.airline) return;
+                    const option = document.createElement('option');
+                    option.value = airline.airline;
+                    option.textContent = airline.airline;
+                    
+                    option.setAttribute('data-discount', airline.discount || '0');
+                    option.setAttribute('data-category', 'cash');
+                    option.setAttribute('data-notification', airline.notification || '');
+                    option.setAttribute('data-validity', airline.validity || '');
+                    option.setAttribute('data-instructions', airline.instructions || '');
+                    option.setAttribute('data-note', airline.note || '');
+                    option.setAttribute('data-logo', airline.logo || 'QFClogo.png');
+                    
+                    cashGroup.appendChild(option);
+                });
+                
+                select.appendChild(cashGroup);
+            }
+
+            if (creditAirlines.length > 0) {
+                const creditGroup = document.createElement('optgroup');
+                creditGroup.label = '💳 Credit Airlines';
+                
+                creditAirlines.sort((a, b) => a.airline.localeCompare(b.airline));
+                
+                creditAirlines.forEach(airline => {
+                    if (!airline.airline) return;
+                    const option = document.createElement('option');
+                    option.value = airline.airline;
+                    option.textContent = airline.airline;
+                    
+                    option.setAttribute('data-discount', airline.discount || '0');
+                    option.setAttribute('data-category', 'credit');
+                    option.setAttribute('data-notification', airline.notification || '');
+                    option.setAttribute('data-validity', airline.validity || '');
+                    option.setAttribute('data-instructions', airline.instructions || '');
+                    option.setAttribute('data-note', airline.note || '');
+                    option.setAttribute('data-logo', airline.logo || 'QFClogo.png');
+                    
+                    creditGroup.appendChild(option);
+                });
+                
+                select.appendChild(creditGroup);
+            }
+
+            return select.options.length - 1;
+        }
+
+        // ========== AUTO SELECT FIRST AIRLINE ==========
+        function autoSelectFirstAirline() {
+            const select = document.getElementById('calcAirline');
+            if (select.options.length > 1) {
+                select.selectedIndex = 1;
+                loadAirlineDiscount();
+            }
+        }
+
+        // ========== LOAD AIRLINE DISCOUNT ==========
+        function loadAirlineDiscount() {
+            const select = document.getElementById('calcAirline');
+            const selectedOption = select.options[select.selectedIndex];
+
+            if (!selectedOption || !selectedOption.value) {
+                document.getElementById('discountDisplay').classList.remove('active');
+                document.getElementById('calculationResults').classList.remove('active');
+                document.getElementById('suggestionBox').classList.remove('active');
+                return;
+            }
+
+            const discount = selectedOption.getAttribute('data-discount') || '0';
+            const category = selectedOption.getAttribute('data-category') || 'credit';
+            const notification = selectedOption.getAttribute('data-notification') || '';
+            const validity = selectedOption.getAttribute('data-validity') || '';
+            const instructions = selectedOption.getAttribute('data-instructions') || '';
+            const note = selectedOption.getAttribute('data-note') || '';
+
+            let displayDiscount = discount;
+            
+            if (discount.includes('PKR')) {
+                displayDiscount = `+${discount}`;
+            }
+            else if (discount.includes('%') && !discount.includes('-') && discount !== '0%') {
+                displayDiscount = `+${discount}`;
+            }
+            else if (discount.includes('-')) {
+                displayDiscount = discount;
+            }
+            else if (discount === '0.00' || discount === '0') {
+                displayDiscount = 'No Fee/Discount';
+            }
+
+            currentAirline = {
+                name: selectedOption.value,
+                discount: discount,
+                displayDiscount: displayDiscount,
+                category: category,
+                notification: notification,
+                validity: validity,
+                instructions: instructions,
+                note: note,
+                logo: selectedOption.getAttribute('data-logo') || 'QFClogo.png'
+            };
+
+            document.getElementById('dispDiscount').textContent = displayDiscount;
+            document.getElementById('categoryText').textContent = category === 'cash' ? '💰 Same Day Cash' : '💳 Credit Airlines';
+            document.getElementById('notificationText').textContent = notification || 'N/A';
+            document.getElementById('validityText').textContent = validity || 'N/A';
+            document.getElementById('instructionsText').textContent = instructions || note || 'No special instructions';
+
+            document.getElementById('discountDisplay').classList.add('active');
+            
+            calculateOurPrice();
+        }
+
+        // ========== CALCULATE OUR PRICE ==========
+        function calculateOurPrice() {
+            const basicFare = parseFloat(document.getElementById('calcBasic').value) || 0;
+            const taxes = parseFloat(document.getElementById('calcTax').value) || 0;
+            
+            let adjustmentAmount = 0;
+            let isAddition = false;
+
+            if (currentAirline) {
+                const discount = currentAirline.discount || '0';
+                
+                if (discount.includes('PKR')) {
+                    adjustmentAmount = parseFloat(discount.replace('PKR', '').replace(/,/g, '').trim()) || 0;
+                    isAddition = true;
+                }
+                else if (discount.includes('%')) {
+                    let percent = parseFloat(discount.replace('%', '').replace('-', '').trim()) || 0;
+                    
+                    if (discount.includes('-')) {
+                        adjustmentAmount = (percent / 100) * basicFare;
+                        isAddition = false;
+                    } else {
+                        adjustmentAmount = (percent / 100) * basicFare;
+                        isAddition = true;
+                    }
+                }
+                else {
+                    adjustmentAmount = parseFloat(discount) || 0;
+                    if (adjustmentAmount > 0) {
+                        isAddition = true;
+                    }
+                }
+            }
+
+            let adultTotal, childTotal, infantTotal;
+            
+            if (isAddition) {
+                adultTotal = (basicFare + taxes) + adjustmentAmount;
+                childTotal = (basicFare * 0.75 + taxes) + (adjustmentAmount * 0.75);
+                infantTotal = (basicFare * 0.10 + taxes) + (adjustmentAmount * 0.10);
+            } else {
+                adultTotal = (basicFare + taxes) - adjustmentAmount;
+                childTotal = (basicFare * 0.75 + taxes) - (adjustmentAmount * 0.75);
+                infantTotal = (basicFare * 0.10 + taxes) - (adjustmentAmount * 0.10);
+            }
+
+            document.getElementById('discAdultText').textContent = currentAirline?.displayDiscount || '-';
+            document.getElementById('discChildText').textContent = currentAirline?.displayDiscount || '-';
+            document.getElementById('discInfantText').textContent = currentAirline?.displayDiscount || '-';
+
+            document.getElementById('totalAdult').textContent = adultTotal.toFixed(2) + ' PKR';
+            document.getElementById('totalChild').textContent = childTotal.toFixed(2) + ' PKR';
+            document.getElementById('totalInfant').textContent = infantTotal.toFixed(2) + ' PKR';
+            document.getElementById('ourFinalPrice').textContent = adultTotal.toFixed(2) + ' PKR';
+
+            document.getElementById('calculationResults').classList.add('active');
+            
+            ourFinalPrice = adultTotal;
+            loadCompetitorComparison();
+        }
+
+        // ========== LOAD COMPETITOR COMPARISON ==========
+        function loadCompetitorComparison() {
+            const gridElement = document.getElementById('competitorsGrid');
+            const suggestionBox = document.getElementById('suggestionBox');
+
+            gridElement.innerHTML = '';
+
+            if (!currentAirline) return;
+
+            addOurOfferBox();
+
+            // ===== COMPETITORS WITH EXISTING LOGOS =====
+            competitors = [
+                {
+                    id: 'amadeus',
+                    name: 'Amadeus Travel',
+                    logo: '1A.png',
+                    adjustmentType: 'fee',
+                    adjustmentValue: 300,
+                    basicFare: 1000,
+                    taxes: 200
+                },
+                {
+                    id: 'galileo',
+                    name: 'Galileo Booking',
+                    logo: '1G.png',
+                    adjustmentType: 'discount',
+                    adjustmentValue: 1,
+                    basicFare: 1000,
+                    taxes: 200
+                },
+                {
+                    id: 'sabre',
+                    name: 'Sabre Solutions',
+                    logo: '1S.png',
+                    adjustmentType: 'commission',
+                    adjustmentValue: 1,
+                    basicFare: 1000,
+                    taxes: 200
+                }
+            ];
+
+            competitors.forEach(comp => {
+                addCompetitorBox(comp);
+            });
+
+            recalculateAllCompetitorPrices();
+            suggestionBox.classList.add('active');
+        }
+
+        // ========== ADD COMPETITOR BOX ==========
+        function addCompetitorBox(competitor) {
+            const gridElement = document.getElementById('competitorsGrid');
+
+            const box = document.createElement('div');
+            box.className = 'competitor-box';
+            box.id = `competitor-${competitor.id}`;
+            box.setAttribute('data-competitor', competitor.name);
+
+            const basicFare = competitor.basicFare || 1000;
+            const taxes = competitor.taxes || 200;
+
+            let badgeClass = 'adjustment-fee';
+            let typeLabel = 'Fee (PKR)';
+            let displayValue = `PKR ${competitor.adjustmentValue}`;
+            
+            if (competitor.adjustmentType === 'discount') {
+                badgeClass = 'adjustment-discount';
+                typeLabel = 'Discount (%)';
+                displayValue = `-${competitor.adjustmentValue}%`;
+            } else if (competitor.adjustmentType === 'commission') {
+                badgeClass = 'adjustment-commission';
+                typeLabel = 'Commission (%)';
+                displayValue = `+${competitor.adjustmentValue}%`;
+            }
+
+            box.innerHTML = `
+                <div class="competitor-header">
+                    <img src="${competitor.logo}" alt="${competitor.name}" class="competitor-logo" onerror="this.src='QFClogo.png'">
+                    <div class="competitor-name">${competitor.name}</div>
+                </div>
+                
+                <div class="adjustment-input-group">
+                    <div class="adjustment-label">
+                        <span>Adjustment Type</span>
+                        <span class="adjustment-badge ${badgeClass}" id="badge-${competitor.id}">${displayValue}</span>
+                    </div>
+                    <div class="adjustment-field">
+                        <select id="type-${competitor.id}" onchange="updateCompetitorAdjustment('${competitor.id}')">
+                            <option value="fee" ${competitor.adjustmentType === 'fee' ? 'selected' : ''}>Fee (PKR)</option>
+                            <option value="discount" ${competitor.adjustmentType === 'discount' ? 'selected' : ''}>Discount (%)</option>
+                            <option value="commission" ${competitor.adjustmentType === 'commission' ? 'selected' : ''}>Commission (%)</option>
+                        </select>
+                        <input type="number" id="value-${competitor.id}" 
+                               value="${competitor.adjustmentValue}" 
+                               placeholder="Value" 
+                               step="any"
+                               oninput="updateCompetitorAdjustment('${competitor.id}')">
+                    </div>
+                </div>
+
+                <div style="background: #f5f5f5; padding: 10px; border-radius: 6px; margin: 10px 0;">
+                    <div style="display: flex; justify-content: space-between;">
+                        <span>Basic Fare:</span>
+                        <span>${basicFare.toFixed(2)} PKR</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 5px;">
+                        <span>Taxes:</span>
+                        <span>${taxes.toFixed(2)} PKR</span>
+                    </div>
+                </div>
+
+                <div class="competitor-price" id="price-${competitor.id}">
+                    0.00 PKR
+                </div>
+                <div class="price-difference" id="difference-${competitor.id}">
+                    Loading...
+                </div>
+            `;
+
+            gridElement.appendChild(box);
+        }
+
+        // ========== UPDATE COMPETITOR ADJUSTMENT ==========
+        function updateCompetitorAdjustment(competitorId) {
+            const competitor = competitors.find(c => c.id === competitorId);
+            if (!competitor) return;
+
+            const typeSelect = document.getElementById(`type-${competitorId}`);
+            const valueInput = document.getElementById(`value-${competitorId}`);
+            
+            const newType = typeSelect.value;
+            let newValue = parseFloat(valueInput.value) || 0;
+            
+            competitor.adjustmentType = newType;
+            competitor.adjustmentValue = newValue;
+            
+            let displayString = '';
+            let badgeClass = 'adjustment-fee';
+            
+            if (newType === 'fee') {
+                displayString = `PKR ${newValue}`;
+                badgeClass = 'adjustment-fee';
+            } else if (newType === 'discount') {
+                displayString = `-${newValue}%`;
+                badgeClass = 'adjustment-discount';
+            } else if (newType === 'commission') {
+                displayString = `+${newValue}%`;
+                badgeClass = 'adjustment-commission';
+            }
+            
+            const badge = document.getElementById(`badge-${competitorId}`);
+            if (badge) {
+                badge.textContent = displayString;
+                badge.className = `adjustment-badge ${badgeClass}`;
+            }
+            
+            recalculateCompetitorPrice(competitorId);
+            updateBestPriceAndSuggestion();
+        }
+
+        // ========== RECALCULATE COMPETITOR PRICE ==========
+        function recalculateCompetitorPrice(competitorId) {
+            const competitor = competitors.find(c => c.id === competitorId);
+            if (!competitor) return;
+
+            const basicFare = competitor.basicFare || 1000;
+            const taxes = competitor.taxes || 200;
+            
+            let adjustmentAmount = 0;
+            let isAddition = false;
+            
+            const adjValue = parseFloat(competitor.adjustmentValue) || 0;
+            
+            if (competitor.adjustmentType === 'fee') {
+                adjustmentAmount = adjValue;
+                isAddition = true;
+            } else if (competitor.adjustmentType === 'discount') {
+                adjustmentAmount = (adjValue / 100) * basicFare;
+                isAddition = false;
+            } else if (competitor.adjustmentType === 'commission') {
+                adjustmentAmount = (adjValue / 100) * basicFare;
+                isAddition = true;
+            }
+            
+            let finalPrice;
+            if (isAddition) {
+                finalPrice = (basicFare + taxes) + adjustmentAmount;
+            } else {
+                finalPrice = (basicFare + taxes) - adjustmentAmount;
+            }
+            
+            finalPrice = parseFloat(finalPrice) || 0;
+            
+            const priceElement = document.getElementById(`price-${competitorId}`);
+            if (priceElement) {
+                priceElement.textContent = finalPrice.toFixed(2) + ' PKR';
+            }
+            
+            const diffElement = document.getElementById(`difference-${competitorId}`);
+            if (diffElement) {
+                const priceDifference = finalPrice - ourFinalPrice;
+                let differenceClass = 'expensive';
+                let differenceText = '▲';
+                let differenceMsg = '';
+                
+                if (priceDifference < 0) {
+                    differenceClass = 'cheaper';
+                    differenceText = '▼';
+                    differenceMsg = `${Math.abs(priceDifference).toFixed(2)} PKR cheaper`;
+                } else if (priceDifference > 0) {
+                    differenceClass = 'expensive';
+                    differenceText = '▲';
+                    differenceMsg = `${priceDifference.toFixed(2)} PKR more expensive`;
+                } else {
+                    differenceClass = 'equal';
+                    differenceText = '=';
+                    differenceMsg = 'Same price';
+                }
+                
+                diffElement.className = `price-difference ${differenceClass}`;
+                diffElement.innerHTML = `${differenceText} ${differenceMsg}`;
+            }
+            
+            return finalPrice;
+        }
+
+        // ========== RECALCULATE ALL COMPETITOR PRICES ==========
+        function recalculateAllCompetitorPrices() {
+            competitors.forEach(comp => {
+                recalculateCompetitorPrice(comp.id);
+            });
+            updateBestPriceAndSuggestion();
+        }
+
+        // ========== UPDATE BEST PRICE AND SUGGESTION ==========
+        function updateBestPriceAndSuggestion() {
+            let bestPrice = ourFinalPrice;
+            let bestCompetitor = 'Our Offer';
+            
+            competitors.forEach(comp => {
+                const basicFare = comp.basicFare || 1000;
+                const taxes = comp.taxes || 200;
+                
+                let adjustmentAmount = 0;
+                let isAddition = false;
+                
+                const adjValue = parseFloat(comp.adjustmentValue) || 0;
+                
+                if (comp.adjustmentType === 'fee') {
+                    adjustmentAmount = adjValue;
+                    isAddition = true;
+                } else if (comp.adjustmentType === 'discount') {
+                    adjustmentAmount = (adjValue / 100) * basicFare;
+                    isAddition = false;
+                } else if (comp.adjustmentType === 'commission') {
+                    adjustmentAmount = (adjValue / 100) * basicFare;
+                    isAddition = true;
+                }
+                
+                let finalPrice;
+                if (isAddition) {
+                    finalPrice = (basicFare + taxes) + adjustmentAmount;
+                } else {
+                    finalPrice = (basicFare + taxes) - adjustmentAmount;
+                }
+                
+                finalPrice = parseFloat(finalPrice) || 0;
+                
+                if (finalPrice < bestPrice) {
+                    bestPrice = finalPrice;
+                    bestCompetitor = comp.name;
+                }
+            });
+            
+            markBestPriceBox(bestCompetitor);
+            
+            const suggestionText = document.getElementById('suggestionText');
+            const recommendation = document.getElementById('recommendation');
+            
+            if (bestCompetitor === 'Our Offer') {
+                suggestionText.innerHTML = `✨ <strong>Our offer</strong> is the BEST price at <strong>${ourFinalPrice.toFixed(2)} PKR</strong>!`;
+                recommendation.textContent = '✓ RECOMMENDATION: Book with us today!';
+                recommendation.style.background = '#4caf50';
+            } else {
+                const savings = (ourFinalPrice - bestPrice).toFixed(2);
+                suggestionText.innerHTML = `⚠️ <strong>${bestCompetitor}</strong> offers a better price at <strong>${bestPrice.toFixed(2)} PKR</strong> (Save ${savings} PKR)`;
+                recommendation.textContent = '💡 Consider matching this price or highlighting our benefits';
+                recommendation.style.background = '#ff9800';
+            }
+        }
+
+        // ========== MARK BEST PRICE BOX ==========
+        function markBestPriceBox(bestCompetitor) {
+            const boxes = document.querySelectorAll('.competitor-box');
+            boxes.forEach(box => {
+                box.classList.remove('best-price');
+                const badge = box.querySelector('.best-price-badge');
+                if (badge) badge.remove();
+            });
+
+            boxes.forEach(box => {
+                const name = box.getAttribute('data-competitor');
+                if (name === bestCompetitor) {
+                    box.classList.add('best-price');
+                    
+                    const badge = document.createElement('div');
+                    badge.className = 'best-price-badge';
+                    badge.textContent = '🏆 BEST PRICE';
+                    box.appendChild(badge);
+                }
+            });
+        }
+
+        // ========== ADD OUR OFFER BOX ==========
+        function addOurOfferBox() {
+            const gridElement = document.getElementById('competitorsGrid');
+            const airlineName = currentAirline ? currentAirline.name : 'Selected Airline';
+            const discount = currentAirline ? currentAirline.displayDiscount : '-';
+            const basicFare = parseFloat(document.getElementById('calcBasic').value) || 0;
+            const taxes = parseFloat(document.getElementById('calcTax').value) || 0;
+
+            const box = document.createElement('div');
+            box.className = 'competitor-box our-offer';
+            box.setAttribute('data-competitor', 'Our Offer');
+
+            let adjustmentClass = 'adjustment-fee';
+            
+            if (currentAirline) {
+                if (currentAirline.discount.includes('-')) {
+                    adjustmentClass = 'adjustment-discount';
+                } else if (currentAirline.discount.includes('%') && !currentAirline.discount.includes('-')) {
+                    adjustmentClass = 'adjustment-commission';
+                } else if (currentAirline.discount.includes('PKR')) {
+                    adjustmentClass = 'adjustment-fee';
+                }
+            }
+
+            box.innerHTML = `
+                <div style="background: #2196f3; color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; display: inline-block; margin-bottom: 10px;">
+                    ⭐ OUR OFFER
+                </div>
+                <div class="competitor-header">
+                    <img src="QFClogo.png" alt="QFC" class="competitor-logo">
+                    <div class="competitor-name">QFC Travel</div>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <span style="font-weight: 600;">${airlineName}</span>
+                    <span class="adjustment-badge ${adjustmentClass}">${discount}</span>
+                </div>
+                <div style="background: #f5f5f5; padding: 10px; border-radius: 6px; margin: 10px 0;">
+                    <div style="display: flex; justify-content: space-between;">
+                        <span>Basic Fare:</span>
+                        <span>${basicFare.toFixed(2)} PKR</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 5px;">
+                        <span>Taxes:</span>
+                        <span>${taxes.toFixed(2)} PKR</span>
+                    </div>
+                </div>
+                <div class="competitor-price" style="color:#2196f3;">
+                    ${ourFinalPrice.toFixed(2)} PKR
+                </div>
+                <div class="price-difference equal" style="background:#e3f2fd; color:#1565c0;">
+                    ✓ Our calculated price
+                </div>
+                <div class="competitor-details">
+                    <div class="detail-item">
+                        <span>Notification:</span>
+                        <span>${currentAirline?.notification || 'N/A'}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>Validity:</span>
+                        <span>${currentAirline?.validity || 'N/A'}</span>
+                    </div>
+                </div>
+            `;
+
+            gridElement.appendChild(box);
+        }
+
+        // ========== EMBEDDED FALLBACK DATA ==========
+        function useEmbeddedData() {
+            airlinesData = [
+                {"category": "credit", "airline": "PIA", "discount": "-2.5%", "logo": "PKlogo.png", "note": "", "notification": "HITIT only", "validity": "2026-02-28", "instructions": ""},
+                {"category": "cash", "airline": "Serene Air", "discount": "-3%", "logo": "ERlogo.png", "note": "Int & Dom Flights", "notification": "Currently Suspend", "validity": "2025-06-01"},
+                {"category": "cash", "airline": "Fly Jinnah", "discount": "PKR 500", "logo": "FJlogo.png", "note": "Int & Dom Flights", "notification": "Per Pax PSF", "validity": "2026-02-28", "instructions": ""},
+                {"category": "cash", "airline": "Airblue", "discount": "0.00", "logo": "PAlogo.png", "note": "Int & Dom Flights", "notification": "Net Price", "validity": "2026-02-28", "instructions": ""},
+                {"category": "cash", "airline": "Airsial", "discount": "0.00", "logo": "PFLOGO.png", "note": "Int & Dom Flights", "notification": "Net Price", "validity": "2026-02-28", "instructions": ""},
+                {"category": "cash", "airline": "Flynas", "discount": "PKR 500", "logo": "XYlogo.png", "note": "", "notification": "Per Pax PSF", "validity": "2026-02-28", "instructions": "if booked from Portal direct issuance will be done Portal will ask for OTP please contact us to get OTP and auto ticket issued"},
+                {"category": "cash", "airline": "Salam Air", "discount": "PKR 500", "logo": "OVlogo.png", "note": "", "notification": "Per Pax PSF", "validity": "2026-02-28", "instructions": ""},
+                {"category": "cash", "airline": "Flyadeal", "discount": "PKR 500 ", "logo": "FYlogo.png", "note": "Admin Fee $ 10", "notification": "Per Pax PSF", "validity": "2026-02-28", "instructions": ""},
+                {"category": "credit", "airline": "PIA", "discount": "0.00", "logo": "PKlogo.png", "note": "", "notification": "GDS Fares", "validity": "2026-02-28", "instructions": ""},
+                {"category": "credit", "airline": "Emirates", "discount": "-1.0%", "logo": "EKlogo.png", "note": "", "notification": "GDS & NDC ", "validity": "2026-02-28", "instructions": "Except Africa, Middle East and South Asia"},
+                {"category": "credit", "airline": "Thai Airways", "discount": "0.5%", "logo": "TGlogo.png", "note": "", "notification": "GDS Fares", "validity": "2026-02-28", "instructions": ""},
+                {"category": "credit", "airline": "Etihad Airways", "discount": "0.5%", "logo": "EYlogo.png", "note": "", "notification": "GDS & NDC ", "validity": "2026-02-28", "instructions": ""},
+                {"category": "credit", "airline": "Kuwait Airways", "discount": "0.5%", "logo": "KUlogo.png", "note": "", "notification": "GDS Fares", "validity": "2026-02-28", "instructions": ""},
+                {"category": "credit", "airline": "Saudia Arabian Airlines", "discount": "-2.0%", "logo": "SVlogo.png", "note": "", "notification": "GDS Fares", "validity": "2026-02-28", "instructions": ""},
+                {"category": "credit", "airline": "Qatar Airways", "discount": "0.5%", "logo": "QRlogo.png", "note": "", "notification": "NDC Fares", "validity": "2026-02-28", "instructions": ""},
+                {"category": "credit", "airline": "Qatar Airways", "discount": "0.5%", "logo": "QRlogo.png", "note": "", "notification": "GDS Fares", "validity": "2026-02-28", "instructions": ""},
+                {"category": "credit", "airline": "Oman Air", "discount": "0.5%", "logo": "WYlogo.png", "note": "", "notification": "GDS Fares", "validity": "2026-02-28", "instructions": ""},
+                {"category": "credit", "airline": "Hahn Air", "discount": "1.0%", "logo": "HRlogo.png", "note": "", "notification": "Per Pax PSF", "validity": "2026-02-28", "instructions": ""},
+                {"category": "credit", "airline": "Air China", "discount": "-4%", "logo": "AClogo.png", "note": "", "notification": "GDS Fares", "validity": "2026-02-28", "instructions": ""},
+                {"category": "credit", "airline": "Jazeera Air", "discount": "PKR 500", "logo": "J9logo.png", "note": "", "notification": "Per Pax PSF", "validity": "2026-02-28", "instructions": "Jazeera Air booking hold for 20 Minutes after booking from Web Portal"},
+                {"category": "credit", "airline": "Turkish Airlines", "discount": "0.5%", "logo": "TKlogo.png", "note": "", "notification": "NDC Fares", "validity": "2026-02-28", "instructions": ""},
+                {"category": "credit", "airline": "China Southern", "discount": "-5%", "logo": "CZlogo.png", "note": "", "notification": "GDS Fares", "validity": "2026-02-28", "instructions": "Discount is applicable on EX-Pakistan only, no discount on SOTO Tickets"},
+                {"category": "credit", "airline": "Somon Air", "discount": "1.0%", "logo": "SOlogo.png", "note": "", "notification": "Per Pax PSF", "validity": "2026-02-28", "instructions": ""},
+                {"category": "credit", "airline": "British Airways", "discount": "1.0%", "logo": "BAlogo.png", "note": "", "notification": "GDS Fares", "validity": "2026-02-28", "instructions": ""},
+                {"category": "credit", "airline": "Azerbaijan Airlines", "discount": "0.5%", "logo": "J2logo.png", "note": "", "notification": "GDS Fares", "validity": "2026-02-28", "instructions": ""},
+                {"category": "credit", "airline": "SCAT Airlines", "discount": "1.0%", "logo": "SClogo.png", "note": "", "notification": "GDS Fares", "validity": "2026-02-28", "instructions": ""},
+                {"category": "credit", "airline": "Gulf Air", "discount": "-2%", "logo": "GFlogo.png", "note": "", "notification": "GDS Fares", "validity": "2026-02-28", "instructions": ""},
+                {"category": "credit", "airline": "Fly Dubai", "discount": "0.5%", "logo": "FZlogo.png", "note": "", "notification": "GDS Fares", "validity": "2026-02-28", "instructions": ""},
+                {"category": "credit", "airline": "Fly Dubai", "discount": "PKR 500", "logo": "FZlogo.png", "note": "", "notification": "Web Fare", "validity": "2026-02-28", "instructions": ""},
+                {"category": "credit", "airline": "Pegasus Airline", "discount": "0.5%", "logo": "PElogo.png", "note": "", "notification": "GDS Fares", "validity": "2026-02-28", "instructions": ""},
+                {"category": "credit", "airline": "Srilankan Airlines", "discount": "-3.5%", "logo": "ULlogo.png", "note": "", "notification": "GDS Fares", "validity": "2026-02-28", "instructions": ""},
+                {"category": "credit", "airline": "Uzbekistan Airways", "discount": "0.5%", "logo": "HYlogo.png", "note": "", "notification": "GDS Fares", "validity": "2026-02-28", "instructions": ""},
+                {"category": "credit", "airline": "Royal Air Maroc", "discount": "1.0%", "logo": "RMlogo.png", "note": "", "notification": "GDS Fares", "validity": "2026-02-28", "instructions": ""},
+                {"category": "credit", "airline": "Malindo Air", "discount": "-2.5%", "logo": "ODlogo.png", "note": "", "notification": "GDS Fares", "validity": "2026-02-28", "instructions": ""},
+                {"category": "credit", "airline": "Royal Dutch Airlines", "discount": "0.5%", "logo": "KLlogo.png", "note": "", "notification": "GDS Fares", "validity": "2026-02-28", "instructions": ""},
+                {"category": "credit", "airline": "Ethiopian Airlines", "discount": "1.0%", "logo": "ETlogo.png", "note": "", "notification": "GDS Fares", "validity": "2026-02-28", "instructions": ""},
+                {"category": "credit", "airline": "Ethiopian Airlines", "discount": "-1.5%", "logo": "ETlogo.png", "note": "", "notification": "NDC Fares", "validity": "2026-02-28", "instructions": ""},
+                {"category": "credit", "airline": "Air Canada", "discount": "0.5%", "logo": "CAlogo.png", "note": "", "notification": "GDS Fares", "validity": "2026-02-28", "instructions": ""},
+                {"category": "credit", "airline": "Air France", "discount": "0.5%", "logo": "AFlogo.png", "note": "", "notification": "GDS Fares", "validity": "2026-02-28", "instructions": ""},
+                {"category": "credit", "airline": "Royal Brunei", "discount": "1.05", "logo": "RBlogo.png", "note": "", "notification": "GDS Fares", "validity": "2026-02-28", "instructions": ""},
+                {"category": "credit", "airline": "APG Airlines", "discount": "0.5%", "logo": "APGlogo.png", "note": "", "notification": "GDS Fares", "validity": "2026-02-28", "instructions": ""},
+                {"category": "credit", "airline": "Kenya Airways", "discount": "1.0%", "logo": "KQlogo.png", "note": "", "notification": "GDS Fares", "validity": "2026-07-31", "instructions": ""},
+                {"category": "credit", "airline": "Air Mauritius", "discount": "1.0%", "logo": "MUlogo.png", "note": "", "notification": "GDS Fares", "validity": "2026-02-28", "instructions": ""},
+                {"category": "credit", "airline": "Virgin Atlantic", "discount": "0.5%", "logo": "VSlogo.png", "note": "", "notification": "GDS Fares", "validity": "2026-02-28", "instructions": ""},
+                {"category": "credit", "airline": "Royal Jordanian", "discount": "1.0%", "logo": "RJlogo.png", "note": "", "notification": "GDS Fares", "validity": "2026-02-28", "instructions": ""},
+                {"category": "credit", "airline": "Singapore Airlines", "discount": "1.0%", "logo": "SKlogo.png", "note": "", "notification": "GDS Fares", "validity": "2026-02-28", "instructions": ""},
+                {"category": "credit", "airline": "Phillippine Airlines", "discount": "1.0%", "logo": "PHlogo.png", "note": "", "notification": "GDS Fares", "validity": "2026-02-28", "instructions": ""},
+                {"category": "cash", "airline": "Air Asia", "discount": "PKR 500", "logo": "AAlogo.png", "note": "", "notification": "Per Pax PSF", "validity": "2026-02-28", "instructions": "Prices in USD, ROE is 286"}
+            ];
+
+            populateDropdown();
+            autoSelectFirstAirline();
+            
+            document.getElementById('loading').innerHTML = `
+                <div style="background: #fff3e0; padding: 15px; border-radius: 5px; border-left: 4px solid #ff9800;">
+                    <strong style="color: #ff9800;">✅ Using Embedded Data</strong>
+                    <p style="margin-top: 5px;">Loaded ${airlinesData.length} airlines</p>
+                </div>
+            `;
+        }
+
+        // ========== DEBUG FUNCTION ==========
+        function debugDataJson() {
+            console.clear();
+            console.group('🔍 DEBUG INFO');
+            console.log('Airlines in dropdown:', document.getElementById('calcAirline').options.length - 1);
+            console.log('Current airline:', currentAirline);
+            console.log('Our final price:', ourFinalPrice);
+            console.log('Competitors:', competitors);
+            console.groupEnd();
+            alert('Check console (F12) for debug info');
+        }
+
+        // ========== NAVIGATION ==========
+        function goBack() {
+            window.history.back();
+        }
+
+        function refreshComparison() {
+            calculateOurPrice();
+        }
+
+        // ========== INITIALIZE ==========
+        window.onload = function() {
+            loadDataFromJson();
+        };
+    </script>
+</body>
+</html>
