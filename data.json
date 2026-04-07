@@ -91,7 +91,7 @@
   {
     "category": "credit",
     "airline": "Emirates",
-    "discount": "-1.0%",
+    "discount": "0.5%",
     "logo": "EKlogo.png",
     "note": "",
     "notification": "GDS & NDC ",
