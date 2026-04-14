@@ -215,6 +215,17 @@
         <option value="">-- Select Airline --</option>
     </select>
 
+    <!-- NEW: Booking Type Dropdown -->
+    <div class="form-row">
+        <div>
+            <label>Booking Type</label>
+            <select id="calcBookingType" onchange="calculatePSF()">
+                <option value="GDS">GDS</option>
+                <option value="NDC">NDC</option>
+            </select>
+        </div>
+    </div>	
+
     <div class="form-row">
         <div>
             <label>Adult Basic Fare (PKR)</label>
