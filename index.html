@@ -18,35 +18,23 @@
     
 <!-- ===== WELCOME OVERLAY ===== -->
 <div id="welcome-screen">
-    <!-- QFC LOGO (FIRST) -->
     <img src="QFClogo.png" class="qfc-main-logo">
-    
-    <!-- PARTNER LOGOS BELOW QFC LOGO -->
     <div class="partner-logos-container">
         <div class="partner-logos-grid">
-            <!-- Partner Logo 1: QBlogo.png -->
             <div class="partner-logo-item">
                 <img src="QBlogo.png" alt="QB Logo" class="partner-logo-img">
             </div>
-            
-            <!-- Partner Logo 2: FClogo.png -->
             <div class="partner-logo-item">
                 <img src="FClogo.png" alt="FC Logo" class="partner-logo-img">
             </div>
-            
-            <!-- Partner Logo 3: TDlogo.jpeg -->
             <div class="partner-logo-item">
                 <img src="TDlogo.jpeg" alt="TD Logo" class="partner-logo-img">
             </div>
-            
-            <!-- Partner Logo 4: TPlogo.png -->
             <div class="partner-logo-item">
                 <img src="TPlogo.png" alt="TP Logo" class="partner-logo-img">
             </div>
         </div>
     </div>
-    
-    <!-- WELCOME TEXT (BELOW ALL LOGOS) -->
     <div class="welcome-text">Welcome to QFC Group Pvt Ltd</div>
 </div>
 
@@ -60,7 +48,6 @@
     </div>
   </div>
 
-  <!-- GDS LOGOS IN CENTER -->
   <div class="gds-logos">
     <div class="logo-box" data-title="Amadeus">
         <img src="1A.png" alt="Amadeus">
@@ -77,7 +64,7 @@
       <button id="loginBtn" onclick="showLoginModal()">Admin Login</button>
       <button id="logoutBtn" onclick="logout()" style="display:none;">Logout</button>
       <button id="addBtn" onclick="showAddModal()" style="display:none;">+ Add Airline</button>
-     </div>
+  </div>
 </header>
 
 <!-- ===== RUNNING TEXT MARQUEE ===== -->
@@ -92,8 +79,6 @@
             <span>📢 <span class="highlight">NEW:</span> Additional PSF calculator tool available</span>
             <span>📄 <span class="highlight">DOCUMENTS:</span> Check documents section for latest policies</span>
             <span>🔄 <span class="highlight">REISSUE/REFUND/VOID:</span> Service charges apply PKR 500/-</span>
-            
-            <!-- Repeat for seamless loop -->
             <span>✨ <span class="highlight">SPECIAL OFFER:</span> Get additional discount up to PKR 1600 per ticket</span>
             <span>📅 <span class="highlight">VALIDITY:</span> All offers valid until further notice</span>
             <span>📞 <span class="highlight">CONTACT:</span> For bookings call +92-308-8296519</span>
@@ -107,32 +92,20 @@
 </div>
   
 <!-- ===== SHEET WRAPPER ===== -->
-<!-- ===== SHEET WRAPPER ===== -->
 <div id="sheet-wrapper">
   <div id="sheet">
 
-    <!-- TOP ROW - REORGANIZED -->
     <div class="sheet-top-row">
-      <!-- LEFT: LOGO -->
       <div class="sheet-logo">
         <img src="QFClogo.png">
       </div>
       
-      <!-- RIGHT: TOOLS BUTTONS -->
       <div class="tools-container">
-	<!--
-	<button class="tool-btn" onclick="window.open('compare.html', '_blank')">
-  	<span class="tool-icon">📊</span>
-  	<span class="tool-text">Compare Competitors</span>
-	</button>
-	-->
-        <!-- CALCULATOR BUTTON -->
         <button class="tool-btn calculator-btn" onclick="openCalculator()">
           <span class="tool-icon">🧮</span>
           <span class="tool-text">Discount Calculator</span>
         </button>
         
-        <!-- DOCUMENTS DROPDOWN -->
         <div class="documents-dropdown">
             <button class="tool-btn dropdown-btn" onclick="toggleDropdown()">
                 <span class="tool-icon">📁</span>
@@ -141,11 +114,8 @@
             </button>
             <div class="dropdown-content" id="documentsDropdown">
                 <div class="drop-content" id="resourceList">
-                    <!-- Javascript will populate this list -->
                     <div class="loading-text">Loading files...</div>
                 </div>
-
-                <!-- ADMIN ONLY: UPLOAD SECTION -->
                 <div id="uploadSection" style="display:none; border-top:1px solid #ddd; padding-top:10px;">
                     <button class="upload-trigger-btn" onclick="document.getElementById('fileToUpload').click()">
                         + Upload New File
@@ -157,7 +127,6 @@
       </div>
     </div>
 
-    <!-- OFFER TEXT -->
     <div class="gds-offer-text">
       Get Additional Discount upto <strong>PKR 1600/-</strong> per ticket
     </div>
@@ -176,7 +145,6 @@
     <h3>CREDIT AIRLINE</h3>
     <div class="grid" id="creditGrid"></div>
 
-    <!-- SHEET FOOTER -->
     <div class="sheet-footer">
       <h4>QFC GROUP PVT LTD</h4>
       <p>RIZWAN PLAZA, MAIN JINNAH AVENUE, BLUE AREA, ISLAMABAD</p>
@@ -258,32 +226,42 @@
         </div>
     </div>
 
-    <!-- ALL 3 FARES DISPLAYED AT ONCE -->
+    <!-- NEW: Segment input -->
+    <div class="form-row">
+        <div>
+            <label>GDS Segments (PKR 400/segment)</label>
+            <input type="number" id="calcSegments" placeholder="0" min="0" oninput="calculatePSF()">
+        </div>
+    </div>
+
     <div class="calc-results">
         
-        <!-- ADULT ROW -->
         <div class="fare-row">
             <div class="fare-title">ADULT</div>
             <div class="fare-details">
                 <div>Disc/PSF: <strong id="dispDiscAdult">-</strong></div>
+                <!-- NEW: Segment disc display -->
+                <div>Segment Disc: <strong id="dispSegDiscAdult">PKR 0</strong></div>
                 <div>Total: <span id="dispTotalAdult">0.00 PKR</span></div>
             </div>
         </div>
 
-        <!-- CHILD ROW -->
         <div class="fare-row child">
             <div class="fare-title">CHILD (75%)</div>
             <div class="fare-details">
                 <div>Disc/PSF: <strong id="dispDiscChild">-</strong></div>
+                <!-- NEW: Segment disc display -->
+                <div>Segment Disc: <strong id="dispSegDiscChild">PKR 0</strong></div>
                 <div>Total: <span id="dispTotalChild">0.00 PKR</span></div>
             </div>
         </div>
 
-        <!-- INFANT ROW -->
         <div class="fare-row infant">
             <div class="fare-title">INFANT (10%)</div>
             <div class="fare-details">
                 <div>Disc/PSF: <strong id="dispDiscInfant">-</strong></div>
+                <!-- NEW: Segment disc display -->
+                <div>Segment Disc: <strong id="dispSegDiscInfant">N/A</strong></div>
                 <div>Total: <span id="dispTotalInfant">0.00 PKR</span></div>
             </div>
         </div>
@@ -296,7 +274,8 @@
   </div>
 </div>
 
-<script src="script.js?v=9"></script>
+<!-- CHANGED: v=9 to v=11 to force browser load new script.js -->
+<script src="script.js?v=11"></script>
 <!--Start of Tawk.to Script-->
 <script type="text/javascript">
 var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
