@@ -14,13 +14,12 @@ const CONFIG = {
 let data = [];
 let sha = "";
 let isEditor = false;
-let resourcesFolder = "resources"; // Folder name on GitHub
+let resourcesFolder = "resources";
 
 /* =========================
    DROPDOWN FUNCTIONS
 ========================= */
 
-// Toggle dropdown visibility
 function toggleDropdown() {
     const dropdown = document.getElementById('documentsDropdown');
     const dropdownBtn = document.querySelector('.dropdown-btn');
@@ -33,7 +32,6 @@ function toggleDropdown() {
     }
 }
 
-// Close dropdown when clicking outside
 document.addEventListener('click', function(event) {
     const dropdown = document.getElementById('documentsDropdown');
     const dropdownBtn = document.querySelector('.dropdown-btn');
@@ -95,7 +93,7 @@ async function saveToGitHub() {
         if (!res.ok) throw new Error("Failed to save");
         
         const json = await res.json();
-        sha = json.content.sha; // UPDATE: Ensures we keep the latest SHA so next save doesn't fail
+        sha = json.content.sha;
         alert("Saved Successfully!");
         render();
     } catch (error) {
@@ -147,7 +145,6 @@ function render() {
         categoryGrid.appendChild(card);
     });
 
-    // Load Resources List
     loadResources();
 }
 
@@ -155,7 +152,6 @@ function render() {
    RESOURCES MANAGER (UPDATED FOR IMAGE FILES)
 ========================= */
 
-// Load files from 'resources' folder
 async function loadResources() {
     const listContainer = document.getElementById("resourceList");
     const uploadSection = document.getElementById("uploadSection");
@@ -166,13 +162,11 @@ async function loadResources() {
     }
 
     try {
-        // No token needed for public read
         const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${resourcesFolder}`;
         
         const res = await fetch(url);
         
         if (!res.ok) {
-            // If folder doesn't exist, show empty message
             listContainer.innerHTML = "<div style='text-align:center;padding:10px;color:#777'>No documents available.</div>";
             if (uploadSection) uploadSection.style.display = "none";
             return;
@@ -180,17 +174,14 @@ async function loadResources() {
 
         const files = await res.json();
         
-        // Clear loading text
         listContainer.innerHTML = "";
 
-        // --- 1. HANDLE UPLOAD BUTTON (Admin Only) ---
         if (isEditor && uploadSection) {
             uploadSection.style.display = "block";
         } else if (uploadSection) {
             uploadSection.style.display = "none";
         }
 
-        // --- 2. POPULATE DOWNLOAD LIST (Visible to Everyone) ---
         if(!Array.isArray(files) || files.length === 0) {
             listContainer.innerHTML = "<div style='text-align:center;padding:10px;color:#777'>No documents available.</div>";
             return;
@@ -206,22 +197,14 @@ async function loadResources() {
             const item = document.createElement("div");
             item.className = "resource-item";
 
-            // Use raw.githubusercontent.com for direct download/view
             const linkUrl = `https://raw.githubusercontent.com/${CONFIG.owner}/${CONFIG.repo}/main/${resourcesFolder}/${file.name}`;
-            
-            // Get file icon based on extension
             const fileIcon = getFileIconHTML(file.name);
-            
-            // Get file extension
             const fileExt = file.name.split('.').pop().toLowerCase();
-            
-            // Check if it's an image file
             const isImageFile = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'svg'].includes(fileExt);
             
             let html = '';
             
             if (isImageFile) {
-                // For image files: Open in new tab (not download)
                 html = `
                     <a href="${linkUrl}" class="resource-link" target="_blank" title="View image in new tab">
                         ${fileIcon}
@@ -230,7 +213,6 @@ async function loadResources() {
                     </a>
                 `;
             } else {
-                // For non-image files: Download as usual
                 html = `
                     <a href="${linkUrl}" class="resource-link" download="${file.name}">
                         ${fileIcon}
@@ -239,7 +221,6 @@ async function loadResources() {
                 `;
             }
 
-            // Delete Button (Admin Only)
             if (isEditor) {
                 html += `
                     <button class="delete-res-btn" onclick="deleteResource('${file.name}', '${file.sha}')">×</button>
@@ -262,7 +243,6 @@ async function loadResources() {
     }
 }
 
-// Helper function to get file icon HTML
 function getFileIconHTML(filename) {
     const ext = filename.split('.').pop().toLowerCase();
     
@@ -281,7 +261,6 @@ function getFileIconHTML(filename) {
     }
 }
 
-// Handle Upload (Admin Only)
 function handleFileUpload(input) {
     const file = input.files[0];
     if (!file) return;
@@ -291,7 +270,7 @@ function handleFileUpload(input) {
 
     const reader = new FileReader();
     reader.onload = async function(e) {
-        const content = e.target.result.split(',')[1]; // Base64 part
+        const content = e.target.result.split(',')[1];
 
         const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${resourcesFolder}/${file.name}`;
 
@@ -312,7 +291,7 @@ function handleFileUpload(input) {
             if (!res.ok) throw new Error("Failed to upload");
 
             alert("File Uploaded Successfully!");
-            loadResources(); // Refresh list
+            loadResources();
         } catch (error) {
             console.error(error);
             alert("Error uploading file. Check Token/Permissions.");
@@ -321,7 +300,6 @@ function handleFileUpload(input) {
     reader.readAsDataURL(file);
 }
 
-// Handle Delete (Admin Only)
 async function deleteResource(filename, sha) {
     if(!confirm(`Are you sure you want to delete ${filename}?`)) return;
 
@@ -347,7 +325,7 @@ async function deleteResource(filename, sha) {
         if (!res.ok) throw new Error("Failed to delete");
 
         alert("File Deleted Successfully!");
-        loadResources(); // Refresh list
+        loadResources();
     } catch (error) {
         console.error("Error deleting file. Check Token/Permissions.");
     }
@@ -388,7 +366,6 @@ function showAddModal() {
 function editEntry(index) {
     const item = data[index]; 
     
-    // Fill the form with existing data
     document.getElementById("inpCategory").value = item.category;
     document.getElementById("inpAirline").value = item.airline;
     document.getElementById("inpDiscount").value = item.discount;
@@ -398,12 +375,10 @@ function editEntry(index) {
     document.getElementById("inpValidity").value = item.validity;
     document.getElementById("inpInstructions").value = item.instructions || "";
     
-    // Set the hidden index so saveData knows to UPDATE, not ADD
     document.getElementById("editIndex").value = index;
     
     document.getElementById("modalTitle").innerText = "Edit Airline";
     
-    // Show the modal
     document.getElementById("formModal").style.display = "block";
 }
 
@@ -430,7 +405,7 @@ function checkPassword() {
         document.getElementById("addBtn").style.display = "inline-block";
         
         closeModals();
-        render(); // Refresh to show delete/upload options
+        render();
         alert("Welcome Admin!");
     } else {
         alert("Incorrect Password");
@@ -554,14 +529,15 @@ async function saveForWhatsApp() {
 }
 
 /* =========================
-   CALCULATOR LOGIC (FIXED TYPO)
+   CALCULATOR LOGIC (MODIFIED WITH SEGMENT DISCOUNT)
+   PKR 400 per segment deducted from Adult & Child
+   Infant: NO segment discount
 ========================= */
 
 function openCalculator() {
     const select = document.getElementById("calcAirline");
     select.innerHTML = '<option value="">-- Select Airline --</option>';
     
-    // Populate unique airlines from data
     data.forEach(item => {
         const option = document.createElement("option");
         let discValue = item.discount || "0";
@@ -576,6 +552,14 @@ function openCalculator() {
         select.appendChild(option);
     });
 
+    // Reset all fields
+    document.getElementById("calcBasic").value = "";
+    document.getElementById("calcTax").value = "";
+    document.getElementById("calcSegments").value = "";
+
+    // Reset all displays including segment rows
+    resetCalcDisplays();
+    
     document.getElementById("calcModal").style.display = "block";
 }
 
@@ -585,37 +569,45 @@ function calculatePSF() {
     
     const adultBaseInput = parseFloat(document.getElementById("calcBasic").value) || 0;
     const tax = parseFloat(document.getElementById("calcTax").value) || 0;
+    const segments = parseInt(document.getElementById("calcSegments").value) || 0;
+
+    // Segment Discount: PKR 400 per segment
+    const segDiscAmount = segments * 400;
 
     if(!discountStr || discountStr === "0") {
-        updateRow(adultBaseInput, tax, "dispDiscAdult", "dispTotalAdult");
-        updateRow(adultBaseInput * 0.75, tax, "dispDiscChild", "dispTotalChild");
-        updateRow(adultBaseInput * 0.10, tax, "dispDiscInfant", "dispTotalInfant");
+        updateRow(adultBaseInput, tax, 0, "dispDiscAdult", "dispSegDiscAdult", "dispTotalAdult", true);
+        updateRow(adultBaseInput * 0.75, tax, 0, "dispDiscChild", "dispSegDiscChild", "dispTotalChild", true);
+        updateRow(adultBaseInput * 0.10, tax, 0, "dispDiscInfant", "dispSegDiscInfant", "dispTotalInfant", false);
         return;
     }
 
-    // --- CALCULATE FOR ADULT (100%) ---
-    calculateSingleRow(adultBaseInput, discountStr, tax, "dispDiscAdult", "dispTotalAdult");
+    // ADULT: base + tax - discount - segment disc
+    calculateSingleRow(adultBaseInput, discountStr, tax, segDiscAmount, "dispDiscAdult", "dispSegDiscAdult", "dispTotalAdult", true);
 
-    // --- CALCULATE FOR CHILD (75%) ---
+    // CHILD (75%): base*0.75 + tax - discount - segment disc
     const childBase = adultBaseInput * 0.75;
-    calculateSingleRow(childBase, discountStr, tax, "dispDiscChild", "dispTotalChild");
+    calculateSingleRow(childBase, discountStr, tax, segDiscAmount, "dispDiscChild", "dispSegDiscChild", "dispTotalChild", true);
 
-    // --- CALCULATE FOR INFANT (10%) ---
+    // INFANT (10%): base*0.10 + tax - discount (NO segment disc)
     const infantBase = adultBaseInput * 0.10;
-    calculateSingleRow(infantBase, discountStr, tax, "dispDiscInfant", "dispTotalInfant");
+    calculateSingleRow(infantBase, discountStr, tax, 0, "dispDiscInfant", "dispSegDiscInfant", "dispTotalInfant", false);
 }
 
-function updateRow(baseFare, tax, discId, totalId) {
+function updateRow(baseFare, tax, segDisc, discId, segDiscId, totalId, hasSegDisc) {
     const discEl = document.getElementById(discId);
+    const segEl = document.getElementById(segDiscId);
     const totalEl = document.getElementById(totalId);
     
     if(discEl && totalEl) {
         discEl.innerText = "No Discount";
-        totalEl.innerText = (baseFare + tax).toLocaleString('en-GB', { minimumFractionDigits: 0 }) + " PKR";
+        if(segEl) {
+            segEl.innerText = hasSegDisc ? ("PKR " + segDisc.toLocaleString()) : "N/A";
+        }
+        totalEl.innerText = (baseFare + tax - segDisc).toLocaleString('en-GB', { minimumFractionDigits: 0 }) + " PKR";
     }
 }
 
-function calculateSingleRow(baseFare, discountStr, tax, discId, totalId) {
+function calculateSingleRow(baseFare, discountStr, tax, segDisc, discId, segDiscId, totalId, hasSegDisc) {
     let discountAmt = 0;
     let displayText = "";
 
@@ -640,14 +632,17 @@ function calculateSingleRow(baseFare, discountStr, tax, discId, totalId) {
         }
     }
 
-    const netAmount = baseFare + discountAmt + tax;
+    const netAmount = baseFare + discountAmt + tax - segDisc;
 
-    // Update specific IDs
     const discEl = document.getElementById(discId);
+    const segEl = document.getElementById(segDiscId);
     const totalEl = document.getElementById(totalId);
 
     if(discEl && totalEl) {
         discEl.innerText = displayText;
+        if(segEl) {
+            segEl.innerText = hasSegDisc ? ("PKR " + segDisc.toLocaleString()) : "N/A";
+        }
         totalEl.innerText = netAmount.toLocaleString('en-GB', { minimumFractionDigits: 0 }) + " PKR";
     }
 }
@@ -659,29 +654,34 @@ function resetCalcDisplays() {
         const el = document.getElementById(id);
         if(el) el.innerText = (id.includes("Total") ? "0.00 PKR" : "-");
     });
+
+    // Reset segment discount displays
+    const segIds = ["dispSegDiscAdult", "dispSegDiscChild", "dispSegDiscInfant"];
+    segIds.forEach((id, i) => {
+        const el = document.getElementById(id);
+        if(el) el.innerText = (i < 2) ? "PKR 0" : "N/A";
+    });
 }
 
 /* =========================
    WELCOME SCREEN LOGIC
 ========================= */
 window.onload = function() {
-    loadData(); // Load Airline Data
-    loadResources(); // Load documents dropdown
+    loadData();
+    loadResources();
     
     setTimeout(() => {
         const screen = document.getElementById("welcome-screen");
         if (screen) {
             screen.style.opacity = "0"; 
             
-            // Remove from DOM completely after fade finishes
             setTimeout(() => {
                 screen.style.display = "none";
             }, 800); 
         }
-    }, 5000); // Wait 5 seconds before fading
+    }, 5000);
 };
 
-// Dynamic marquee with proper sequence
 let marqueeMessages = [
     {icon: "✨", title: "SPECIAL OFFER", text: "Get additional discount up to PKR 1600 per ticket"},
     {icon: "📅", title: "VALIDITY", text: "All offers valid until further notice"},
@@ -699,19 +699,15 @@ function initMarquee() {
     
     if (!marqueeText) return;
     
-    // Clear existing content
     marqueeText.innerHTML = '';
     
-    // Calculate the total width needed for all messages
     let totalWidth = 0;
     
-    // Create and append all messages (2 complete sets for seamless loop)
     for (let set = 0; set < 2; set++) {
         marqueeMessages.forEach(msg => {
             const span = document.createElement('span');
             span.innerHTML = `${msg.icon} <span class="highlight">${msg.title}:</span> ${msg.text}`;
             
-            // Create a temporary element to measure width
             const tempSpan = document.createElement('span');
             tempSpan.innerHTML = span.innerHTML;
             tempSpan.style.cssText = `
@@ -731,13 +727,10 @@ function initMarquee() {
         });
     }
     
-    // Set the width of the container to exactly twice the total width of one set
     const singleSetWidth = totalWidth / 2;
     marqueeContainer.style.width = `${totalWidth}px`;
     
-    // Calculate animation duration based on width
-    // 60 seconds for one complete cycle (all 8 messages)
-    const pixelsPerSecond = singleSetWidth / 60; // Each set takes 60 seconds
+    const pixelsPerSecond = singleSetWidth / 60;
     const animationDuration = totalWidth / pixelsPerSecond;
     
     marqueeContainer.style.animationDuration = `${animationDuration}s`;
@@ -750,13 +743,10 @@ function initMarquee() {
     });
 }
 
-// Initialize when page loads
 document.addEventListener('DOMContentLoaded', function() {
-    // Add a small delay to ensure DOM is fully loaded
     setTimeout(initMarquee, 100);
 });
 
-// Recalculate on window resize
 window.addEventListener('resize', function() {
     setTimeout(initMarquee, 100);
 });
