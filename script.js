@@ -1,293 +1,752 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>QFC Airline Discount Sheet</title>
-<link rel="icon" type="image/png" href="QFClogo.png">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="style.css?v=8">
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-</head>
+/* =========================
+   CONFIGURATION
+========================= */
+const CONFIG = {
+    owner: "athergb",
+    repo: "discountsheet",
+    filePath: "data.json",
+    adminPassword: "admin123"
+};
 
-<body>
-<!-- ===== BACKGROUND VIDEO ===== -->
-<video autoplay muted loop playsinline id="bg-video">
-  <source src="background.mp4" type="video/mp4">
-</video>
+/* =========================
+   STATE
+========================= */
+let data = [];
+let sha = "";
+let isEditor = false;
+let resourcesFolder = "resources";
+
+/* =========================
+   DROPDOWN FUNCTIONS
+========================= */
+
+function toggleDropdown() {
+    const dropdown = document.getElementById('documentsDropdown');
+    const dropdownBtn = document.querySelector('.dropdown-btn');
     
-<!-- ===== WELCOME OVERLAY ===== -->
-<div id="welcome-screen">
-    <img src="QFClogo.png" class="qfc-main-logo">
-    <div class="partner-logos-container">
-        <div class="partner-logos-grid">
-            <div class="partner-logo-item">
-                <img src="QBlogo.png" alt="QB Logo" class="partner-logo-img">
-            </div>
-            <div class="partner-logo-item">
-                <img src="FClogo.png" alt="FC Logo" class="partner-logo-img">
-            </div>
-            <div class="partner-logo-item">
-                <img src="TDlogo.jpeg" alt="TD Logo" class="partner-logo-img">
-            </div>
-            <div class="partner-logo-item">
-                <img src="TPlogo.png" alt="TP Logo" class="partner-logo-img">
-            </div>
-        </div>
-    </div>
-    <div class="welcome-text">Welcome to QFC Group Pvt Ltd</div>
-</div>
+    if (dropdown) {
+        dropdown.classList.toggle('show');
+        if (dropdownBtn) {
+            dropdownBtn.classList.toggle('active');
+        }
+    }
+}
 
-<!-- ===== TOP HEADER ===== -->
-<header class="top-header">
-  <div class="header-content">
-    <img src="QFClogo.png" class="main-logo">
-    <div class="header-text">
-      <h1>QFC Group Pvt Ltd</h1>
-      <p>Discount Sheet Structure</p>
-    </div>
-  </div>
+document.addEventListener('click', function(event) {
+    const dropdown = document.getElementById('documentsDropdown');
+    const dropdownBtn = document.querySelector('.dropdown-btn');
+    
+    if (dropdown && dropdownBtn && 
+        !dropdown.contains(event.target) && 
+        !dropdownBtn.contains(event.target)) {
+        dropdown.classList.remove('show');
+        dropdownBtn.classList.remove('active');
+    }
+});
 
-  <div class="gds-logos">
-    <div class="logo-box" data-title="Amadeus">
-        <img src="1A.png" alt="Amadeus">
-    </div>
-    <div class="logo-box" data-title="Galileo">
-        <img src="1G.png" alt="Galileo">
-    </div>
-    <div class="logo-box" data-title="Sabre">
-        <img src="1S.png" alt="Sabre">
-    </div>
-  </div>
-
-  <div class="header-controls">
-      <button id="loginBtn" onclick="showLoginModal()">Admin Login</button>
-      <button id="logoutBtn" onclick="logout()" style="display:none;">Logout</button>
-      <button id="addBtn" onclick="showAddModal()" style="display:none;">+ Add Airline</button>
-  </div>
-</header>
-
-<!-- ===== RUNNING TEXT MARQUEE ===== -->
-<div class="marquee-bar">
-    <div class="marquee-container" id="marqueeContainer">
-        <div class="marquee-text" id="marqueeText">
-            <span>✨ <span class="highlight">SPECIAL OFFER:</span> Get additional discount up to PKR 1600 per ticket</span>
-            <span>📅 <span class="highlight">VALIDITY:</span> All offers valid until further notice</span>
-            <span>📞 <span class="highlight">CONTACT:</span> For bookings call +92-308-8296519</span>
-            <span>⚡ <span class="highlight">SAME DAY CASH:</span> Instant discount on spot payment</span>
-            <span>💳 <span class="highlight">CREDIT OPTIONS:</span> Flexible payment plans available</span>
-            <span>📢 <span class="highlight">NEW:</span> Additional PSF calculator tool available</span>
-            <span>📄 <span class="highlight">DOCUMENTS:</span> Check documents section for latest policies</span>
-            <span>🔄 <span class="highlight">REISSUE/REFUND/VOID:</span> Service charges apply PKR 500/-</span>
-            <span>✨ <span class="highlight">SPECIAL OFFER:</span> Get additional discount up to PKR 1600 per ticket</span>
-            <span>📅 <span class="highlight">VALIDITY:</span> All offers valid until further notice</span>
-            <span>📞 <span class="highlight">CONTACT:</span> For bookings call +92-308-8296519</span>
-            <span>⚡ <span class="highlight">SAME DAY CASH:</span> Instant discount on spot payment</span>
-            <span>💳 <span class="highlight">CREDIT OPTIONS:</span> Flexible payment plans available</span>
-            <span>📢 <span class="highlight">NEW:</span> Additional PSF calculator tool available</span>
-            <span>📄 <span class="highlight">DOCUMENTS:</span> Check documents section for latest policies</span>
-            <span>🔄 <span class="highlight">REISSUE/REFUND/VOID:</span> Service charges apply PKR 500/-</span>
-        </div>
-    </div>
-</div>
-  
-<!-- ===== SHEET WRAPPER ===== -->
-<div id="sheet-wrapper">
-  <div id="sheet">
-
-    <div class="sheet-top-row">
-      <div class="sheet-logo">
-        <img src="QFClogo.png">
-      </div>
-      
-      <div class="tools-container">
-        <button class="tool-btn calculator-btn" onclick="openCalculator()">
-          <span class="tool-icon">🧮</span>
-          <span class="tool-text">Discount Calculator</span>
-        </button>
+/* =========================
+   LOAD DATA (Read-Only Public)
+========================= */
+async function loadData() {
+    const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${CONFIG.filePath}`;
+    
+    try {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error("Failed to load data");
         
-        <div class="documents-dropdown">
-            <button class="tool-btn dropdown-btn" onclick="toggleDropdown()">
-                <span class="tool-icon">📁</span>
-                <span class="tool-text">Documents</span>
-                <span class="dropdown-arrow">▼</span>
-            </button>
-            <div class="dropdown-content" id="documentsDropdown">
-                <div class="drop-content" id="resourceList">
-                    <div class="loading-text">Loading files...</div>
-                </div>
-                <div id="uploadSection" style="display:none; border-top:1px solid #ddd; padding-top:10px;">
-                    <button class="upload-trigger-btn" onclick="document.getElementById('fileToUpload').click()">
-                        + Upload New File
-                    </button>
-                    <input type="file" id="fileToUpload" hidden onchange="handleFileUpload(this)">
-                </div>
-            </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="gds-offer-text">
-      Get Additional Discount upto <strong>PKR 1600/-</strong> per ticket
-    </div>
-    
-    <div class="service-text1">
-      Reissue/Re-Validation <strong>PKR 500/-</strong> Refund Charges <strong>PKR 500/-</strong> Void Charges <strong>PKR 500/-</strong> 
-    </div>
-    
-    <div class="service-text">
-    For more Discount details move the cursor on the Airline Box
-    </div>
-      
-    <h3>SAME DAY CASH</h3>
-    <div class="grid" id="cashGrid"></div>
-
-    <h3>CREDIT AIRLINE</h3>
-    <div class="grid" id="creditGrid"></div>
-
-    <div class="sheet-footer">
-      <h4>QFC GROUP PVT LTD</h4>
-      <p>RIZWAN PLAZA, MAIN JINNAH AVENUE, BLUE AREA, ISLAMABAD</p>
-    </div>
-
-  </div>
-</div>
-
-<!-- ACTIONS -->
-<div class="bottom-actions">
-  <button onclick="saveAsJPG()">📸 Download JPG (A4)</button>
-  <button onclick="saveForWhatsApp()">📱 Download JPG (WhatsApp)</button>
-  <div class="credits">© 2026 Powered by AA Technologies. All Rights Reserved.</div>
-</div>
-
-<!-- ===== LOGIN MODAL ===== -->
-<div id="loginModal" class="modal">
-  <div class="modal-content">
-    <h2>Admin Access</h2>
-    <p style="font-size: 12px; color: #666; margin-bottom: 15px;">Restricted area</p>
-    <input type="password" id="adminPassword" placeholder="Enter Password">
-    <div class="modal-buttons">
-      <button class="btn-primary" onclick="checkPassword()">Login</button>
-      <button class="btn-secondary" onclick="closeModals()">Cancel</button>
-    </div>
-  </div>
-</div>
-
-<!-- ===== ADD/EDIT MODAL ===== -->
-<div id="formModal" class="modal">
-  <div class="modal-content wide">
-    <h2 id="modalTitle">Manage Airline</h2>
-    <input type="hidden" id="editIndex">
-    
-    <div class="form-row">
-      <select id="inpCategory">
-          <option value="cash">Same Day Cash</option>
-          <option value="credit">Credit Airline</option>
-      </select>
-      <input type="text" id="inpAirline" placeholder="Airline Name (e.g., Emirates)">
-    </div>
-    
-    <div class="form-row">
-      <input type="text" id="inpDiscount" placeholder="Discount Text (e.g. PKR 500)">
-      <input type="text" id="inpLogo" placeholder="Logo Filename (e.g. 1A.png)">
-    </div>
-
-    <input type="text" id="inpNote" placeholder="Note (Optional)">
-    <input type="text" id="inpNotice" placeholder="Notification Alert (Optional)">
-    <input type="text" id="inpInstructions" placeholder="Instructions (Hover Text)">
-    <label style="display:block; margin-top:10px; font-size: 14px; font-weight:600;">Validity Date</label>
-    <input type="date" id="inpValidity">
-
-    <div class="modal-buttons">
-      <button class="btn-primary" onclick="saveData()">Save Changes</button>
-      <button class="btn-secondary" onclick="closeModals()">Cancel</button>
-    </div>
-  </div>
-</div>
-
-<!-- ===== PRICE CALCULATOR MODAL ===== -->
-<div id="calcModal" class="modal">
-  <div class="modal-content wide">
-    <h2>Discount / PSF Calculator</h2>
-    
-    <label>Select Airline</label>
-    <select id="calcAirline" onchange="calculatePSF()">
-        <option value="">-- Select Airline --</option>
-    </select>
-
-    <div class="form-row">
-        <div>
-            <label>Adult Basic Fare (PKR)</label>
-            <input type="number" id="calcBasic" placeholder="0" oninput="calculatePSF()">
-        </div>
-        <div>
-            <label>Taxes (PKR)</label>
-            <input type="number" id="calcTax" placeholder="0" oninput="calculatePSF()">
-        </div>
-    </div>
-
-    <!-- NEW: Segment input -->
-    <div class="form-row">
-        <div>
-            <label>GDS Segments (PKR 400/segment)</label>
-            <input type="number" id="calcSegments" placeholder="0" min="0" oninput="calculatePSF()">
-        </div>
-    </div>
-
-    <div class="calc-results">
+        const json = await res.json();
+        sha = json.sha; 
+        const content = atob(json.content);
+        data = JSON.parse(content);
         
-        <div class="fare-row">
-            <div class="fare-title">ADULT</div>
-            <div class="fare-details">
-                <div>Disc/PSF: <strong id="dispDiscAdult">-</strong></div>
-                <!-- NEW: Segment disc display -->
-                <div>Segment Disc: <strong id="dispSegDiscAdult">PKR 0</strong></div>
-                <div>Total: <span id="dispTotalAdult">0.00 PKR</span></div>
-            </div>
-        </div>
+        render();
+    } catch (error) {
+        console.error("Error loading data:", error);
+        alert("Error loading data. Please check your Internet connection.");
+    }
+}
 
-        <div class="fare-row child">
-            <div class="fare-title">CHILD (75%)</div>
-            <div class="fare-details">
-                <div>Disc/PSF: <strong id="dispDiscChild">-</strong></div>
-                <!-- NEW: Segment disc display -->
-                <div>Segment Disc: <strong id="dispSegDiscChild">PKR 0</strong></div>
-                <div>Total: <span id="dispTotalChild">0.00 PKR</span></div>
-            </div>
-        </div>
+/* =========================
+   SAVE DATA (Requires Token)
+========================= */
+async function saveToGitHub() {
+    const token = prompt("Enter your GitHub Token to Save:");
+    if (!token) return;
 
-        <div class="fare-row infant">
-            <div class="fare-title">INFANT (10%)</div>
-            <div class="fare-details">
-                <div>Disc/PSF: <strong id="dispDiscInfant">-</strong></div>
-                <!-- NEW: Segment disc display -->
-                <div>Segment Disc: <strong id="dispSegDiscInfant">N/A</strong></div>
-                <div>Total: <span id="dispTotalInfant">0.00 PKR</span></div>
-            </div>
-        </div>
+    const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${CONFIG.filePath}`;
+    const contentBase64 = btoa(JSON.stringify(data, null, 2));
 
-    </div>
+    try {
+        const res = await fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `token ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                message: "Update discount sheet",
+                content: contentBase64,
+                sha: sha
+            })
+        });
 
-    <div class="modal-buttons">
-      <button class="btn-secondary" onclick="document.getElementById('calcModal').style.display='none'">Close</button>
-    </div>
-  </div>
-</div>
+        if (!res.ok) throw new Error("Failed to save");
+        
+        const json = await res.json();
+        sha = json.content.sha;
+        alert("Saved Successfully!");
+        render();
+    } catch (error) {
+        console.error("Error saving:", error);
+        alert("Error saving. Please check your Token permissions.");
+    }
+}
 
-<!-- CHANGED: v=9 to v=11 to force browser load new script.js -->
-<script src="script.js?v=11"></script>
-<!--Start of Tawk.to Script-->
-<script type="text/javascript">
-var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-(function(){
-var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-s1.async=true;
-s1.src='https://embed.tawk.to/69786fb8bef0aa197b29c0bf/1jfv78qk6';
-s1.charset='UTF-8';
-s1.setAttribute('crossorigin','*');
-s0.parentNode.insertBefore(s1,s0);
-})();
-</script>
-<!--End of Tawk.to Script-->  
-</body>
-</html>
+/* =========================
+   RENDER UI
+========================= */
+function render() {
+    const cashGrid = document.getElementById("cashGrid");
+    const creditGrid = document.getElementById("creditGrid");
+    if(!cashGrid || !creditGrid) return;
+
+    cashGrid.innerHTML = "";
+    creditGrid.innerHTML = "";
+
+    const today = new Date();
+    today.setHours(0,0,0,0);
+
+    data.forEach((item, index) => {
+        const d = new Date(item.validity);
+        const expired = d < today ? "expired" : "";
+        const categoryGrid = item.category === "cash" ? cashGrid : creditGrid;
+
+        const actionHtml = isEditor 
+            ? `<div class="actions">
+                 <button class="edit-btn" onclick="editEntry(${index})">Edit</button>
+                 <button class="delete-btn" onclick="deleteEntry(${index})">Delete</button>
+               </div>` 
+            : "";
+
+        const card = document.createElement("div");
+        card.className = "card";
+
+        card.setAttribute("data-note", item.instructions || "");
+       
+        card.innerHTML = `
+           <div class="discount">${item.discount}</div>
+            ${item.logo ? `<img src="${item.logo}">` : ""}
+            <p><b>${item.airline}</b></p>
+            <p class="note-text">${item.note}</p>
+            ${item.notification ? `<div class="alert-box">${item.notification}</div>` : ""}
+            <p class="validity ${expired}">Valid till: ${d.toLocaleDateString('en-GB')}</p>
+            ${actionHtml}
+        `;
+        categoryGrid.appendChild(card);
+    });
+
+    loadResources();
+}
+
+/* =========================
+   RESOURCES MANAGER (UPDATED FOR IMAGE FILES)
+========================= */
+
+async function loadResources() {
+    const listContainer = document.getElementById("resourceList");
+    const uploadSection = document.getElementById("uploadSection");
+    
+    if(!listContainer) {
+        console.error("Resource list container not found!");
+        return;
+    }
+
+    try {
+        const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${resourcesFolder}`;
+        
+        const res = await fetch(url);
+        
+        if (!res.ok) {
+            listContainer.innerHTML = "<div style='text-align:center;padding:10px;color:#777'>No documents available.</div>";
+            if (uploadSection) uploadSection.style.display = "none";
+            return;
+        }
+
+        const files = await res.json();
+        
+        listContainer.innerHTML = "";
+
+        if (isEditor && uploadSection) {
+            uploadSection.style.display = "block";
+        } else if (uploadSection) {
+            uploadSection.style.display = "none";
+        }
+
+        if(!Array.isArray(files) || files.length === 0) {
+            listContainer.innerHTML = "<div style='text-align:center;padding:10px;color:#777'>No documents available.</div>";
+            return;
+        }
+
+        let hasFiles = false;
+        
+        files.forEach(file => {
+            if (file.name === ".gitkeep" || file.type !== "file") return;
+            
+            hasFiles = true;
+            
+            const item = document.createElement("div");
+            item.className = "resource-item";
+
+            const linkUrl = `https://raw.githubusercontent.com/${CONFIG.owner}/${CONFIG.repo}/main/${resourcesFolder}/${file.name}`;
+            const fileIcon = getFileIconHTML(file.name);
+            const fileExt = file.name.split('.').pop().toLowerCase();
+            const isImageFile = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'svg'].includes(fileExt);
+            
+            let html = '';
+            
+            if (isImageFile) {
+                html = `
+                    <a href="${linkUrl}" class="resource-link" target="_blank" title="View image in new tab">
+                        ${fileIcon}
+                        <span class="file-name">${file.name}</span>
+                        <span class="view-label">(View)</span>
+                    </a>
+                `;
+            } else {
+                html = `
+                    <a href="${linkUrl}" class="resource-link" download="${file.name}">
+                        ${fileIcon}
+                        <span class="file-name">${file.name}</span>
+                    </a>
+                `;
+            }
+
+            if (isEditor) {
+                html += `
+                    <button class="delete-res-btn" onclick="deleteResource('${file.name}', '${file.sha}')">×</button>
+                `;
+            }
+
+            item.innerHTML = html;
+            listContainer.appendChild(item);
+        });
+
+        if (!hasFiles) {
+            listContainer.innerHTML = "<div style='text-align:center;padding:10px;color:#777'>No documents available.</div>";
+        }
+
+    } catch (error) {
+        console.error("Error loading resources:", error);
+        if (listContainer) {
+            listContainer.innerHTML = "<div style='text-align:center;padding:10px;color:red'>Unable to load documents.</div>";
+        }
+    }
+}
+
+function getFileIconHTML(filename) {
+    const ext = filename.split('.').pop().toLowerCase();
+    
+    if (ext === 'docx') {
+        return `<div class="file-icon" style="color: #2b579a;">📝</div>`;
+    } else if (['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'svg'].includes(ext)) {
+        return `<div class="file-icon" style="color: #e74c3c;">🖼️</div>`;
+    } else if (ext === 'pdf') {
+        return `<div class="file-icon" style="color: #f40f02;">📄</div>`;
+    } else if (ext === 'xls' || ext === 'xlsx') {
+        return `<div class="file-icon" style="color: #1d6f42;">📊</div>`;
+    } else if (ext === 'txt') {
+        return `<div class="file-icon" style="color: #555;">📃</div>`;
+    } else {
+        return `<div class="file-icon" style="color: #95a5a6;">📎</div>`;
+    }
+}
+
+function handleFileUpload(input) {
+    const file = input.files[0];
+    if (!file) return;
+
+    const token = prompt("Enter GitHub Token to Upload:");
+    if (!token) return;
+
+    const reader = new FileReader();
+    reader.onload = async function(e) {
+        const content = e.target.result.split(',')[1];
+
+        const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${resourcesFolder}/${file.name}`;
+
+        try {
+            const res = await fetch(url, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `token ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    message: `Upload ${file.name}`,
+                    content: content,
+                    branch: "main"
+                })
+            });
+
+            if (!res.ok) throw new Error("Failed to upload");
+
+            alert("File Uploaded Successfully!");
+            loadResources();
+        } catch (error) {
+            console.error(error);
+            alert("Error uploading file. Check Token/Permissions.");
+        }
+    };
+    reader.readAsDataURL(file);
+}
+
+async function deleteResource(filename, sha) {
+    if(!confirm(`Are you sure you want to delete ${filename}?`)) return;
+
+    const token = prompt("Enter GitHub Token to Delete:");
+    if (!token) return;
+
+    const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${resourcesFolder}/${filename}`;
+
+    try {
+        const res = await fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `token ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                message: `Delete ${filename}`,
+                sha: sha,
+                branch: "main"
+            })
+        });
+
+        if (!res.ok) throw new Error("Failed to delete");
+
+        alert("File Deleted Successfully!");
+        loadResources();
+    } catch (error) {
+        console.error("Error deleting file. Check Token/Permissions.");
+    }
+}
+
+/* =========================
+   AUTHENTICATION & MODALS
+========================= */
+function showLoginModal() {
+    const modal = document.getElementById("loginModal");
+    if (modal) {
+        modal.style.display = "block";
+    } else {
+        console.error("Login Modal not found in HTML.");
+        alert("Error: The Login Modal code is missing from your HTML file.");
+    }
+}
+
+function showAddModal() {
+    const modal = document.getElementById("formModal");
+    if (modal) {
+        document.getElementById("inpCategory").value = "cash";
+        document.getElementById("inpAirline").value = "";
+        document.getElementById("inpDiscount").value = "";
+        document.getElementById("inpLogo").value = "";
+        document.getElementById("inpNote").value = "";
+        document.getElementById("inpNotice").value = "";
+        document.getElementById("inpValidity").value = "";
+        document.getElementById("inpInstructions").value = "";
+        document.getElementById("editIndex").value = ""; 
+        
+        document.getElementById("modalTitle").innerText = "Add Airline";
+        
+        modal.style.display = "block";
+    }
+}
+
+function editEntry(index) {
+    const item = data[index]; 
+    
+    document.getElementById("inpCategory").value = item.category;
+    document.getElementById("inpAirline").value = item.airline;
+    document.getElementById("inpDiscount").value = item.discount;
+    document.getElementById("inpLogo").value = item.logo || "";
+    document.getElementById("inpNote").value = item.note || "";
+    document.getElementById("inpNotice").value = item.notification || "";
+    document.getElementById("inpValidity").value = item.validity;
+    document.getElementById("inpInstructions").value = item.instructions || "";
+    
+    document.getElementById("editIndex").value = index;
+    
+    document.getElementById("modalTitle").innerText = "Edit Airline";
+    
+    document.getElementById("formModal").style.display = "block";
+}
+
+function closeModals() {
+    const loginModal = document.getElementById("loginModal");
+    const formModal = document.getElementById("formModal");
+    const calcModal = document.getElementById("calcModal");
+    
+    if (loginModal) loginModal.style.display = "none";
+    if (formModal) formModal.style.display = "none";
+    if (calcModal) calcModal.style.display = "none";
+}
+
+function checkPassword() {
+    const input = document.getElementById("adminPassword");
+    if(!input) return alert("Input field not found");
+    
+    const pass = input.value;
+    
+    if (pass === CONFIG.adminPassword) {
+        isEditor = true;
+        document.getElementById("loginBtn").style.display = "none";
+        document.getElementById("logoutBtn").style.display = "inline-block";
+        document.getElementById("addBtn").style.display = "inline-block";
+        
+        closeModals();
+        render();
+        alert("Welcome Admin!");
+    } else {
+        alert("Incorrect Password");
+    }
+}
+
+function logout() {
+    isEditor = false;
+    document.getElementById("loginBtn").style.display = "inline-block";
+    document.getElementById("logoutBtn").style.display = "none";
+    document.getElementById("addBtn").style.display = "none";
+    render();
+}
+
+/* =========================
+   CRUD ACTIONS
+========================= */
+function deleteEntry(index) {
+    if(!confirm("Are you sure you want to delete this entry?")) return;
+    data.splice(index, 1);
+    saveToGitHub();
+}
+
+function saveData() {
+    const category = document.getElementById("inpCategory").value;
+    const airline = document.getElementById("inpAirline").value;
+    const discount = document.getElementById("inpDiscount").value;
+    const logo = document.getElementById("inpLogo").value;
+    const note = document.getElementById("inpNote").value;
+    const notification = document.getElementById("inpNotice").value;
+    const validity = document.getElementById("inpValidity").value;
+    const instructions = document.getElementById("inpInstructions").value;
+    const editIndex = document.getElementById("editIndex").value;
+
+    if (!airline || !validity) return alert("Airline Name and Validity Date are required");
+
+    const entry = { category, airline, discount, logo, note, notification, validity, instructions };
+
+    if (editIndex !== "") {
+        data[parseInt(editIndex)] = entry;
+    } else {
+        data.push(entry);
+    }
+
+    saveToGitHub();
+    closeModals();
+}
+
+/* =========================
+   JPG EXPORT
+========================= */
+async function saveAsJPG() {
+  const sheet = document.getElementById("sheet");
+  const headerBtns = document.querySelector(".header-controls");
+  const bottomBtns = document.querySelector(".bottom-actions");
+  if(headerBtns) headerBtns.style.display = "none";
+  if(bottomBtns) bottomBtns.style.display = "none";
+
+  const clone = sheet.cloneNode(true);
+  clone.style.width = "1100px";
+  clone.style.margin = "0 auto";
+  clone.style.background = "#ffffff";
+
+  const wrapper = document.createElement("div");
+  wrapper.style.position = "fixed";
+  wrapper.style.left = "-9999px";
+  wrapper.style.top = "0";
+  wrapper.appendChild(clone);
+  document.body.appendChild(wrapper);
+
+  const canvas = await html2canvas(clone, {
+    scale: 2,
+    backgroundColor: "#ffffff",
+    useCORS: true
+  });
+
+  document.body.removeChild(wrapper);
+  if(headerBtns) headerBtns.style.display = "flex";
+  if(bottomBtns) bottomBtns.style.display = "block";
+
+  const img = canvas.toDataURL("image/png");
+  const link = document.createElement("a");
+  link.download = "QFC-Discount-Sheet.jpg";
+  link.href = img;
+  link.click();
+}
+
+async function saveForWhatsApp() {
+  const sheet = document.getElementById("sheet");
+  const headerBtns = document.querySelector(".header-controls");
+  const bottomBtns = document.querySelector(".bottom-actions");
+  if(headerBtns) headerBtns.style.display = "none";
+  if(bottomBtns) bottomBtns.style.display = "none";
+
+  const clone = sheet.cloneNode(true);
+  clone.style.width = "900px";
+  clone.style.background = "#ffffff";
+
+  const wrapper = document.createElement("div");
+  wrapper.style.position = "fixed";
+  wrapper.style.left = "-9999px";
+  wrapper.style.top = "0";
+  wrapper.appendChild(clone);
+  document.body.appendChild(wrapper);
+
+  const canvas = await html2canvas(clone, {
+    scale: 1.5,
+    backgroundColor: "#ffffff",
+    useCORS: true
+  });
+
+  document.body.removeChild(wrapper);
+  if(headerBtns) headerBtns.style.display = "flex";
+  if(bottomBtns) bottomBtns.style.display = "block";
+
+  const img = canvas.toDataURL("image/png");
+  const link = document.createElement("a");
+  link.download = "QFC-WhatsApp.jpg";
+  link.href = img;
+  link.click();
+}
+
+/* =========================
+   CALCULATOR LOGIC (MODIFIED WITH SEGMENT DISCOUNT)
+   PKR 400 per segment deducted from Adult & Child
+   Infant: NO segment discount
+========================= */
+
+function openCalculator() {
+    const select = document.getElementById("calcAirline");
+    select.innerHTML = '<option value="">-- Select Airline --</option>';
+    
+    data.forEach(item => {
+        const option = document.createElement("option");
+        let discValue = item.discount || "0";
+        option.value = discValue;
+        
+        let label = item.airline;
+        if (item.notification) {
+            label += ` (${item.notification})`; 
+        }
+        
+        option.text = label;
+        select.appendChild(option);
+    });
+
+    // Reset all fields
+    document.getElementById("calcBasic").value = "";
+    document.getElementById("calcTax").value = "";
+    document.getElementById("calcSegments").value = "";
+
+    // Reset all displays including segment rows
+    resetCalcDisplays();
+    
+    document.getElementById("calcModal").style.display = "block";
+}
+
+function calculatePSF() {
+    const airlineSelect = document.getElementById("calcAirline");
+    const discountStr = airlineSelect.options[airlineSelect.selectedIndex].value;
+    
+    const adultBaseInput = parseFloat(document.getElementById("calcBasic").value) || 0;
+    const tax = parseFloat(document.getElementById("calcTax").value) || 0;
+    const segments = parseInt(document.getElementById("calcSegments").value) || 0;
+
+    // Segment Discount: PKR 400 per segment
+    const segDiscAmount = segments * 400;
+
+    if(!discountStr || discountStr === "0") {
+        updateRow(adultBaseInput, tax, 0, "dispDiscAdult", "dispSegDiscAdult", "dispTotalAdult", true);
+        updateRow(adultBaseInput * 0.75, tax, 0, "dispDiscChild", "dispSegDiscChild", "dispTotalChild", true);
+        updateRow(adultBaseInput * 0.10, tax, 0, "dispDiscInfant", "dispSegDiscInfant", "dispTotalInfant", false);
+        return;
+    }
+
+    // ADULT: base + tax - discount - segment disc
+    calculateSingleRow(adultBaseInput, discountStr, tax, segDiscAmount, "dispDiscAdult", "dispSegDiscAdult", "dispTotalAdult", true);
+
+    // CHILD (75%): base*0.75 + tax - discount - segment disc
+    const childBase = adultBaseInput * 0.75;
+    calculateSingleRow(childBase, discountStr, tax, segDiscAmount, "dispDiscChild", "dispSegDiscChild", "dispTotalChild", true);
+
+    // INFANT (10%): base*0.10 + tax - discount (NO segment disc)
+    const infantBase = adultBaseInput * 0.10;
+    calculateSingleRow(infantBase, discountStr, tax, 0, "dispDiscInfant", "dispSegDiscInfant", "dispTotalInfant", false);
+}
+
+function updateRow(baseFare, tax, segDisc, discId, segDiscId, totalId, hasSegDisc) {
+    const discEl = document.getElementById(discId);
+    const segEl = document.getElementById(segDiscId);
+    const totalEl = document.getElementById(totalId);
+    
+    if(discEl && totalEl) {
+        discEl.innerText = "No Discount";
+        if(segEl) {
+            segEl.innerText = hasSegDisc ? ("PKR " + segDisc.toLocaleString()) : "N/A";
+        }
+        totalEl.innerText = (baseFare + tax - segDisc).toLocaleString('en-GB', { minimumFractionDigits: 0 }) + " PKR";
+    }
+}
+
+function calculateSingleRow(baseFare, discountStr, tax, segDisc, discId, segDiscId, totalId, hasSegDisc) {
+    let discountAmt = 0;
+    let displayText = "";
+
+    // PARSE DISCOUNT STRING
+    if (discountStr.includes("%")) {
+        let num = parseFloat(discountStr.replace(/[^0-9.-]/g, ''));
+        if(!isNaN(num)) {
+            discountAmt = (baseFare * num) / 100;
+            displayText = `${discountStr} (${discountAmt.toFixed(2)})`;
+        }
+    } else if (discountStr.includes("PKR")) {
+        let num = parseFloat(discountStr.replace(/[^0-9.-]/g, ''));
+        if(!isNaN(num)) {
+            discountAmt = num;
+            displayText = discountStr;
+        }
+    } else {
+        let num = parseFloat(discountStr);
+        if(!isNaN(num)) {
+            discountAmt = num;
+            displayText = discountStr;
+        }
+    }
+
+    const netAmount = baseFare + discountAmt + tax - segDisc;
+
+    const discEl = document.getElementById(discId);
+    const segEl = document.getElementById(segDiscId);
+    const totalEl = document.getElementById(totalId);
+
+    if(discEl && totalEl) {
+        discEl.innerText = displayText;
+        if(segEl) {
+            segEl.innerText = hasSegDisc ? ("PKR " + segDisc.toLocaleString()) : "N/A";
+        }
+        totalEl.innerText = netAmount.toLocaleString('en-GB', { minimumFractionDigits: 0 }) + " PKR";
+    }
+}
+
+function resetCalcDisplays() {
+    const ids = ["dispDiscAdult", "dispTotalAdult", "dispDiscChild", "dispTotalChild", "dispDiscInfant", "dispTotalInfant"];
+    
+    ids.forEach(id => {
+        const el = document.getElementById(id);
+        if(el) el.innerText = (id.includes("Total") ? "0.00 PKR" : "-");
+    });
+
+    // Reset segment discount displays
+    const segIds = ["dispSegDiscAdult", "dispSegDiscChild", "dispSegDiscInfant"];
+    segIds.forEach((id, i) => {
+        const el = document.getElementById(id);
+        if(el) el.innerText = (i < 2) ? "PKR 0" : "N/A";
+    });
+}
+
+/* =========================
+   WELCOME SCREEN LOGIC
+========================= */
+window.onload = function() {
+    loadData();
+    loadResources();
+    
+    setTimeout(() => {
+        const screen = document.getElementById("welcome-screen");
+        if (screen) {
+            screen.style.opacity = "0"; 
+            
+            setTimeout(() => {
+                screen.style.display = "none";
+            }, 800); 
+        }
+    }, 5000);
+};
+
+let marqueeMessages = [
+    {icon: "✨", title: "SPECIAL OFFER", text: "Get additional discount up to PKR 1600 per ticket"},
+    {icon: "📅", title: "VALIDITY", text: "All offers valid until further notice"},
+    {icon: "📞", title: "CONTACT", text: "For bookings call +92-308-8296519"},
+    {icon: "⚡", title: "SAME DAY CASH", text: "Instant discount on spot payment"},
+    {icon: "💳", title: "CREDIT OPTIONS", text: "Flexible payment plans available"},
+    {icon: "📢", title: "NEW", text: "Additional PSF calculator tool available"},
+    {icon: "📄", title: "DOCUMENTS", text: "Check documents section for latest policies"},
+    {icon: "🔄", title: "REISSUE/REFUND/VOID", text: "Service charges apply PKR 500/-"}
+];
+
+function initMarquee() {
+    const marqueeText = document.getElementById('marqueeText');
+    const marqueeContainer = document.getElementById('marqueeContainer');
+    
+    if (!marqueeText) return;
+    
+    marqueeText.innerHTML = '';
+    
+    let totalWidth = 0;
+    
+    for (let set = 0; set < 2; set++) {
+        marqueeMessages.forEach(msg => {
+            const span = document.createElement('span');
+            span.innerHTML = `${msg.icon} <span class="highlight">${msg.title}:</span> ${msg.text}`;
+            
+            const tempSpan = document.createElement('span');
+            tempSpan.innerHTML = span.innerHTML;
+            tempSpan.style.cssText = `
+                position: absolute;
+                visibility: hidden;
+                white-space: nowrap;
+                font: 14px Poppins;
+                padding: 0 30px;
+            `;
+            document.body.appendChild(tempSpan);
+            const spanWidth = tempSpan.offsetWidth;
+            document.body.removeChild(tempSpan);
+            
+            totalWidth += spanWidth;
+            
+            marqueeText.appendChild(span);
+        });
+    }
+    
+    const singleSetWidth = totalWidth / 2;
+    marqueeContainer.style.width = `${totalWidth}px`;
+    
+    const pixelsPerSecond = singleSetWidth / 60;
+    const animationDuration = totalWidth / pixelsPerSecond;
+    
+    marqueeContainer.style.animationDuration = `${animationDuration}s`;
+    
+    console.log('Marquee initialized:', {
+        singleSetWidth,
+        totalWidth,
+        animationDuration,
+        messageCount: marqueeMessages.length
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(initMarquee, 100);
+});
+
+window.addEventListener('resize', function() {
+    setTimeout(initMarquee, 100);
+});
