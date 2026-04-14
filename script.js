@@ -556,7 +556,10 @@ function openCalculator() {
     document.getElementById("calcBasic").value = "";
     document.getElementById("calcTax").value = "";
     document.getElementById("calcSegments").value = "";
-
+    document.getElementById("calcBookingType").value = "GDS";
+    // Enable segments by default (GDS is default selected)
+    document.getElementById("calcSegments").disabled = false;
+	
     // Reset all displays including segment rows
     resetCalcDisplays();
     
@@ -569,26 +572,39 @@ function calculatePSF() {
     
     const adultBaseInput = parseFloat(document.getElementById("calcBasic").value) || 0;
     const tax = parseFloat(document.getElementById("calcTax").value) || 0;
+    const bookingType = document.getElementById("calcBookingType").value;
+
+   // CHECK BOOKING TYPE FOR SEGMENT DISCOUNT
+    const isGDS = (bookingType === "GDS");
+    const segInput = document.getElementById("calcSegments");
+    
+    if (isGDS) {
+        segInput.disabled = false;
+    } else {
+        segInput.disabled = true;
+        segInput.value = "";
+    }
+
     const segments = parseInt(document.getElementById("calcSegments").value) || 0;
 
-    // Segment Discount: PKR 400 per segment
+   // Segment Discount: PKR 400 per segment (only if GDS)
     const segDiscAmount = segments * 400;
 
     if(!discountStr || discountStr === "0") {
-        updateRow(adultBaseInput, tax, 0, "dispDiscAdult", "dispSegDiscAdult", "dispTotalAdult", true);
-        updateRow(adultBaseInput * 0.75, tax, 0, "dispDiscChild", "dispSegDiscChild", "dispTotalChild", true);
+        updateRow(adultBaseInput, tax, 0, "dispDiscAdult", "dispSegDiscAdult", "dispTotalAdult", isGDS);
+        updateRow(adultBaseInput * 0.75, tax, 0, "dispDiscChild", "dispSegDiscChild", "dispTotalChild", isGDS);
         updateRow(adultBaseInput * 0.10, tax, 0, "dispDiscInfant", "dispSegDiscInfant", "dispTotalInfant", false);
         return;
     }
 
     // ADULT: base + tax - discount - segment disc
-    calculateSingleRow(adultBaseInput, discountStr, tax, segDiscAmount, "dispDiscAdult", "dispSegDiscAdult", "dispTotalAdult", true);
+    calculateSingleRow(adultBaseInput, discountStr, tax, segDiscAmount, "dispDiscAdult", "dispSegDiscAdult", "dispTotalAdult", isGDS);
 
     // CHILD (75%): base*0.75 + tax - discount - segment disc
     const childBase = adultBaseInput * 0.75;
-    calculateSingleRow(childBase, discountStr, tax, segDiscAmount, "dispDiscChild", "dispSegDiscChild", "dispTotalChild", true);
+    calculateSingleRow(childBase, discountStr, tax, segDiscAmount, "dispDiscChild", "dispSegDiscChild", "dispTotalChild", isGDS);
 
-    // INFANT (10%): base*0.10 + tax - discount (NO segment disc)
+    // INFANT (10%): base*0.10 + tax - discount (NEVER gets segment disc)
     const infantBase = adultBaseInput * 0.10;
     calculateSingleRow(infantBase, discountStr, tax, 0, "dispDiscInfant", "dispSegDiscInfant", "dispTotalInfant", false);
 }
