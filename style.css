@@ -2513,3 +2513,31 @@ optgroup option {
     font-weight: normal;
     padding: 8px;
 }
+
+/* GRAND TOTAL ROW */
+.grand-total-row {
+    background: linear-gradient(135deg, #0f2e5a, #1a3a7a) !important;
+    border-bottom: none !important;
+}
+
+.grand-total-row .fare-title {
+    color: #ffffff !important;
+    font-size: 11px !important;
+    letter-spacing: 0.5px;
+}
+
+.grand-total-row .fare-details {
+    color: #ffffff !important;
+}
+
+.grand-passengers {
+    font-size: 9px !important;
+    color: rgba(255,255,255,0.7) !important;
+    margin-bottom: 2px !important;
+}
+
+.grand-amount {
+    font-size: 14px !important;
+    color: #4caf50 !important;
+    font-weight: 700 !important;
+}
