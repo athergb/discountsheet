@@ -205,78 +205,90 @@
   </div>
 </div>
 
-<!-- ===== PRICE CALCULATOR MODAL ===== -->
+<!-- ===== PRICE CALCULATOR MODAL (LANDSCAPE) ===== -->
 <div id="calcModal" class="modal">
-  <div class="modal-content wide">
+  <div class="modal-content wide calc-horizontal">
     <h2>Discount / PSF Calculator</h2>
     
-    <label>Select Airline</label>
-    <select id="calcAirline" onchange="calculatePSF()">
-        <option value="">-- Select Airline --</option>
-    </select>
+    <!-- LEFT: INPUTS -->
+    <div class="calc-left">
+        <label>Select Airline</label>
+        <select id="calcAirline" onchange="calculatePSF()">
+            <option value="">-- Select Airline --</option>
+        </select>
 
-    <!-- NEW: Booking Type Dropdown -->
-    <div class="form-row">
-        <div>
-            <label>Booking Type</label>
-            <select id="calcBookingType" onchange="calculatePSF()">
-                <option value="GDS">GDS</option>
-                <option value="NDC">NDC</option>
-            </select>
-        </div>
-    </div>	
+        <label>Booking Type</label>
+        <select id="calcBookingType" onchange="calculatePSF()">
+            <option value="GDS">GDS</option>
+            <option value="NDC">NDC</option>
+        </select>
 
-    <div class="form-row">
-        <div>
-            <label>Adult Basic Fare (PKR)</label>
-            <input type="number" id="calcBasic" placeholder="0" oninput="calculatePSF()">
-        </div>
-        <div>
-            <label>Taxes (PKR)</label>
-            <input type="number" id="calcTax" placeholder="0" oninput="calculatePSF()">
+        <label>Adult Basic Fare (PKR)</label>
+        <input type="number" id="calcBasic" placeholder="0" oninput="calculatePSF()">
+
+        <label>Taxes (PKR)</label>
+        <input type="number" id="calcTax" placeholder="0" oninput="calculatePSF()">
+
+        <label>GDS Segment Disc QFC PCC/IDS (PKR 400/seg)</label>
+        <input type="number" id="calcSegments" placeholder="0" min="0" oninput="calculatePSF()">
+
+        <div class="calc-pax-row">
+            <div>
+                <label>Adults</label>
+                <input type="number" id="calcAdults" value="1" min="1" oninput="calculatePSF()">
+            </div>
+            <div>
+                <label>Children</label>
+                <input type="number" id="calcChildren" value="0" min="0" oninput="calculatePSF()">
+            </div>
+            <div>
+                <label>Infants</label>
+                <input type="number" id="calcInfants" value="0" min="0" oninput="calculatePSF()">
+            </div>
         </div>
     </div>
 
-    <!-- NEW: Segment input -->
-    <div class="form-row">
-        <div>
-            <label>GDS Segment Discount only QFC PCC/IDS (PKR 400/segment)</label>
-            <input type="number" id="calcSegments" placeholder="0" min="0" oninput="calculatePSF()">
-        </div>
-    </div>
+    <!-- RIGHT: RESULTS -->
+    <div class="calc-right">
+        <div class="calc-results">
+            <div class="fare-row">
+                <div class="fare-title">ADULT</div>
+                <div class="fare-details">
+                    <div>Disc/PSF: <strong id="dispDiscAdult">-</strong></div>
+                    <div>Segment: <strong id="dispSegDiscAdult">PKR 0</strong></div>
+                    <div class="per-person">Per Person: <span id="dispTotalAdult">0 PKR</span></div>
+                    <div class="subtotal">Subtotal: <span id="dispSubAdult">-</span></div>
+                </div>
+            </div>
 
-    <div class="calc-results">
-        
-        <div class="fare-row">
-            <div class="fare-title">ADULT</div>
-            <div class="fare-details">
-                <div>Disc/PSF: <strong id="dispDiscAdult">-</strong></div>
-                <!-- NEW: Segment disc display -->
-                <div>Segment Disc: <strong id="dispSegDiscAdult">PKR 0</strong></div>
-                <div>Total: <span id="dispTotalAdult">0.00 PKR</span></div>
+            <div class="fare-row child">
+                <div class="fare-title">CHILD</div>
+                <div class="fare-details">
+                    <div>Disc/PSF: <strong id="dispDiscChild">-</strong></div>
+                    <div>Segment: <strong id="dispSegDiscChild">PKR 0</strong></div>
+                    <div class="per-person">Per Person: <span id="dispTotalChild">0 PKR</span></div>
+                    <div class="subtotal">Subtotal: <span id="dispSubChild">-</span></div>
+                </div>
+            </div>
+
+            <div class="fare-row infant">
+                <div class="fare-title">INFANT</div>
+                <div class="fare-details">
+                    <div>Disc/PSF: <strong id="dispDiscInfant">-</strong></div>
+                    <div>Segment: <strong id="dispSegDiscInfant">N/A</strong></div>
+                    <div class="per-person">Per Person: <span id="dispTotalInfant">0 PKR</span></div>
+                    <div class="subtotal">Subtotal: <span id="dispSubInfant">-</span></div>
+                </div>
+            </div>
+
+            <div class="fare-row grand-total-row">
+                <div class="fare-title">GRAND TOTAL</div>
+                <div class="fare-details">
+                    <div class="grand-passengers" id="dispPassengerBreakdown">1 Adult</div>
+                    <div class="grand-amount" id="dispGrandTotal">0 PKR</div>
+                </div>
             </div>
         </div>
-
-        <div class="fare-row child">
-            <div class="fare-title">CHILD (75%)</div>
-            <div class="fare-details">
-                <div>Disc/PSF: <strong id="dispDiscChild">-</strong></div>
-                <!-- NEW: Segment disc display -->
-                <div>Segment Disc: <strong id="dispSegDiscChild">PKR 0</strong></div>
-                <div>Total: <span id="dispTotalChild">0.00 PKR</span></div>
-            </div>
-        </div>
-
-        <div class="fare-row infant">
-            <div class="fare-title">INFANT (10%)</div>
-            <div class="fare-details">
-                <div>Disc/PSF: <strong id="dispDiscInfant">-</strong></div>
-                <!-- NEW: Segment disc display -->
-                <div>Segment Disc: <strong id="dispSegDiscInfant">N/A</strong></div>
-                <div>Total: <span id="dispTotalInfant">0.00 PKR</span></div>
-            </div>
-        </div>
-
     </div>
 
     <div class="modal-buttons">
@@ -285,7 +297,6 @@
   </div>
 </div>
 
-<!-- CHANGED: v=9 to v=11 to force browser load new script.js -->
 <script src="script.js?v=2025"></script>
 <!--Start of Tawk.to Script-->
 <script type="text/javascript">
