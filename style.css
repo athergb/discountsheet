@@ -25,12 +25,12 @@ body {
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  position: relative; /* Required for absolute positioning of GDS logos */
-  min-height: 80px; /* Ensure enough height for larger logos */
+  position: relative;
+  min-height: 90px;
 }
 
 /* =========================
-   WELCOME SCREEN - SIMPLIFIED
+   WELCOME SCREEN
 ========================= */
 #welcome-screen {
     position: fixed;
@@ -38,7 +38,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #0f2e5a;
+    background-color: #b6e8f3;
     z-index: 10000;
     display: flex;
     flex-direction: column;
@@ -47,7 +47,6 @@ body {
     transition: opacity 0.8s ease-in-out;
 }
 
-/* QFC MAIN LOGO (APPEARS FIRST) */
 .qfc-main-logo {
     width: 180px;
     height: 180px;
@@ -56,7 +55,6 @@ body {
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
 }
 
-/* PARTNER LOGOS CONTAINER (BELOW QFC LOGO) - UPDATED LOGO SIZE */
 .partner-logos-container {
     margin-bottom: 40px;
     width: 90%;
@@ -78,21 +76,20 @@ body {
     align-items: center;
     justify-content: center;
     padding: 15px;
-    height: 120px; /* Increased from 100px */
+    height: 120px;
+    opacity: 0;
+    transform: translateY(10px);
 }
 
-/* PARTNER LOGOS - INCREASED SIZE ONLY */
 .partner-logo-img {
     width: 100%;
     height: 100%;
-    max-width: 140px !important; /* Increased from 90px */
-    max-height: 100px !important; /* Increased from 80px */
+    max-width: 140px !important;
+    max-height: 100px !important;
     object-fit: contain;
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
-    /* Removed filter: Shows original colors immediately */
 }
 
-/* WELCOME TEXT (BELOW ALL LOGOS) */
 .welcome-text {
     color: #0f2e5a;
     font-family: 'Poppins', sans-serif;
@@ -109,7 +106,6 @@ body {
     backdrop-filter: blur(5px);
 }
 
-/* Animation Keyframes */
 @keyframes zoomIn {
     0% { transform: scale(0); opacity: 0; }
     100% { transform: scale(1); opacity: 1; }
@@ -125,12 +121,6 @@ body {
     100% { transform: translateY(0); opacity: 1; }
 }
 
-/* Individual partner logo animations */
-.partner-logo-item {
-    opacity: 0;
-    transform: translateY(10px);
-}
-
 .partner-logo-item:nth-child(1) { animation: slideUpLogo 0.5s ease-out 1.3s forwards; }
 .partner-logo-item:nth-child(2) { animation: slideUpLogo 0.5s ease-out 1.4s forwards; }
 .partner-logo-item:nth-child(3) { animation: slideUpLogo 0.5s ease-out 1.5s forwards; }
@@ -141,225 +131,157 @@ body {
     100% { opacity: 1; transform: translateY(0); }
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
     .qfc-main-logo {
         width: 140px;
         height: 140px;
         margin-bottom: 30px;
     }
-    
-    /* ===== GLASS EMBOSSED PARTNER LOGOS (STATIC) ===== */
-.partner-logos-container {
-    margin: 40px 0;
-    padding: 25px;
-    background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%);
-    border-radius: 25px;
-    backdrop-filter: blur(15px);
-    border: 1px solid rgba(255,255,255,0.15);
-    box-shadow: 
-        inset 0 4px 20px rgba(255,255,255,0.2),
-        inset 0 -4px 20px rgba(0,0,0,0.1),
-        0 15px 40px rgba(0,0,0,0.25);
-}
 
-.partner-logos-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 35px;
-    max-width: 500px;
-    margin: 0 auto;
-}
-
-.partner-logo-item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    
-    /* Glass embossed background */
-    background: linear-gradient(145deg, 
-        rgba(255, 255, 255, 0.25) 0%,
-        rgba(255, 255, 255, 0.15) 50%,
-        rgba(255, 255, 255, 0.05) 100%);
-    
-    padding: 30px;
-    border-radius: 18px;
-    position: relative;
-    overflow: hidden;
-    
-    /* Static glass embossed effect */
-    box-shadow: 
-        /* Outer glow */
-        0 0 0 1px rgba(255, 255, 255, 0.2),
-        
-        /* Top-left light */
-        -10px -10px 25px rgba(255, 255, 255, 0.5),
-        
-        /* Bottom-right shadow */
-        10px 10px 25px rgba(0, 0, 0, 0.2),
-        
-        /* Inner embossed (raised) effect */
-        inset 3px 3px 8px rgba(0, 0, 0, 0.1),
-        inset -3px -3px 8px rgba(255, 255, 255, 0.4);
-    
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    
-    /* Glass blur effect */
-    backdrop-filter: blur(25px);
-    
-    /* No transitions - static look */
-    transition: none !important;
-}
-
-/* Glass shine/gloss overlay */
-.partner-logo-item::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 45%;
-    background: linear-gradient(180deg, 
-        rgba(255, 255, 255, 0.3) 0%, 
-        rgba(255, 255, 255, 0.15) 50%,
-        rgba(255, 255, 255, 0) 100%);
-    border-radius: 18px 18px 60% 60%;
-    z-index: 1;
-    pointer-events: none;
-}
-
-/* Subtle background pattern */
-.partner-logo-item::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 2px, transparent 2px),
-        radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 1px, transparent 1px);
-    background-size: 30px 30px;
-    border-radius: 18px;
-    z-index: 0;
-    opacity: 0.5;
-}
-
-/* PARTNER LOGOS - INCREASED SIZE ONLY */
-.partner-logo-img {
-    max-width: 180px !important;  /* Increased from 130px */
-    max-height: 100px !important; /* Increased from 75px */
-    width: auto;
-    height: auto;
-    object-fit: contain;
-    
-    /* Frosted glass effect on logos */
-    filter: 
-        drop-shadow(0 2px 4px rgba(0,0,0,0.3))
-        brightness(1.05)
-        contrast(1.1);
-    
-    position: relative;
-    z-index: 2;
-    
-    /* Subtle emboss on logo itself */
-    text-shadow: 
-        0 1px 0 rgba(255,255,255,0.3),
-        0 -1px 0 rgba(0,0,0,0.1);
-    
-    /* Static - no transitions */
-    transition: none !important;
-    transform: none !important;
-}
-
-/* Optional: Different glass colors for each logo */
-.partner-logo-item:nth-child(1) {
-    /* Blue tint glass */
-    background: linear-gradient(145deg, 
-        rgba(173, 216, 230, 0.25) 0%,
-        rgba(173, 216, 230, 0.15) 50%,
-        rgba(173, 216, 230, 0.05) 100%);
-    
-    box-shadow: 
-        0 0 0 1px rgba(173, 216, 230, 0.3),
-        -10px -10px 25px rgba(173, 216, 230, 0.4),
-        10px 10px 25px rgba(0, 0, 0, 0.25),
-        inset 3px 3px 8px rgba(0, 0, 0, 0.12),
-        inset -3px -3px 8px rgba(173, 216, 230, 0.35);
-}
-
-.partner-logo-item:nth-child(2) {
-    /* Green tint glass */
-    background: linear-gradient(145deg, 
-        rgba(144, 238, 144, 0.25) 0%,
-        rgba(144, 238, 144, 0.15) 50%,
-        rgba(144, 238, 144, 0.05) 100%);
-    
-    box-shadow: 
-        0 0 0 1px rgba(144, 238, 144, 0.3),
-        -10px -10px 25px rgba(144, 238, 144, 0.4),
-        10px 10px 25px rgba(0, 0, 0, 0.25),
-        inset 3px 3px 8px rgba(0, 0, 0, 0.12),
-        inset -3px -3px 8px rgba(144, 238, 144, 0.35);
-}
-
-.partner-logo-item:nth-child(3) {
-    /* Gold tint glass */
-    background: linear-gradient(145deg, 
-        rgba(255, 215, 0, 0.15) 0%,
-        rgba(255, 215, 0, 0.08) 50%,
-        rgba(255, 215, 0, 0.02) 100%);
-    
-    box-shadow: 
-        0 0 0 1px rgba(255, 215, 0, 0.25),
-        -10px -10px 25px rgba(255, 215, 0, 0.3),
-        10px 10px 25px rgba(0, 0, 0, 0.25),
-        inset 3px 3px 8px rgba(0, 0, 0, 0.12),
-        inset -3px -3px 8px rgba(255, 215, 0, 0.3);
-}
-
-.partner-logo-item:nth-child(4) {
-    /* Purple tint glass */
-    background: linear-gradient(145deg, 
-        rgba(147, 112, 219, 0.25) 0%,
-        rgba(147, 112, 219, 0.15) 50%,
-        rgba(147, 112, 219, 0.05) 100%);
-    
-    box-shadow: 
-        0 0 0 1px rgba(147, 112, 219, 0.3),
-        -10px -10px 25px rgba(147, 112, 219, 0.4),
-        10px 10px 25px rgba(0, 0, 0, 0.25),
-        inset 3px 3px 8px rgba(0, 0, 0, 0.12),
-        inset -3px -3px 8px rgba(147, 112, 219, 0.35);
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
     .partner-logos-container {
-        padding: 20px;
-        margin: 30px 15px;
-        border-radius: 20px;
-    }
-    
-    .partner-logos-grid {
-        grid-template-columns: 1fr;
-        gap: 25px;
-        max-width: 350px;
-    }
-    
-    .partner-logo-item {
+        margin: 40px 0;
         padding: 25px;
-        border-radius: 16px;
+        background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%);
+        border-radius: 25px;
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255,255,255,0.15);
+        box-shadow:
+            inset 0 4px 20px rgba(255,255,255,0.2),
+            inset 0 -4px 20px rgba(0,0,0,0.1),
+            0 15px 40px rgba(0,0,0,0.25);
     }
-    
-    /* PARTNER LOGOS MOBILE - INCREASED SIZE */
-    .partner-logo-img {
-        max-width: 150px !important;  /* Increased from 110px */
-        max-height: 85px !important;  /* Increased from 65px */
+
+    .partner-logos-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 35px;
+        max-width: 500px;
+        margin: 0 auto;
     }
-    
+
+    .partner-logo-item {
+        background: linear-gradient(145deg,
+            rgba(255, 255, 255, 0.25) 0%,
+            rgba(255, 255, 255, 0.15) 50%,
+            rgba(255, 255, 255, 0.05) 100%);
+        padding: 30px;
+        border-radius: 18px;
+        position: relative;
+        overflow: hidden;
+        box-shadow:
+            0 0 0 1px rgba(255, 255, 255, 0.2),
+            -10px -10px 25px rgba(255, 255, 255, 0.5),
+            10px 10px 25px rgba(0, 0, 0, 0.2),
+            inset 3px 3px 8px rgba(0, 0, 0, 0.1),
+            inset -3px -3px 8px rgba(255, 255, 255, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        backdrop-filter: blur(25px);
+        transition: none !important;
+    }
+
     .partner-logo-item::before {
-        border-radius: 16px 16px 60% 60%;
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 45%;
+        background: linear-gradient(180deg,
+            rgba(255, 255, 255, 0.3) 0%,
+            rgba(255, 255, 255, 0.15) 50%,
+            rgba(255, 255, 255, 0) 100%);
+        border-radius: 18px 18px 60% 60%;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    .partner-logo-item::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background:
+            radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 2px, transparent 2px),
+            radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 1px, transparent 1px);
+        background-size: 30px 30px;
+        border-radius: 18px;
+        z-index: 0;
+        opacity: 0.5;
+    }
+
+    .partner-logo-img {
+        max-width: 180px !important;
+        max-height: 100px !important;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+        filter:
+            drop-shadow(0 2px 4px rgba(0,0,0,0.3))
+            brightness(1.05)
+            contrast(1.1);
+        position: relative;
+        z-index: 2;
+        transition: none !important;
+        transform: none !important;
+    }
+
+    .partner-logo-item:nth-child(1) {
+        background: linear-gradient(145deg,
+            rgba(173, 216, 230, 0.25) 0%,
+            rgba(173, 216, 230, 0.15) 50%,
+            rgba(173, 216, 230, 0.05) 100%);
+        box-shadow:
+            0 0 0 1px rgba(173, 216, 230, 0.3),
+            -10px -10px 25px rgba(173, 216, 230, 0.4),
+            10px 10px 25px rgba(0, 0, 0, 0.25),
+            inset 3px 3px 8px rgba(0, 0, 0, 0.12),
+            inset -3px -3px 8px rgba(173, 216, 230, 0.35);
+    }
+
+    .partner-logo-item:nth-child(2) {
+        background: linear-gradient(145deg,
+            rgba(144, 238, 144, 0.25) 0%,
+            rgba(144, 238, 144, 0.15) 50%,
+            rgba(144, 238, 144, 0.05) 100%);
+        box-shadow:
+            0 0 0 1px rgba(144, 238, 144, 0.3),
+            -10px -10px 25px rgba(144, 238, 144, 0.4),
+            10px 10px 25px rgba(0, 0, 0, 0.25),
+            inset 3px 3px 8px rgba(0, 0, 0, 0.12),
+            inset -3px -3px 8px rgba(144, 238, 144, 0.35);
+    }
+
+    .partner-logo-item:nth-child(3) {
+        background: linear-gradient(145deg,
+            rgba(255, 215, 0, 0.15) 0%,
+            rgba(255, 215, 0, 0.08) 50%,
+            rgba(255, 215, 0, 0.02) 100%);
+        box-shadow:
+            0 0 0 1px rgba(255, 215, 0, 0.25),
+            -10px -10px 25px rgba(255, 215, 0, 0.3),
+            10px 10px 25px rgba(0, 0, 0, 0.25),
+            inset 3px 3px 8px rgba(0, 0, 0, 0.12),
+            inset -3px -3px 8px rgba(255, 215, 0, 0.3);
+    }
+
+    .partner-logo-item:nth-child(4) {
+        background: linear-gradient(145deg,
+            rgba(147, 112, 219, 0.25) 0%,
+            rgba(147, 112, 219, 0.15) 50%,
+            rgba(147, 112, 219, 0.05) 100%);
+        box-shadow:
+            0 0 0 1px rgba(147, 112, 219, 0.3),
+            -10px -10px 25px rgba(147, 112, 219, 0.4),
+            10px 10px 25px rgba(0, 0, 0, 0.25),
+            inset 3px 3px 8px rgba(0, 0, 0, 0.12),
+            inset -3px -3px 8px rgba(147, 112, 219, 0.35);
+    }
+
+    .welcome-text {
+        font-size: 18px;
+        padding: 10px 20px;
     }
 }
 
@@ -369,115 +291,55 @@ body {
         margin: 20px 10px;
         border-radius: 18px;
     }
-    
+
     .partner-logos-grid {
         gap: 20px;
     }
-    
+
     .partner-logo-item {
         padding: 20px;
         border-radius: 14px;
     }
-    
-    /* PARTNER LOGOS SMALL MOBILE - INCREASED SIZE */
+
     .partner-logo-img {
-        max-width: 130px !important;  /* Increased from 90px */
-        max-height: 75px !important;  /* Increased from 55px */
+        max-width: 130px !important;
+        max-height: 75px !important;
     }
-    
+
     .partner-logo-item::before {
         border-radius: 14px 14px 60% 60%;
-    }
-}
-
-/* Optional: Add a subtle floating animation (still static look) */
-@keyframes subtleFloat {
-    0%, 100% {
-        transform: translateY(0);
-        box-shadow: 
-            0 0 0 1px rgba(255, 255, 255, 0.2),
-            -10px -10px 25px rgba(255, 255, 255, 0.5),
-            10px 10px 25px rgba(0, 0, 0, 0.2),
-            inset 3px 3px 8px rgba(0, 0, 0, 0.1),
-            inset -3px -3px 8px rgba(255, 255, 255, 0.4);
-    }
-    50% {
-        transform: translateY(-3px);
-        box-shadow: 
-            0 0 0 1px rgba(255, 255, 255, 0.25),
-            -12px -12px 28px rgba(255, 255, 255, 0.55),
-            12px 12px 28px rgba(0, 0, 0, 0.25),
-            inset 3px 3px 8px rgba(0, 0, 0, 0.1),
-            inset -3px -3px 8px rgba(255, 255, 255, 0.45);
-    }
-}
-
-/* Uncomment to add subtle floating animation (still looks static but with movement) */
-/*
-.partner-logo-item {
-    animation: subtleFloat 6s ease-in-out infinite;
-}
-
-.partner-logo-item:nth-child(1) { animation-delay: 0s; }
-.partner-logo-item:nth-child(2) { animation-delay: 1.5s; }
-.partner-logo-item:nth-child(3) { animation-delay: 3s; }
-.partner-logo-item:nth-child(4) { animation-delay: 4.5s; }
-*/
-    
-    .welcome-text {
-        font-size: 18px;
-        padding: 10px 20px;
     }
 }
 
 .header-content {
   display: flex;
   align-items: center;
-  gap: 20px;
-  z-index: 1; /* Ensure it's above GDS logos if needed */
+  gap: 25px;
+  z-index: 1;
 }
 
 .main-logo {
   height: 80px;
   width: 80px;
+  padding: 15px;
+  background: linear-gradient(145deg,
+      rgba(255, 255, 255, 0.25) 0%,
+      rgba(255, 255, 255, 0.15) 50%,
+      rgba(255, 255, 255, 0.05) 100%);
+  border-radius: 15px;
+  position: relative;
+  box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.25),
+      -8px -8px 15px rgba(255, 255, 255, 0.6),
+      8px 8px 15px rgba(0, 0, 0, 0.2),
+      inset 3px 3px 6px rgba(0, 0, 0, 0.1),
+      inset -3px -3px 6px rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
 }
 
-/* Embossed Effect Container */
-    padding: 15px;
-    background: linear-gradient(145deg, 
-        rgba(255, 255, 255, 0.25) 0%,
-        rgba(255, 255, 255, 0.15) 50%,
-        rgba(255, 255, 255, 0.05) 100%);
-    
-    border-radius: 15px;
-    position: relative;
-    
-    /* Embossed Effect */
-    box-shadow: 
-        /* Outer glow */
-        0 0 0 1px rgba(255, 255, 255, 0.25),
-        
-        /* Top-left light source */
-        -8px -8px 15px rgba(255, 255, 255, 0.6),
-        
-        /* Bottom-right shadow */
-        8px 8px 15px rgba(0, 0, 0, 0.2),
-        
-        /* Inner embossed edges */
-        inset 3px 3px 6px rgba(0, 0, 0, 0.1),
-        inset -3px -3px 6px rgba(255, 255, 255, 0.4);
-    
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    
-    /* Glass blur effect */
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    
-    /* Smooth transition */
-    transition: all 0.3s ease;
-}
-
-/* Embossed shine overlay */
 .main-logo::before {
     content: '';
     position: absolute;
@@ -485,8 +347,8 @@ body {
     left: 0;
     right: 0;
     height: 40%;
-    background: linear-gradient(180deg, 
-        rgba(255, 255, 255, 0.3) 0%, 
+    background: linear-gradient(180deg,
+        rgba(255, 255, 255, 0.3) 0%,
         rgba(255, 255, 255, 0.15) 50%,
         rgba(255, 255, 255, 0) 100%);
     border-radius: 15px 15px 50% 50%;
@@ -494,24 +356,9 @@ body {
     pointer-events: none;
 }
 
-/* The actual logo image inside the embossed container */
-.main-logo img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    position: relative;
-    z-index: 2;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
-    
-    /* Enhance logo appearance */
-    contrast(1.05);
-    brightness(1.02);
-}
-
-/* Optional: Add hover effect */
 .main-logo:hover {
     transform: scale(1.05);
-    box-shadow: 
+    box-shadow:
         0 0 0 2px rgba(255, 255, 255, 0.3),
         -10px -10px 20px rgba(255, 255, 255, 0.7),
         10px 10px 20px rgba(0, 0, 0, 0.25),
@@ -519,17 +366,8 @@ body {
         inset -3px -3px 6px rgba(255, 255, 255, 0.45);
 }
 
-/* Adjust header content spacing for larger logo */
-.header-content {
-    display: flex;
-    align-items: center;
-    gap: 25px; /* Increased from 20px to accommodate larger logo */
-    z-index: 1;
-}
-
-/* Header text adjustments for larger logo */
 .header-text h1 {
-    font-size: 26px; /* Slightly increased to balance larger logo */
+    font-size: 26px;
     font-weight: 600;
     line-height: 1.2;
 }
@@ -540,7 +378,6 @@ body {
     font-weight: 300;
 }
 
-/* Responsive adjustments */
 @media (max-width: 1024px) {
     .main-logo {
         height: 70px;
@@ -548,11 +385,11 @@ body {
         padding: 12px;
         border-radius: 12px;
     }
-    
+
     .header-content {
         gap: 20px;
     }
-    
+
     .header-text h1 {
         font-size: 24px;
     }
@@ -565,15 +402,15 @@ body {
         padding: 10px;
         border-radius: 10px;
     }
-    
+
     .header-content {
         gap: 15px;
     }
-    
+
     .header-text h1 {
         font-size: 22px;
     }
-    
+
     .main-logo::before {
         border-radius: 10px 10px 50% 50%;
     }
@@ -586,73 +423,22 @@ body {
         padding: 8px;
         border-radius: 8px;
     }
-    
+
     .header-content {
         gap: 12px;
     }
-    
+
     .header-text h1 {
         font-size: 18px;
     }
-    
+
     .header-text p {
         font-size: 12px;
     }
-    
+
     .main-logo::before {
         border-radius: 8px 8px 50% 50%;
     }
-}
-
-/* Alternative: Simple embossed effect (if above is too complex) */
-.main-logo.simple-embossed {
-    padding: 10px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    box-shadow: 
-        inset 2px 2px 5px rgba(255, 255, 255, 0.2),
-        inset -2px -2px 5px rgba(0, 0, 0, 0.1),
-        0 4px 6px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-/* Alternative: 3D raised effect */
-.main-logo.raised-3d {
-    padding: 12px;
-    background: linear-gradient(145deg, #1a3a7a, #0f2e5a);
-    border-radius: 12px;
-    box-shadow: 
-        0 8px 16px rgba(0, 0, 0, 0.2),
-        0 4px 8px rgba(0, 0, 0, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    border: none;
-}
-
-/* =========================
-   TOP HEADER ADJUSTMENT FOR LARGER LOGO
-========================= */
-.top-header {
-    background-color: #0f2e5a;
-    color: white;
-    padding: 15px 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    position: relative;
-    min-height: 90px; /* Increased from 80px to accommodate larger logo */
-}
-
-.header-text h1 {
-  font-size: 24px;
-  font-weight: 600;
-  line-height: 1.2;
-}
-
-.header-text p {
-  font-size: 14px;
-  opacity: 0.8;
-  font-weight: 300;
 }
 
 .header-controls button {
@@ -679,12 +465,12 @@ body {
   display: flex;
   justify-content: center;
   margin-top: 30px;
-  position: relative; /* Ensures it respects Welcome Screen z-index */
-  z-index: 10; /* Lower than Welcome Screen */
+  position: relative;
+  z-index: 10;
 }
 
 #sheet {
-  width: 1100px; /* Fixed Width */
+  width: 1100px;
   background: #ffffff;
   padding: 40px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.1);
@@ -701,38 +487,29 @@ body {
 }
 
 /* =========================
-   SHEET LOGO - TV CHANNEL LOGO MOVEMENT
+   SHEET LOGO - TV CHANNEL
 ========================= */
 .sheet-logo {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100px; /* Match your existing height */
-    width: 150px; /* Wider container for movement */
+    height: 100px;
+    width: 150px;
     position: relative;
-    overflow: hidden; /* Hide logo when off-screen */
+    overflow: hidden;
 }
 
 .sheet-logo img {
-    height: 100%; /* Use full height of container */
-    width: auto; /* Maintain aspect ratio */
+    height: 100%;
+    width: auto;
     object-fit: contain;
-    
-    /* TV Channel Logo Movement Animation */
     animation: tvLogoMovement 15s infinite;
-    
-    /* Smooth transformation */
     transform-origin: center center;
-    
-    /* Optional: TV-style effects */
     filter: drop-shadow(0 0 8px rgba(15, 46, 90, 0.3));
-    
-    /* Start off-screen to the left */
     position: absolute;
     left: -100%;
 }
 
-/* TV Channel Logo Movement Keyframes */
 @keyframes tvLogoMovement {
     0% {
         transform: translateX(-100%) scale(0.8);
@@ -745,275 +522,45 @@ body {
         left: 0;
     }
     15% {
-        transform: translateX(0) scale(1.05); /* Bounce effect */
+        transform: translateX(0) scale(1.05);
         left: 0;
     }
     20% {
-        transform: translateX(0) scale(1); /* Settle */
+        transform: translateX(0) scale(1);
         left: 0;
     }
     70% {
-        transform: translateX(0) scale(1); /* Stay in center */
+        transform: translateX(0) scale(1);
         left: 0;
         opacity: 1;
     }
     80% {
-        transform: translateX(0) scale(0.95); /* Prepare to exit */
+        transform: translateX(0) scale(0.95);
         left: 0;
         opacity: 0.9;
     }
     85% {
-        transform: translateX(20px) scale(0.9); /* Start exiting */
+        transform: translateX(20px) scale(0.9);
         left: 20px;
         opacity: 0.7;
     }
     90% {
-        transform: translateX(60px) scale(0.8); /* Exit faster */
+        transform: translateX(60px) scale(0.8);
         left: 60px;
         opacity: 0.4;
     }
     95% {
-        transform: translateX(100px) scale(0.6); /* Almost gone */
+        transform: translateX(100px) scale(0.6);
         left: 100px;
         opacity: 0.2;
     }
     100% {
-        transform: translateX(150%) scale(0.5); /* Completely exit */
+        transform: translateX(150%) scale(0.5);
         left: 150%;
         opacity: 0;
     }
 }
 
-/* Alternative: Classic TV station ident */
-@keyframes tvStationIdent {
-    0% {
-        transform: translateX(-150%) rotateY(90deg);
-        opacity: 0;
-        filter: blur(10px);
-    }
-    15% {
-        transform: translateX(0) rotateY(0deg);
-        opacity: 1;
-        filter: blur(0);
-    }
-    20% {
-        transform: translateX(0) scale(1.1);
-        filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.5));
-    }
-    25% {
-        transform: translateX(0) scale(1);
-        filter: drop-shadow(0 0 8px rgba(15, 46, 90, 0.3));
-    }
-    75% {
-        transform: translateX(0) scale(1);
-        opacity: 1;
-    }
-    80% {
-        transform: translateX(0) scale(0.9);
-        opacity: 0.8;
-    }
-    85% {
-        transform: translateX(50px) scale(0.8) rotateY(-45deg);
-        opacity: 0.6;
-        filter: blur(5px);
-    }
-    90% {
-        transform: translateX(100px) scale(0.6) rotateY(-90deg);
-        opacity: 0.3;
-        filter: blur(10px);
-    }
-    95% {
-        transform: translateX(150px) scale(0.4) rotateY(-135deg);
-        opacity: 0.1;
-        filter: blur(15px);
-    }
-    100% {
-        transform: translateX(200%) scale(0.2) rotateY(-180deg);
-        opacity: 0;
-        filter: blur(20px);
-    }
-}
-
-.sheet-logo img.tv-station {
-    animation: tvStationIdent 20s infinite;
-}
-
-/* Alternative: News channel ticker effect */
-@keyframes newsChannelTicker {
-    0% {
-        transform: translateX(-100%) scale(1);
-        opacity: 0;
-        left: -100%;
-    }
-    10% {
-        transform: translateX(0) scale(1);
-        opacity: 1;
-        left: 0;
-    }
-    15% {
-        transform: translateX(0) scale(1.02); /* Subtle pulse */
-        left: 0;
-    }
-    20% {
-        transform: translateX(0) scale(1);
-        left: 0;
-    }
-    40% {
-        transform: translateX(0) scale(1); /* Stay longer for news */
-        left: 0;
-        opacity: 1;
-    }
-    50% {
-        transform: translateX(10px) scale(0.98);
-        left: 10px;
-        opacity: 0.9;
-    }
-    60% {
-        transform: translateX(30px) scale(0.95);
-        left: 30px;
-        opacity: 0.7;
-    }
-    70% {
-        transform: translateX(60px) scale(0.9);
-        left: 60px;
-        opacity: 0.5;
-    }
-    80% {
-        transform: translateX(100px) scale(0.8);
-        left: 100px;
-        opacity: 0.3;
-    }
-    90% {
-        transform: translateX(150px) scale(0.7);
-        left: 150px;
-        opacity: 0.1;
-    }
-    100% {
-        transform: translateX(200%) scale(0.6);
-        left: 200%;
-        opacity: 0;
-    }
-}
-
-.sheet-logo img.news-channel {
-    animation: newsChannelTicker 25s infinite;
-}
-
-/* Alternative: Sports channel dynamic effect */
-@keyframes sportsChannel {
-    0% {
-        transform: translateX(-120%) scale(0.5) rotate(-30deg);
-        opacity: 0;
-        filter: brightness(1.5) contrast(1.2);
-    }
-    10% {
-        transform: translateX(0) scale(1) rotate(0deg);
-        opacity: 1;
-        filter: brightness(1) contrast(1);
-    }
-    15% {
-        transform: translateX(0) scale(1.1) rotate(5deg);
-        filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.5));
-    }
-    20% {
-        transform: translateX(0) scale(1) rotate(0deg);
-        filter: drop-shadow(0 0 10px rgba(15, 46, 90, 0.3));
-    }
-    70% {
-        transform: translateX(0) scale(1);
-        opacity: 1;
-    }
-    75% {
-        transform: translateX(0) scale(0.95) rotate(-5deg);
-        opacity: 0.9;
-    }
-    80% {
-        transform: translateX(40px) scale(0.9) rotate(-15deg);
-        opacity: 0.7;
-        filter: brightness(1.2) contrast(1.1);
-    }
-    85% {
-        transform: translateX(80px) scale(0.8) rotate(-25deg);
-        opacity: 0.5;
-        filter: brightness(1.4) contrast(1.2);
-    }
-    90% {
-        transform: translateX(120px) scale(0.7) rotate(-35deg);
-        opacity: 0.3;
-        filter: brightness(1.6) contrast(1.3);
-    }
-    95% {
-        transform: translateX(160px) scale(0.6) rotate(-45deg);
-        opacity: 0.1;
-        filter: brightness(1.8) contrast(1.4);
-    }
-    100% {
-        transform: translateX(200%) scale(0.5) rotate(-60deg);
-        opacity: 0;
-        filter: brightness(2) contrast(1.5);
-    }
-}
-
-.sheet-logo img.sports-channel {
-    animation: sportsChannel 18s infinite;
-}
-
-/* Alternative: Movie channel cinematic effect */
-@keyframes movieChannel {
-    0% {
-        transform: translateX(-100%) scale(0.3);
-        opacity: 0;
-        filter: blur(20px) brightness(0.5);
-    }
-    20% {
-        transform: translateX(0) scale(1.2);
-        opacity: 1;
-        filter: blur(0) brightness(1);
-    }
-    25% {
-        transform: translateX(0) scale(1);
-        filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.7));
-    }
-    30% {
-        transform: translateX(0) scale(1);
-        filter: drop-shadow(0 0 15px rgba(15, 46, 90, 0.5));
-    }
-    75% {
-        transform: translateX(0) scale(1);
-        opacity: 1;
-    }
-    80% {
-        transform: translateX(0) scale(0.9);
-        opacity: 0.8;
-        filter: blur(5px) brightness(0.9);
-    }
-    85% {
-        transform: translateX(50px) scale(0.8);
-        opacity: 0.6;
-        filter: blur(10px) brightness(0.8);
-    }
-    90% {
-        transform: translateX(100px) scale(0.7);
-        opacity: 0.4;
-        filter: blur(15px) brightness(0.7);
-    }
-    95% {
-        transform: translateX(150px) scale(0.6);
-        opacity: 0.2;
-        filter: blur(20px) brightness(0.6);
-    }
-    100% {
-        transform: translateX(200%) scale(0.5);
-        opacity: 0;
-        filter: blur(25px) brightness(0.5);
-    }
-}
-
-.sheet-logo img.movie-channel {
-    animation: movieChannel 30s infinite;
-}
-
-/* Optional: Add a screen border effect */
 .sheet-logo::before {
     content: '';
     position: absolute;
@@ -1025,12 +572,11 @@ body {
     border-radius: 10px;
     pointer-events: none;
     z-index: 1;
-    box-shadow: 
+    box-shadow:
         inset 0 0 20px rgba(255, 255, 255, 0.05),
         0 0 20px rgba(0, 0, 0, 0.2);
 }
 
-/* Optional: Add scan lines for TV effect */
 .sheet-logo::after {
     content: '';
     position: absolute;
@@ -1050,81 +596,20 @@ body {
     mix-blend-mode: overlay;
 }
 
-/* Pause animation on hover */
 .sheet-logo:hover img {
     animation-play-state: paused;
-    transform: translateX(0) scale(1.1); /* Return to center and zoom */
+    transform: translateX(0) scale(1.1);
     opacity: 1;
     filter: drop-shadow(0 0 15px rgba(15, 46, 90, 0.5));
 }
 
-/* Different timing options */
-.sheet-logo img.slow-tv {
-    animation-duration: 20s;
-}
-
-.sheet-logo img.fast-tv {
-    animation-duration: 10s;
-}
-
-.sheet-logo img.instant-tv {
-    animation-duration: 8s;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .sheet-logo {
-        height: 80px;
-        width: 120px;
-    }
-    
-    .sheet-logo img {
-        animation-duration: 12s; /* Adjust timing for mobile */
-    }
-    
-    /* Adjust movement distance for smaller screens */
-    @keyframes tvLogoMovement {
-        0% {
-            transform: translateX(-80%) scale(0.8);
-            left: -80%;
-        }
-        100% {
-            transform: translateX(120%) scale(0.5);
-            left: 120%;
-        }
-    }
-}
-
-@media (max-width: 480px) {
-    .sheet-logo {
-        height: 60px;
-        width: 100px;
-    }
-    
-    .sheet-logo img {
-        animation-duration: 10s;
-    }
-    
-    @keyframes tvLogoMovement {
-        0% {
-            transform: translateX(-60%) scale(0.8);
-            left: -60%;
-        }
-        100% {
-            transform: translateX(100%) scale(0.5);
-            left: 100%;
-        }
-    }
-}
-/* Responsive adjustments */
 @media (max-width: 768px) {
     .sheet-logo {
         height: 80px;
         width: 80px;
     }
-    
     .sheet-logo img {
-        animation-duration: 12s; /* Slower on mobile */
+        animation-duration: 12s;
     }
 }
 
@@ -1133,14 +618,13 @@ body {
         height: 60px;
         width: 60px;
     }
-    
     .sheet-logo img {
-        animation-duration: 15s; /* Even slower on small mobile */
+        animation-duration: 15s;
     }
 }
 
 /* =========================
-   GDS LOGOS IN TOP HEADER
+   GDS LOGOS
 ========================= */
 .gds-logos {
     display: flex;
@@ -1150,11 +634,24 @@ body {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
+    animation: fadeInLogos 0.5s ease-out 0.3s forwards;
+    opacity: 0;
+}
+
+@keyframes fadeInLogos {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
 }
 
 .logo-box {
-    width: 90px; /* Reduced from 100px */
-    height: 60px; /* Reduced from 70px */
+    width: 90px;
+    height: 60px;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 6px;
     display: flex;
@@ -1173,49 +670,20 @@ body {
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Zoom-out effect on hover */
 .logo-box:hover {
     background: rgba(255, 255, 255, 0.2);
     border-color: rgba(255, 255, 255, 0.4);
-    transform: scale(0.9); /* Zoom-out effect */
-}
-
-.logo-box:hover img {
-    transform: scale(0.9); /* Logo also zooms out slightly */
-}
-
-/* Optional: Add subtle glow on hover */
-.logo-box:hover {
+    transform: scale(0.9);
     box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
 }
 
-/* Animation for initial appearance */
-@keyframes fadeInLogos {
-    from {
-        opacity: 0;
-        transform: translateX(-50%) translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(-50%) translateY(0);
-    }
+.logo-box:hover img {
+    transform: scale(0.9);
 }
 
-.gds-logos {
-    animation: fadeInLogos 0.5s ease-out 0.3s forwards;
-    opacity: 0;
-}
-
-/* Responsive adjustments for GDS logos in header */
 @media (max-width: 1024px) {
-    .gds-logos {
-        gap: 18px;
-    }
-    
-    .logo-box {
-        width: 85px;
-        height: 55px;
-    }
+    .gds-logos { gap: 18px; }
+    .logo-box { width: 85px; height: 55px; }
 }
 
 @media (max-width: 768px) {
@@ -1230,30 +698,14 @@ body {
         animation: none;
         opacity: 1;
     }
-    
-    .logo-box {
-        width: 80px;
-        height: 50px;
-    }
-    
-    .logo-box:hover {
-        transform: scale(0.85);
-    }
+    .logo-box { width: 80px; height: 50px; }
+    .logo-box:hover { transform: scale(0.85); }
 }
 
 @media (max-width: 480px) {
-    .gds-logos {
-        gap: 12px;
-    }
-    
-    .logo-box {
-        width: 70px;
-        height: 45px;
-    }
-    
-    .logo-box:hover {
-        transform: scale(0.8);
-    }
+    .gds-logos { gap: 12px; }
+    .logo-box { width: 70px; height: 45px; }
+    .logo-box:hover { transform: scale(0.8); }
 }
 
 /* =========================
@@ -1285,7 +737,6 @@ body {
   transform: rotate(180deg);
 }
 
-/* DROPDOWN CONTENT */
 .dropdown-content {
     display: none;
     position: absolute;
@@ -1310,7 +761,6 @@ body {
     padding: 15px;
 }
 
-/* Resource items in dropdown */
 .drop-content {
   padding: 10px;
 }
@@ -1441,28 +891,28 @@ h3 {
 }
 
 /* =========================
-   GRID (CHANGED TO 5 COLUMNS)
+   GRID
 ========================= */
 .grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr); /* 5 Columns */
-  gap: 10px; /* Tighter gap to fit more */
+  grid-template-columns: repeat(5, 1fr) !important;
+  gap: 10px;
   margin-bottom: 30px;
 }
 
 /* =========================
-   CARDS (COMPACT SIZING)
+   CARDS
 ========================= */
 .card {
   background: #fff;
   border: 1px solid #e0e0e0;
-  border-radius: 6px; /* Slightly smaller radius */
-  padding: 10px;       /* Reduced padding */
+  border-radius: 6px;
+  padding: 10px;
   text-align: center;
   position: relative;
   box-shadow: 0 2px 5px rgba(0,0,0,0.05);
   transition: transform 0.2s;
-  min-height: 180px; /* Ensures consistent height for buttons */
+  min-height: 180px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -1474,43 +924,42 @@ h3 {
 }
 
 .card img {
-  height: 40px;       /* Consistent height */
-  width: auto;        /* Auto width prevents stretching */
-  object-fit: contain; /* Ensures the whole logo fits inside */
-  display: block;      /* Removes extra space below image */
-  margin: 0 auto 8px auto; /* Centers the logo horizontally and adds space below */
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto 8px auto;
 }
 
 .discount {
   position: absolute;
-  top: -8px;       /* Moved up slightly to make room for bigger text */
+  top: -8px;
   right: -5px;
   transform: none;
   background: #ffeb3b;
   color: #333;
   padding: 4px 10px;
   font-weight: bold;
-  font-size: 16px; /* INCREASED FROM 10px TO 16px */
+  font-size: 16px;
   border-radius: 15px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  z-index: 10;      /* Ensures it sits on top of the logo */
+  z-index: 10;
 }
 
-/* Old .notice style is replaced by .alert-box */
 .alert-box {
   background: #ff9800;
   color: white;
   font-size: 10px;
   padding: 4px 5px;
   border-radius: 4px;
-  margin: 4px auto; /* Centers it and adds space */
+  margin: 4px auto;
   text-align: center;
-  display: block; /* Forces it to its own line */
-  width: 90%;     /* Limits width so it doesn't touch edges */
+  display: block;
+  width: 90%;
 }
 
 .note-text {
-    min-height: 24px; /* Ensures height for alignment */
+    min-height: 24px;
     margin-bottom: 0;
 }
 
@@ -1526,11 +975,10 @@ h3 {
   font-weight: bold;
 }
 
-/* Text adjustments for 5 columns */
 .card p {
   margin-bottom: 4px;
   line-height: 1.2;
-  font-size: 11px; /* Smaller text */
+  font-size: 11px;
   min-height: auto;
 }
 
@@ -1550,7 +998,7 @@ h3 {
   width: 100% !important;
   display: flex;
   justify-content: space-between;
-  padding: 0 5px !important; /* Tight padding */
+  padding: 0 5px !important;
   box-sizing: border-box;
   z-index: 100;
 }
@@ -1580,23 +1028,23 @@ h3 {
 }
 
 /* =========================
-   MODALS
+   MODALS (SHARED)
 ========================= */
 .modal {
-  display: none; 
-  position: fixed; 
-  z-index: 1000; 
+  display: none;
+  position: fixed;
+  z-index: 1000;
   left: 0;
   top: 0;
-  width: 100%; 
-  height: 100%; 
-  background-color: rgba(0,0,0,0.5); 
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
   backdrop-filter: blur(2px);
 }
 
 .modal-content {
   background-color: #fff;
-  margin: 8% auto; 
+  margin: 8% auto;
   padding: 30px;
   border-radius: 12px;
   width: 90%;
@@ -1608,81 +1056,12 @@ h3 {
     max-width: 500px;
 }
 
-/* CALCULATOR MODAL FONT SIZE REDUCTION */
-#calcModal .modal-content.wide {
-    max-height: 90vh;
-    overflow-y: auto;
-}
-
-#calcModal label {
-    font-size: 11px;
-    margin-bottom: 2px;
-}
-
-#calcModal input,
-#calcModal select {
-    padding: 6px 8px;
-    margin: 4px 0;
-    font-size: 10px;
-}
-
-#calcModal h2 {
-    font-size: 14px;
-    margin-bottom: 8px;
-}
-
-#calcModal .form-row {
-    gap: 6px;
-    margin-bottom: 2px;
-}
-
-#calcModal .calc-results {
-    margin-top: 8px;
-}
-
-#calcModal .fare-row {
-    padding: 6px 10px;
-}
-
-#calcModal .fare-title {
-    font-size: 10px;
-    width: 65px;
-}
-
-#calcModal .fare-details {
-    font-size: 10px;
-}
-
-#calcModal .fare-details div {
-    margin-bottom: 1px;
-    font-size: 10px;
-}
-
-#calcModal .fare-details strong {
-    font-size: 10px;
-}
-
-#calcModal .fare-details span {
-    font-size: 10px;
-    margin-top: 1px;
-}
-
-#calcModal .modal-buttons {
-    margin-top: 10px;
-}
-
-#calcModal .btn-secondary {
-    padding: 6px 14px;
-    font-size: 10px;
-}
-
 .modal-content h2 {
     margin-bottom: 15px;
     color: #0f2e5a;
     font-size: 20px;
 }
 
-/* Inputs */
 input, select {
   width: 100%;
   padding: 12px;
@@ -1706,7 +1085,6 @@ input:focus {
   outline: none;
 }
 
-/* Buttons in Modal */
 .modal-buttons {
   margin-top: 20px;
   text-align: right;
@@ -1734,11 +1112,411 @@ input:focus {
 }
 
 /* =========================
+   CALCULATOR MODAL
+========================= */
+
+/* Main container — reduced size */
+.calc-modal-wide {
+    max-width: 680px !important;
+    margin: 3% auto !important;
+    padding: 0 !important;
+    border-radius: 14px !important;
+    overflow: hidden;
+    background: #f4f6f9;
+    position: relative;
+}
+
+/* X close button — top right corner */
+.calc-close-x {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    z-index: 10;
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, transform 0.2s;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.calc-close-x:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+}
+
+.calc-close-x:active {
+    transform: scale(0.95);
+}
+
+/* Title bar — white text */
+.calc-modal-title {
+    background: linear-gradient(135deg, #0f2e5a 0%, #1a3f7a 100%);
+    color: #ffffff !important;
+    text-align: center;
+    padding: 14px 24px !important;
+    margin: 0 !important;
+    font-size: 16px !important;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    position: relative;
+}
+
+.calc-modal-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #2196f3, #4caf50, #ff9800);
+}
+
+/* Body — flex row */
+.calc-body {
+    display: flex;
+    gap: 0;
+    padding: 16px;
+    min-height: auto;
+}
+
+/* ===== LEFT PANEL — INPUTS ===== */
+.calc-input-panel {
+    flex: 0 0 280px;
+    max-width: 280px;
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    overflow-y: auto;
+}
+
+.calc-panel-header {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #0f2e5a;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #e8edf3;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.calc-panel-header::before {
+    content: '';
+    display: inline-block;
+    width: 3px;
+    height: 14px;
+    background: #2196f3;
+    border-radius: 2px;
+}
+
+.calc-field {
+    margin-bottom: 10px;
+}
+
+.calc-field label {
+    display: block;
+    font-size: 10px;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 3px;
+    letter-spacing: 0.3px;
+}
+
+.calc-field input,
+.calc-field select {
+    width: 100%;
+    padding: 7px 10px;
+    margin: 0;
+    border: 1.5px solid #dde2e8;
+    border-radius: 7px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    color: #333;
+    background: #fafbfc;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.calc-field input:focus,
+.calc-field select:focus {
+    border-color: #2196f3;
+    box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.12);
+    outline: none;
+    background: #fff;
+}
+
+/* Passenger counts */
+.calc-pax-counts {
+    display: flex;
+    gap: 6px;
+    margin-top: 4px;
+}
+
+.calc-pax-item {
+    flex: 1;
+    text-align: center;
+}
+
+.calc-pax-item label {
+    display: block;
+    font-size: 9px;
+    font-weight: 600;
+    color: #777;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 3px;
+}
+
+.calc-pax-item input {
+    width: 100%;
+    padding: 6px 2px;
+    margin: 0;
+    border: 1.5px solid #dde2e8;
+    border-radius: 7px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #0f2e5a;
+    text-align: center;
+    background: #fafbfc;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.calc-pax-item input:focus {
+    border-color: #2196f3;
+    box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.12);
+    outline: none;
+    background: #fff;
+}
+
+/* ===== VERTICAL DIVIDER ===== */
+.calc-divider {
+    flex: 0 0 1px;
+    background: linear-gradient(180deg, transparent 0%, #cfd8dc 15%, #cfd8dc 85%, transparent 100%);
+    margin: 0 14px;
+    align-self: stretch;
+}
+
+/* ===== RIGHT PANEL — OUTPUTS ===== */
+.calc-output-panel {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Result cards */
+.calc-result-card {
+    background: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    transition: box-shadow 0.2s;
+}
+
+.calc-result-card:hover {
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+
+.result-card-label {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 5px 12px;
+    color: #fff;
+    background: #0f2e5a;
+}
+
+.result-card-body {
+    padding: 7px 12px;
+}
+
+.result-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2px 0;
+    font-size: 11px;
+    color: #666;
+}
+
+.result-line span {
+    color: #666;
+}
+
+.result-line strong {
+    color: #333;
+    font-weight: 600;
+    font-size: 11px;
+}
+
+.result-per-person {
+    border-top: 1px dashed #e0e0e0;
+    margin-top: 2px;
+    padding-top: 4px;
+}
+
+.result-per-person strong {
+    color: #0f2e5a;
+    font-size: 12px;
+}
+
+.result-subtotal {
+    background: #f0f4f8;
+    margin: 2px -12px -7px -12px;
+    padding: 4px 12px;
+    border-radius: 0 0 8px 8px;
+}
+
+.result-subtotal strong {
+    color: #0f2e5a;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+/* Child variant */
+.card-child .result-card-label {
+    background: #1565c0;
+}
+
+.card-child .result-subtotal strong,
+.card-child .result-per-person strong {
+    color: #1565c0;
+}
+
+/* Infant variant */
+.card-infant .result-card-label {
+    background: #6a1b9a;
+}
+
+.card-infant .result-subtotal strong,
+.card-infant .result-per-person strong {
+    color: #6a1b9a;
+}
+
+/* Grand total */
+.card-grand {
+    background: linear-gradient(135deg, #0f2e5a 0%, #1a3f7a 100%);
+    box-shadow: 0 3px 12px rgba(15, 46, 90, 0.3);
+    margin-top: auto;
+}
+
+.card-grand .result-card-label {
+    background: rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.8);
+    font-size: 9px;
+    letter-spacing: 1.5px;
+}
+
+.card-grand .result-card-body {
+    padding: 10px 12px;
+}
+
+.result-passengers {
+    font-size: 10px;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 2px;
+}
+
+.result-grand-amount {
+    font-size: 18px;
+    font-weight: 700;
+    color: #4caf50;
+    letter-spacing: 0.5px;
+}
+
+/* ===== CALCULATOR RESPONSIVE ===== */
+@media (max-width: 720px) {
+    .calc-modal-wide {
+        max-width: 95vw !important;
+        margin: 2% auto !important;
+    }
+
+    .calc-body {
+        flex-direction: column;
+        padding: 12px;
+    }
+
+    .calc-input-panel {
+        flex: none;
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .calc-divider {
+        flex: 0 0 1px;
+        margin: 10px 0;
+        background: linear-gradient(90deg, transparent 0%, #cfd8dc 15%, #cfd8dc 85%, transparent 100%);
+        align-self: auto;
+        width: 100%;
+        height: 1px;
+    }
+
+    .calc-output-panel {
+        flex: none;
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .calc-modal-title {
+        font-size: 14px !important;
+        padding: 12px 16px !important;
+    }
+
+    .calc-close-x {
+        width: 28px;
+        height: 28px;
+        font-size: 18px;
+        top: 8px;
+        right: 10px;
+    }
+
+    .calc-body {
+        padding: 10px;
+    }
+
+    .calc-input-panel {
+        padding: 12px;
+    }
+
+    .calc-pax-counts {
+        gap: 4px;
+    }
+
+    .result-grand-amount {
+        font-size: 16px;
+    }
+}
+
+/* =========================
    BOTTOM ACTIONS
 ========================= */
 .bottom-actions {
-  text-align: center;
-  margin-top: 30px;
+  width: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center !important;
+  margin-top: 30px !important;
+  background-color: transparent;
 }
 
 .bottom-actions button {
@@ -1746,7 +1524,7 @@ input:focus {
   color: white;
   border: none;
   padding: 12px 25px;
-  margin: 0 10px;
+  margin: 5px 0 !important;
   border-radius: 30px;
   cursor: pointer;
   font-size: 16px;
@@ -1757,11 +1535,25 @@ input:focus {
   background-color: #555;
 }
 
+.credits {
+  margin-top: 15px;
+  font-size: 12px;
+  color: #333;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  animation: blink 1s infinite steps(1, end);
+}
+
+@keyframes blink {
+  from, to { opacity: 1; }
+  50% { opacity: 0; }
+}
+
 /* =========================
-   PRINT SETTINGS
+   PRINT
 ========================= */
 @media print {
-  .top-header, .bottom-actions, .header-controls, #loginModal, #formModal {
+  .top-header, .bottom-actions, .header-controls, #loginModal, #formModal, #calcModal {
     display: none !important;
   }
   #sheet {
@@ -1772,19 +1564,12 @@ input:focus {
 }
 
 /* =========================
-   FORCE 5 COLUMNS OVERRIDE
-========================= */
-.grid {
-  grid-template-columns: repeat(5, 1fr) !important;
-}
-
-/* =========================
    SHEET FOOTER
 ========================= */
 .sheet-footer {
   margin-top: 50px;
   text-align: center;
-  border-top: 2px solid #0f2e5a; /* Matches Header Color */
+  border-top: 2px solid #0f2e5a;
   padding-top: 20px;
 }
 
@@ -1802,13 +1587,12 @@ input:focus {
 }
 
 /* =========================
-   HOVER TOOLTIP (INSTRUCTIONS)
+   HOVER TOOLTIP
 ========================= */
-/* The Tooltip Box */
 .card[data-note]:hover::after {
-    content: attr(data-note); /* Reads the text from the data-note attribute */
+    content: attr(data-note);
     position: absolute;
-    bottom: 100%; /* Shows the box ABOVE the card */
+    bottom: 100%;
     left: 50%;
     transform: translateX(-50%) translateY(-10px);
     background-color: #333;
@@ -1816,383 +1600,46 @@ input:focus {
     padding: 8px 12px;
     border-radius: 6px;
     font-size: 12px;
-    width: 180px; /* Fixed width for readability */
+    width: 180px;
     text-align: center;
     z-index: 1000;
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    pointer-events: none; /* Allows mouse to pass through */
-    white-space: pre-wrap; /* Allows text to wrap to new lines */
+    pointer-events: none;
+    white-space: pre-wrap;
 }
 
-/* The Little Arrow pointing down */
 .card[data-note]:hover::before {
     content: "";
     position: absolute;
     bottom: 100%;
     left: 50%;
     margin-left: -5px;
-    margin-bottom: 5px; /* Adjusts arrow position */
+    margin-bottom: 5px;
     border-width: 6px;
     border-style: solid;
     border-color: #333 transparent transparent transparent;
-    transform: rotate(-90deg); /* Rotate arrow to point down */
+    transform: rotate(-90deg);
 }
 
 /* =========================
-   CALCULATOR BUTTON
-========================= */
-.calc-btn {
-  /* --- YOUR ORIGINAL STYLES --- */
-  background-color: #27ae60;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 4px;
-  font-size: 12px;
-  cursor: pointer;
-  margin-top: 10px;
-  width: 100%;
-  
-  /* --- ANIMATION --- */
-  animation: greenPulse 2s infinite;
-  transition: transform 0.2s;
-}
-
-/* Hover Effect */
-.calc-btn:hover {
-  transform: scale(1.05); /* Button grows slightly */
-}
-
-/* KEYFRAMES */
-@keyframes greenPulse {
-  0% { 
-    box-shadow: 0 0 0 0 rgba(39, 174, 96, 0); /* No glow */
-  }
-  70% { 
-    box-shadow: 0 0 0 10px rgba(39, 174, 96, 0); /* Spreading green glow */
-  }
-  100% { 
-    box-shadow: 0 0 0 0 rgba(39, 174, 96, 0); /* Back to no glow */
-  }
-}
-
-/* =========================
-   CALCULATOR DISPLAY
-========================= */
-.calc-display {
-  background-color: #f8f9fa;
-  padding: 15px;
-  border-radius: 8px;
-  margin: 15px 0;
-  border: 1px solid #e0e0e0;
-}
-
-.calc-row {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 8px;
-  font-size: 14px;
-  color: #555;
-}
-
-.calc-row.total-row {
-  border-top: 1px solid #ccc;
-  padding-top: 8px;
-  font-size: 16px;
-  color: #000;
-  font-weight: bold;
-}
-
-#dispTotal {
-  color: #0f2e5a;
-  font-size: 18px;
-}
-
-/* =========================
-   CALCULATOR INFO
-========================= */
-.calc-info {
-  font-size: 12px;
-  color: #666;
-  margin-bottom: 5px;
-  text-align: right;
-}
-
-/* =========================
-   PAX SELECTOR (TABS)
-========================= */
-.pax-selector {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 15px;
-  border-bottom: 2px solid #ddd;
-}
-
-.pax-btn {
-  flex: 1; /* Makes all 3 buttons equal width */
-  text-align: center;
-  padding: 10px;
-  border: 1px solid transparent;
-  border-bottom: none;
-  border-radius: 8px 8px 0 0; /* Rounded top corners */
-  cursor: pointer;
-  font-weight: 600;
-  background-color: #f0f0f0;
-  color: #555;
-  transition: all 0.2s;
-}
-
-/* Style when a button is CLICKED (Active) */
-.pax-btn.active {
-  background-color: #0f2e5a; /* Blue */
-  color: white;
-  border-color: #0f2e5a;
-  border-bottom: 1px solid #0f2e5a; /* Merges with blue background */
-  margin-bottom: -2px; /* Connects visually to the line below */
-  z-index: 1;
-  position: relative;
-}
-
-/* =========================
-   CALCULATOR RESULTS (ONE SCREEN)
-========================= */
-.calc-results {
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  overflow: hidden;
-  margin-top: 15px;
-}
-
-.fare-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 15px;
-  border-bottom: 1px solid #eee;
-  background-color: #fff;
-}
-
-.fare-row:last-child {
-  border-bottom: none;
-}
-
-.fare-title {
-  font-weight: bold;
-  color: #333;
-  font-size: 14px;
-  width: 80px;
-}
-
-.fare-details {
-  text-align: right;
-  font-size: 13px;
-  color: #555;
-}
-
-.fare-details span {
-  display: block;
-  color: #0f2e5a;
-  font-weight: bold;
-  font-size: 15px;
-  margin-top: 2px;
-}
-
- .credits {
-  margin-top: 15px;
-  font-size: 12px;      /* Small font */
-  color: #333;          /* Dark color for visibility */
-  font-weight: 500;
-  letter-spacing: 0.5px;
-  /* --- Blinking Logic Added Below --- */
-  animation: blink 1s infinite steps(1, end);
-}
-
-@keyframes blink {
-  from, to { opacity: 1; } /* Fully visible at the start and end of the cycle */
-  50% { opacity: 0; }     /* Hidden halfway through the cycle */
-}
-
-
-/* =========================
-   WELCOME SCREEN ANIMATION
-========================= */
-#welcome-screen {
-    position: fixed;      /* Covers whole screen */
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #b6e8f3; /* Matches your Header Blue */
-    z-index: 10000;         /* Sits on top of everything */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    transition: opacity 0.8s ease-in-out; /* Smooth fade out */
-}
-
-.welcome-logo {
-    width: 150px;
-    height: 150px;
-    animation: zoomIn 1.5s ease-out; /* Logo pops in */
-}
-
-.welcome-text {
-    color: #0f2e5a;
-    font-family: 'Poppins', sans-serif;
-    font-size: 24px;
-    font-weight: 600;
-    margin-top: 20px;
-    opacity: 0; /* Start invisible */
-    animation: slideUp 1s ease-out 0.5s forwards; /* Text slides up after logo */
-}
-
-/* Animation Keyframes */
-@keyframes zoomIn {
-    0% { transform: scale(0); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
-}
-
-@keyframes slideUp {
-    0% { transform: translateY(20px); opacity: 0; }
-    100% { transform: translateY(0); opacity: 1; }
-}
-
-/* =========================
-   ALIGNMENT FIXES
-========================= */
-
-/* 1. FIX TOP HEADER (Left vs Right) */
-.top-header {
-  width: 100% !important; /* Full width of page */
-  display: flex !important;
-  justify-content: space-between !important; /* Logo Left, Buttons Right */
-  align-items: center !important;
-  background-color: #0f2e5a; /* Blue */
-}
-
-.header-controls {
-  display: flex;
-  gap: 10px;
-  z-index: 1; /* Ensure it's above GDS logos if needed */
-}
-
-
-/* 2. FIX BOTTOM ACTIONS (Centered) */
-.bottom-actions {
-  width: 100% !important;
-  display: flex !important;
-  flex-direction: column; /* Stack buttons vertically */
-  justify-content: center !important; /* Centers the column in the middle of page */
-  align-items: center !important; /* Forces items to center (fixes 'Right Side' issue) */
-  text-align: center !important;
-  background-color: transparent; /* Keeps it clean (Not Blue) */
-}
-
-/* =========================
-   FORCE LAYOUT RESTORE
-========================= */
-
-/* --- TOP HEADER: Logo Left, Buttons Right --- */
-.top-header {
-  width: 100% !important;
-  background-color: #0f2e5a !important;
-  padding: 15px 30px !important;
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: center !important;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;
-}
-
-.header-controls {
-  display: flex;
-  gap: 10px;
-}
-
-/* --- BOTTOM ACTIONS: Centered --- */
-.bottom-actions {
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: center !important;
-  align-items: center !important;
-  text-align: center !important;
-  margin-top: 30px !important;
-  width: 100% !important;
-}
-
-.bottom-actions button {
-  margin: 5px 0 !important;
-}
-
-/* =========================
-   BACKGROUND VIDEO
-========================= */
-#bg-video {
-    position: fixed;       /* Fixes it to screen, doesn't scroll */
-    right: 0;
-    bottom: 0;
-    min-width: 100%;
-    min-height: 100%;
-    width: auto;
-    height: auto;
-    z-index: -99999;        /* Places it BEHIND everything (Welcome Sheet, Header, Buttons) */
-    object-fit: cover;     /* Ensures it covers whole screen without stretching */
-    pointer-events: none;    /* Allows you to click through it */
-}
-
-/* =========================
-   BLINKING TEXT (SHARED ANIMATION)
-========================= */
-/* 2. Credits (Bottom of page) */
-.credits {
-  margin-top: 15px;
-  font-size: 12px;
-  color: #333;           /* Visible Dark Grey */
-  font-weight: 500;
-  letter-spacing: 0.5px;
-  animation: blink 1s infinite steps(1, end);
-}
-
-/* SHARED KEYFRAMES */
-@keyframes blink {
-  from, to { opacity: 1; }
-  50% { opacity: 0; }
-}
-
-/* =========================
-   GOLDEN SHIMMER EFFECT
+   GOLDEN SHIMMER
 ========================= */
 .service-text {
-  /* --- POSITION & FONT --- */
   margin: 10px auto;
   padding: 3px 20px;
   font-size: 16px;
   font-weight: 600;
   text-align: center;
   line-height: 1.4;
-  
-  /* --- GOLDEN GRADIENT --- */
-  /* 1. Start: Dark Grey (#333) */
-  /* 2. Middle: Gold (#FFD700) */
-  /* 3. End: Dark Grey (#333) */
   background: linear-gradient(90deg, #333 0%, #FFD700 50%, #333 100%);
-  
-  /* Must be 200% width to allow movement */
-  background-size: 200% auto; 
-  
-  /* Clips the gradient to the text shape */
+  background-size: 200% auto;
   background-clip: text;
   -webkit-background-clip: text;
-  
-  /* Makes text transparent so the gradient shows through */
-  color: #333; 
-  -webkit-text-fill-color: transparent; 
-  
-  /* Moves the gradient from left to right */
+  color: #333;
+  -webkit-text-fill-color: transparent;
   animation: shine 3s linear infinite;
 }
 
-/* KEYFRAMES FOR SHIMMER */
 @keyframes shine {
   to {
     background-position: 200% center;
@@ -2200,10 +1647,8 @@ input:focus {
 }
 
 /* =========================
-   DOCUMENTS DROPDOWN - IMAGE VIEW STYLING
+   DOCUMENTS IMAGE VIEW
 ========================= */
-
-/* View label for image files */
 .view-label {
     font-size: 10px;
     color: #0f2e5a;
@@ -2215,12 +1660,10 @@ input:focus {
     font-style: italic;
 }
 
-/* Hover effect for image links */
 .resource-link[target="_blank"]:hover .view-label {
     background: rgba(15, 46, 90, 0.2);
 }
 
-/* Different cursor for image links */
 .resource-link[target="_blank"] {
     cursor: pointer;
 }
@@ -2229,7 +1672,7 @@ input:focus {
     cursor: default;
 }
 
-/* ===== RUNNING TEXT MARQUEE ===== */
+/* ===== MARQUEE ===== */
 .marquee-bar {
     background: linear-gradient(90deg, #1a237e, #283593);
     color: white;
@@ -2273,45 +1716,36 @@ input:focus {
 }
 
 @keyframes marquee {
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        transform: translateX(-50%); /* Move exactly half width for seamless loop */
-    }
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
 }
 
-/* Pause animation on hover */
 .marquee-bar:hover .marquee-container {
     animation-play-state: paused;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
     .marquee-bar {
         font-size: 12px;
         padding: 8px 0;
     }
-    
     .marquee-text span {
         padding: 0 15px;
     }
-    
     .marquee-container {
-        animation-duration: 80s; /* Slower on mobile */
+        animation-duration: 80s;
     }
 }
 
-/* ===== TOOLS CONTAINER ===== */
+/* ===== TOOLS ===== */
 .tools-container {
     display: flex;
     gap: 15px;
     align-items: center;
-    margin-left: auto; /* Push to right side */
+    margin-left: auto;
     padding-right: 20px;
 }
 
-/* TOOL BUTTON STYLES */
 .tool-btn {
     display: flex;
     align-items: center;
@@ -2349,7 +1783,6 @@ input:focus {
     font-weight: 600;
 }
 
-/* CALCULATOR BUTTON SEPARATE STYLE */
 .calculator-btn {
     background: linear-gradient(135deg, #4caf50, #388e3c);
     box-shadow: 0 4px 6px rgba(76, 175, 80, 0.2);
@@ -2360,18 +1793,15 @@ input:focus {
     box-shadow: 0 6px 12px rgba(76, 175, 80, 0.3);
 }
 
-/* RESPONSIVE DESIGN */
 @media (max-width: 1024px) {
     .tools-container {
         padding-right: 10px;
         gap: 10px;
     }
-    
     .tool-btn {
         padding: 8px 12px;
         font-size: 13px;
     }
-    
     .tool-text {
         font-size: 12px;
     }
@@ -2382,7 +1812,6 @@ input:focus {
         flex-wrap: wrap;
         gap: 15px;
     }
-    
     .tools-container {
         order: 3;
         width: 100%;
@@ -2390,7 +1819,6 @@ input:focus {
         padding-right: 0;
         margin-top: 10px;
     }
-    
     .gds-logos {
         order: 2;
         margin: 0 auto;
@@ -2403,16 +1831,13 @@ input:focus {
         align-items: stretch;
         gap: 8px;
     }
-    
     .tool-btn {
         justify-content: center;
         padding: 10px;
     }
-    
     .dropdown-btn {
         justify-content: center;
     }
-    
     .dropdown-content {
         min-width: 200px;
         right: 50%;
@@ -2420,124 +1845,37 @@ input:focus {
     }
 }
 
-/* Discount Display Styling */
-.discount-display {
-    background: linear-gradient(to right, #e8f5e9, #c8e6c9);
-    border: 1px solid #81c784;
-    padding: 20px;
-    border-radius: 10px;
-    margin: 20px 0;
+/* =========================
+   BACKGROUND VIDEO
+========================= */
+#bg-video {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -99999;
+    object-fit: cover;
+    pointer-events: none;
 }
 
-.discount-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px 0;
-    border-bottom: 1px dashed #81c784;
+/* =========================
+   ALIGNMENT FIXES
+========================= */
+.top-header {
+  width: 100% !important;
+  background-color: #0f2e5a !important;
+  padding: 15px 30px !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;
 }
 
-.discount-row:last-child {
-    border-bottom: none;
-}
-
-.discount-label {
-    font-weight: 600;
-    color: #2e7d32;
-}
-
-.discount-value {
-    font-weight: 600;
-    color: #1b5e20;
-}
-
-/* Calculation Breakdown */
-.calculation-breakdown {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    margin: 15px 0;
-}
-
-.breakdown-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px solid #eee;
-}
-
-.breakdown-row:last-child {
-    border-bottom: none;
-}
-
-.breakdown-row.discount-row {
-    color: #d32f2f;
-}
-
-.breakdown-row.total-row {
-    background: #f5f5f5;
-    padding: 15px;
-    border-radius: 5px;
-    margin-top: 10px;
-    font-size: 1.1rem;
-}
-
-.price-display {
-    font-size: 2rem;
-    font-weight: 700;
-    color: #2196f3;
-}
-
-/* Input group styling */
-.input-group select {
-    width: 100%;
-    padding: 12px 15px;
-    border: 2px solid #90caf9;
-    border-radius: 8px;
-    font-size: 1rem;
-    background: white;
-    cursor: pointer;
-}
-
-.input-group select:focus {
-    outline: none;
-    border-color: #2196f3;
-    box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.2);
-}
-
-optgroup {
-    font-weight: 600;
-    color: #666;
-}
-
-optgroup option {
-    font-weight: normal;
-    padding: 8px;
-}
-
-/* GRAND TOTAL ROW */
-.grand-total-row {
-    background: linear-gradient(135deg, #0f2e5a, #1a3a7a) !important;
-    border-bottom: none !important;
-}
-
-.grand-total-row .fare-title {
-    color: #ffffff !important;
-    font-size: 11px !important;
-    letter-spacing: 0.5px;
-}
-
-.grand-total-row .fare-details {
-    color: #ffffff !important;
-}
-
-.grand-passengers {
-    font-size: 9px !important;
-    color: rgba(255,255,255,0.7) !important;
-    margin-bottom: 2px !important;
-}
-
-.grand-amount {
-    font-size: 14px !important;
-    color: #4caf50 !important;
-    font-weight: 700 !important;
+.header-controls {
+  display: flex;
+  gap: 10px;
+  z-index: 1;
 }
