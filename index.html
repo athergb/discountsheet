@@ -205,93 +205,147 @@
   </div>
 </div>
 
-<!-- ===== PRICE CALCULATOR MODAL (LANDSCAPE) ===== -->
+<!-- ===== PRICE CALCULATOR MODAL (LEFT INPUT / RIGHT OUTPUT) ===== -->
 <div id="calcModal" class="modal">
-  <div class="modal-content wide calc-horizontal">
-    <h2>Discount / PSF Calculator</h2>
-    
-    <!-- LEFT: INPUTS -->
-    <div class="calc-left">
-        <label>Select Airline</label>
-        <select id="calcAirline" onchange="calculatePSF()">
-            <option value="">-- Select Airline --</option>
-        </select>
+  <div class="modal-content calc-modal-wide">
 
-        <label>Booking Type</label>
-        <select id="calcBookingType" onchange="calculatePSF()">
+    <h2 class="calc-modal-title">Discount / PSF Calculator</h2>
+
+    <div class="calc-body">
+      <!-- LEFT SIDE: ALL INPUTS -->
+      <div class="calc-input-panel">
+        <div class="calc-panel-header">Input Details</div>
+
+        <div class="calc-field">
+          <label for="calcAirline">Select Airline</label>
+          <select id="calcAirline" onchange="calculatePSF()">
+            <option value="">-- Select Airline --</option>
+          </select>
+        </div>
+
+        <div class="calc-field">
+          <label for="calcBookingType">Booking Type</label>
+          <select id="calcBookingType" onchange="calculatePSF()">
             <option value="GDS">GDS</option>
             <option value="NDC">NDC</option>
-        </select>
-
-        <label>Adult Basic Fare (PKR)</label>
-        <input type="number" id="calcBasic" placeholder="0" oninput="calculatePSF()">
-
-        <label>Taxes (PKR)</label>
-        <input type="number" id="calcTax" placeholder="0" oninput="calculatePSF()">
-
-        <label>GDS Segment Disc QFC PCC/IDS (PKR 400/seg)</label>
-        <input type="number" id="calcSegments" placeholder="0" min="0" oninput="calculatePSF()">
-
-        <div class="calc-pax-row">
-            <div>
-                <label>Adults</label>
-                <input type="number" id="calcAdults" value="1" min="1" oninput="calculatePSF()">
-            </div>
-            <div>
-                <label>Children</label>
-                <input type="number" id="calcChildren" value="0" min="0" oninput="calculatePSF()">
-            </div>
-            <div>
-                <label>Infants</label>
-                <input type="number" id="calcInfants" value="0" min="0" oninput="calculatePSF()">
-            </div>
+          </select>
         </div>
+
+        <div class="calc-field">
+          <label for="calcBasic">Adult Basic Fare (PKR)</label>
+          <input type="number" id="calcBasic" placeholder="0" oninput="calculatePSF()">
+        </div>
+
+        <div class="calc-field">
+          <label for="calcTax">Taxes (PKR)</label>
+          <input type="number" id="calcTax" placeholder="0" oninput="calculatePSF()">
+        </div>
+
+        <div class="calc-field">
+          <label for="calcSegments">GDS Segment Disc QFC PCC/IDS (PKR 400/seg)</label>
+          <input type="number" id="calcSegments" placeholder="0" min="0" oninput="calculatePSF()">
+        </div>
+
+        <div class="calc-pax-counts">
+          <div class="calc-pax-item">
+            <label for="calcAdults">Adults</label>
+            <input type="number" id="calcAdults" value="1" min="1" oninput="calculatePSF()">
+          </div>
+          <div class="calc-pax-item">
+            <label for="calcChildren">Children</label>
+            <input type="number" id="calcChildren" value="0" min="0" oninput="calculatePSF()">
+          </div>
+          <div class="calc-pax-item">
+            <label for="calcInfants">Infants</label>
+            <input type="number" id="calcInfants" value="0" min="0" oninput="calculatePSF()">
+          </div>
+        </div>
+      </div>
+
+      <!-- VERTICAL DIVIDER -->
+      <div class="calc-divider"></div>
+
+      <!-- RIGHT SIDE: ALL OUTPUTS -->
+      <div class="calc-output-panel">
+        <div class="calc-panel-header">Calculation Result</div>
+
+        <div class="calc-result-card">
+          <div class="result-card-label">ADULT</div>
+          <div class="result-card-body">
+            <div class="result-line">
+              <span>Disc/PSF</span>
+              <strong id="dispDiscAdult">-</strong>
+            </div>
+            <div class="result-line">
+              <span>Segment Disc</span>
+              <strong id="dispSegDiscAdult">PKR 0</strong>
+            </div>
+            <div class="result-line result-per-person">
+              <span>Per Person</span>
+              <strong id="dispTotalAdult">0 PKR</strong>
+            </div>
+            <div class="result-line result-subtotal">
+              <span>Subtotal</span>
+              <strong id="dispSubAdult">-</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="calc-result-card card-child">
+          <div class="result-card-label">CHILD</div>
+          <div class="result-card-body">
+            <div class="result-line">
+              <span>Disc/PSF</span>
+              <strong id="dispDiscChild">-</strong>
+            </div>
+            <div class="result-line">
+              <span>Segment Disc</span>
+              <strong id="dispSegDiscChild">PKR 0</strong>
+            </div>
+            <div class="result-line result-per-person">
+              <span>Per Person</span>
+              <strong id="dispTotalChild">0 PKR</strong>
+            </div>
+            <div class="result-line result-subtotal">
+              <span>Subtotal</span>
+              <strong id="dispSubChild">-</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="calc-result-card card-infant">
+          <div class="result-card-label">INFANT</div>
+          <div class="result-card-body">
+            <div class="result-line">
+              <span>Disc/PSF</span>
+              <strong id="dispDiscInfant">-</strong>
+            </div>
+            <div class="result-line">
+              <span>Segment Disc</span>
+              <strong id="dispSegDiscInfant">N/A</strong>
+            </div>
+            <div class="result-line result-per-person">
+              <span>Per Person</span>
+              <strong id="dispTotalInfant">0 PKR</strong>
+            </div>
+            <div class="result-line result-subtotal">
+              <span>Subtotal</span>
+              <strong id="dispSubInfant">-</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="calc-result-card card-grand">
+          <div class="result-card-label">GRAND TOTAL</div>
+          <div class="result-card-body">
+            <div class="result-passengers" id="dispPassengerBreakdown">1 Adult</div>
+            <div class="result-grand-amount" id="dispGrandTotal">0 PKR</div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- RIGHT: RESULTS -->
-    <div class="calc-right">
-        <div class="calc-results">
-            <div class="fare-row">
-                <div class="fare-title">ADULT</div>
-                <div class="fare-details">
-                    <div>Disc/PSF: <strong id="dispDiscAdult">-</strong></div>
-                    <div>Segment: <strong id="dispSegDiscAdult">PKR 0</strong></div>
-                    <div class="per-person">Per Person: <span id="dispTotalAdult">0 PKR</span></div>
-                    <div class="subtotal">Subtotal: <span id="dispSubAdult">-</span></div>
-                </div>
-            </div>
-
-            <div class="fare-row child">
-                <div class="fare-title">CHILD</div>
-                <div class="fare-details">
-                    <div>Disc/PSF: <strong id="dispDiscChild">-</strong></div>
-                    <div>Segment: <strong id="dispSegDiscChild">PKR 0</strong></div>
-                    <div class="per-person">Per Person: <span id="dispTotalChild">0 PKR</span></div>
-                    <div class="subtotal">Subtotal: <span id="dispSubChild">-</span></div>
-                </div>
-            </div>
-
-            <div class="fare-row infant">
-                <div class="fare-title">INFANT</div>
-                <div class="fare-details">
-                    <div>Disc/PSF: <strong id="dispDiscInfant">-</strong></div>
-                    <div>Segment: <strong id="dispSegDiscInfant">N/A</strong></div>
-                    <div class="per-person">Per Person: <span id="dispTotalInfant">0 PKR</span></div>
-                    <div class="subtotal">Subtotal: <span id="dispSubInfant">-</span></div>
-                </div>
-            </div>
-
-            <div class="fare-row grand-total-row">
-                <div class="fare-title">GRAND TOTAL</div>
-                <div class="fare-details">
-                    <div class="grand-passengers" id="dispPassengerBreakdown">1 Adult</div>
-                    <div class="grand-amount" id="dispGrandTotal">0 PKR</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal-buttons">
+    <div class="modal-buttons calc-modal-footer">
       <button class="btn-secondary" onclick="document.getElementById('calcModal').style.display='none'">Close</button>
     </div>
   </div>
