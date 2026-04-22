@@ -131,7 +131,7 @@
   {
     "category": "credit",
     "airline": "Saudia Arabian Airlines",
-    "discount": "-2.5%",
+    "discount": "-2%",
     "logo": "SVlogo.png",
     "note": "",
     "notification": "GDS / NDC Fares",
