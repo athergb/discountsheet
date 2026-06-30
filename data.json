@@ -487,5 +487,15 @@
     "notification": "GDS Fares",
     "validity": "2026-06-30",
     "instructions": ""
+  },
+  {
+    "category": "credit",
+    "airline": "Centrum Air",
+    "discount": "1.0%",
+    "logo": "C6logo.png",
+    "note": "",
+    "notification": "Web Fare",
+    "validity": "2026-06-30",
+    "instructions": ""
   }
 ]
