@@ -477,5 +477,15 @@
     "notification": "Per Pax PSF",
     "validity": "2026-06-30",
     "instructions": "Prices in USD, ROE is 286"
+  },
+  {
+    "category": "credit",
+    "airline": "Salam Air",
+    "discount": "1.0%",
+    "logo": "OVlogo.png",
+    "note": "",
+    "notification": "",
+    "validity": "2026-06-30",
+    "instructions": ""
   }
 ]
