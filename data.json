@@ -484,7 +484,7 @@
     "discount": "1.0%",
     "logo": "OVlogo.png",
     "note": "",
-    "notification": "GDS Fares",
+    "notification": "GDS Fares (Sabre Only)",
     "validity": "2026-07-31",
     "instructions": ""
   },
