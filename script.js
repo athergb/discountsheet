@@ -2,7 +2,8 @@ const CONFIG = {
     owner: "athergb",
     repo: "discountsheet",
     filePath: "data.json",
-    adminPassword: "admin123"
+    adminPassword: "admin123",
+    readOnlyToken: "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"
 };
 
 let data = [];
