@@ -3,7 +3,7 @@ const CONFIG = {
     repo: "discountsheet",
     filePath: "data.json",
     adminPassword: "admin123",
-    readOnlyToken: "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"
+    readOnlyToken: "YOUR_READ_ONLY_TOKEN_HERE" // Replace this with your GitHub Read-Only token
 };
 
 let data = [];
@@ -32,7 +32,11 @@ document.addEventListener('click', function(event) {
 async function loadData() {
     const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${CONFIG.filePath}`;
     try {
-        const res = await fetch(url);
+        const res = await fetch(url, {
+            headers: {
+                'Authorization': `token ${CONFIG.readOnlyToken}`
+            }
+        });
         if (!res.ok) throw new Error("Failed to load data");
         const json = await res.json();
         sha = json.sha;
@@ -95,7 +99,11 @@ async function loadResources() {
     if (!listContainer) return;
     try {
         const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${resourcesFolder}`;
-        const res = await fetch(url);
+        const res = await fetch(url, {
+            headers: {
+                'Authorization': `token ${CONFIG.readOnlyToken}`
+            }
+        });
         if (!res.ok) {
             listContainer.innerHTML = "<div style='text-align:center;padding:10px;color:#777'>No documents available.</div>";
             if (uploadSection) uploadSection.style.display = "none";
