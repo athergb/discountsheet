@@ -44,7 +44,7 @@ async function loadData() {
 }
 
 async function saveToGitHub() {
-    const token = prompt("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");
+    const token = prompt("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");
     if (!token) return;
     const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${CONFIG.filePath}`;
     const contentBase64 = btoa(JSON.stringify(data, null, 2));
