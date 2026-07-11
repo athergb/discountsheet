@@ -3,7 +3,7 @@ const CONFIG = {
     repo: "discountsheet",
     filePath: "data.json",
     adminPassword: "admin123",
-    readOnlyToken: "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" // Replace this with your GitHub Read-Only token
+    readOnlyToken: "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" // Replace this with your GitHub Read-Only token
 };
 
 let data = [];
