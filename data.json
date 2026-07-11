@@ -81,7 +81,7 @@
   {
     "category": "credit",
     "airline": "PIA",
-    "discount": "0.5",
+    "discount": "0.5%",
     "logo": "PKlogo.png",
     "note": "",
     "notification": "GDS Fares",
