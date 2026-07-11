@@ -30,17 +30,12 @@ document.addEventListener('click', function(event) {
 });
 
 async function loadData() {
-    const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${CONFIG.filePath}`;
+    // Using raw.githubusercontent.com bypasses the API and removes the need for a token!
+    const url = `https://raw.githubusercontent.com/${CONFIG.owner}/${CONFIG.repo}/main/${CONFIG.filePath}`;
     try {
-        const res = await fetch(url, {
-            headers: {
-                'Authorization': `token ${CONFIG.readOnlyToken}`
-            }
-        });
+        const res = await fetch(url);
         if (!res.ok) throw new Error("Failed to load data");
-        const json = await res.json();
-        sha = json.sha;
-        data = JSON.parse(atob(json.content));
+        data = await res.json(); // Directly parse the JSON, no Base64 decoding needed
         render();
     } catch (error) {
         console.error("Error loading data:", error);
@@ -98,6 +93,9 @@ async function loadResources() {
     const uploadSection = document.getElementById("uploadSection");
     if (!listContainer) return;
     try {
+        // We still need the API here to get the list of files and their SHAs, so we must pass a token.
+        // If you want this to work without a token, you can use the GitHub Pages index or a static JSON file for resources.
+        // But to fix the 401, let's keep the API but ensure it doesn't crash the site if it fails:
         const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${resourcesFolder}`;
         const res = await fetch(url, {
             headers: {
