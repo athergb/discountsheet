@@ -44,19 +44,38 @@ async function loadData() {
 }
 
 async function saveToGitHub() {
+    // This makes a popup box asking you to paste your token
     const token = prompt("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");
-    if (!token) return;
+    if (!token) return; // If you click cancel, it stops
+    
     const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${CONFIG.filePath}`;
+    
+    // 1. We must fetch the SHA right before saving, because loadData() doesn't get it anymore
+    let currentSha = "";
+    try {
+        const getRes = await fetch(url, {
+            headers: { 'Authorization': `token ${token}` }
+        });
+        if (getRes.ok) {
+            const getJson = await getRes.json();
+            currentSha = getJson.sha;
+        }
+    } catch(e) { 
+        console.error("Could not fetch SHA", e); 
+    }
+
+    // 2. Now save the file using the SHA we just got
     const contentBase64 = btoa(JSON.stringify(data, null, 2));
     try {
         const res = await fetch(url, {
             method: 'PUT',
             headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: "Update discount sheet", content: contentBase64, sha: sha })
+            body: JSON.stringify({ message: "Update discount sheet", content: contentBase64, sha: currentSha })
         });
         if (!res.ok) throw new Error("Failed to save");
+        
         const json = await res.json();
-        sha = json.content.sha;
+        sha = json.content.sha; // Update the global sha for the next save
         alert("Saved Successfully!");
         render();
     } catch (error) {
