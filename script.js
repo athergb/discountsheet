@@ -97,11 +97,7 @@ async function loadResources() {
         // If you want this to work without a token, you can use the GitHub Pages index or a static JSON file for resources.
         // But to fix the 401, let's keep the API but ensure it doesn't crash the site if it fails:
         const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${resourcesFolder}`;
-        const res = await fetch(url, {
-            headers: {
-                'Authorization': `token ${CONFIG.readOnlyToken}`
-            }
-        });
+        const res = await fetch(url);
         if (!res.ok) {
             listContainer.innerHTML = "<div style='text-align:center;padding:10px;color:#777'>No documents available.</div>";
             if (uploadSection) uploadSection.style.display = "none";
