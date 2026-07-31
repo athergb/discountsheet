@@ -497,5 +497,15 @@
     "notification": "Web Fare",
     "validity": "2026-07-31",
     "instructions": ""
+  },
+  {
+    "category": "credit",
+    "airline": "Riyadh Air",
+    "discount": "PKR 500",
+    "logo": "RALogo.png",
+    "note": "",
+    "notification": "Web Fare",
+    "validity": "2026-08-31",
+    "instructions": "Starting from 14 Aug"
   }
 ]
