@@ -501,7 +501,7 @@
   {
     "category": "credit",
     "airline": "Riyadh Air",
-    "discount": "PKR 500",
+    "discount": "Net Price",
     "logo": "RALogo.png",
     "note": "",
     "notification": "Web Fare",
