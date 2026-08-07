@@ -115,9 +115,9 @@
     "discount": "0.5%",
     "logo": "EYlogo.png",
     "note": "",
-    "notification": "GDS & NDC ",
+    "notification": "GDS ",
     "validity": "2026-08-31",
-    "instructions": "On EY NDC 1% and GDS 0.5"
+    "instructions": "GDS 0.5"
   },
   {
     "category": "credit",
