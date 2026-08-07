@@ -508,5 +508,15 @@
     "notification": "Web Fare",
     "validity": "2026-08-31",
     "instructions": "Starting from 14 Aug"
+  },
+  {
+    "category": "credit",
+    "airline": "Etihad Airways",
+    "discount": "1.0%",
+    "logo": "EYlogo.png",
+    "note": "EY NDC on QTB Stock Only",
+    "notification": "EY GDS NDC",
+    "validity": "2026-08-31",
+    "instructions": ""
   }
 ]
