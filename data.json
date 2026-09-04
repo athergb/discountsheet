@@ -6,7 +6,7 @@
     "logo": "PKlogo.png",
     "note": "",
     "notification": "HITIT only",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": ""
   },
   {
@@ -15,7 +15,7 @@
     "discount": "-3%",
     "logo": "ERlogo.png",
     "note": "Int & Dom Flights",
-    "notification": "Currently Suspend",
+    "notification": "Currently Suspended",
     "validity": "2025-06-01",
     "instructions": ""
   },
@@ -26,7 +26,7 @@
     "logo": "FJlogo.png",
     "note": "Int & Dom Flights",
     "notification": "Per Pax PSF",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": ""
   },
   {
@@ -36,7 +36,7 @@
     "logo": "PAlogo.png",
     "note": "Int & Dom Flights",
     "notification": "PSF",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": ""
   },
   {
@@ -46,7 +46,7 @@
     "logo": "PFLOGO.png",
     "note": "Int & Dom Flights",
     "notification": "PSF",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": ""
   },
   {
@@ -56,7 +56,7 @@
     "logo": "XYlogo.png",
     "note": "",
     "notification": "Per Pax PSF",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": "if booked from Portal direct issuance will be done Portal will ask for OTP please contact us to get OTP and auto ticket issued"
   },
   {
@@ -66,7 +66,7 @@
     "logo": "OVlogo.png",
     "note": "",
     "notification": "Per Pax PSF",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": ""
   },
   {
@@ -76,7 +76,7 @@
     "logo": "FYlogo.png",
     "note": "Admin Fee $ 10",
     "notification": "Per Pax PSF",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": ""
   },
   {
@@ -86,7 +86,7 @@
     "logo": "PKlogo.png",
     "note": "",
     "notification": "GDS Fares",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": ""
   },
   {
@@ -96,7 +96,7 @@
     "logo": "EKlogo.png",
     "note": "",
     "notification": "GDS & NDC ",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": "Except Africa, Middle East and South Asia"
   },
   {
@@ -106,7 +106,7 @@
     "logo": "TGlogo.png",
     "note": "",
     "notification": "GDS Fares",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": ""
   },
   {
@@ -116,7 +116,7 @@
     "logo": "EYlogo.png",
     "note": "",
     "notification": "GDS ",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": "GDS 0.5"
   },
   {
@@ -126,7 +126,7 @@
     "logo": "KUlogo.png",
     "note": "",
     "notification": "GDS Fares",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": ""
   },
   {
@@ -136,7 +136,7 @@
     "logo": "SVlogo.png",
     "note": "",
     "notification": "GDS / NDC Fares",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": ""
   },
   {
@@ -146,7 +146,7 @@
     "logo": "QRlogo.png",
     "note": "",
     "notification": "NDC Fares",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": ""
   },
   {
@@ -156,7 +156,7 @@
     "logo": "QRlogo.png",
     "note": "",
     "notification": "GDS Fares",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": ""
   },
   {
@@ -166,7 +166,7 @@
     "logo": "WYlogo.png",
     "note": "",
     "notification": "GDS Fares",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": ""
   },
   {
@@ -176,7 +176,7 @@
     "logo": "HRlogo.png",
     "note": "",
     "notification": "Per Pax PSF",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": ""
   },
   {
@@ -186,7 +186,7 @@
     "logo": "AClogo.png",
     "note": "",
     "notification": "GDS Fares",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": "Discount Applicable on EX PAK only no discount on SOTO"
   },
   {
@@ -196,7 +196,7 @@
     "logo": "J9logo.png",
     "note": "",
     "notification": "Per Pax PSF",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": "Jazeera Air booking hold for 20 Minutes after booking from Web Portal"
   },
   {
@@ -206,7 +206,7 @@
     "logo": "TKlogo.png",
     "note": "",
     "notification": "NDC Fares",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": ""
   },
   {
@@ -216,7 +216,7 @@
     "logo": "CZlogo.png",
     "note": "",
     "notification": "GDS Fares",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": "Discount is applicable on EX-Pakistan only, no discount on SOTO Tickets"
   },
   {
@@ -226,7 +226,7 @@
     "logo": "SOlogo.png",
     "note": "",
     "notification": "Per Pax PSF",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": ""
   },
   {
@@ -236,7 +236,7 @@
     "logo": "BAlogo.png",
     "note": "",
     "notification": "GDS Fares",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": ""
   },
   {
@@ -246,7 +246,7 @@
     "logo": "J2logo.png",
     "note": "",
     "notification": "GDS Fares",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": ""
   },
   {
@@ -256,7 +256,7 @@
     "logo": "SClogo.png",
     "note": "",
     "notification": "GDS Fares",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": ""
   },
   {
@@ -266,7 +266,7 @@
     "logo": "GFlogo.png",
     "note": "",
     "notification": "GDS Fares",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": ""
   },
   {
@@ -276,7 +276,7 @@
     "logo": "FZlogo.png",
     "note": "",
     "notification": "GDS Fares",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": ""
   },
   {
@@ -286,7 +286,7 @@
     "logo": "FZlogo.png",
     "note": "",
     "notification": "Web Fare",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": ""
   },
   {
@@ -296,7 +296,7 @@
     "logo": "PElogo.png",
     "note": "",
     "notification": "GDS Fares",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": ""
   },
   {
@@ -306,7 +306,7 @@
     "logo": "ULlogo.png",
     "note": "",
     "notification": "GDS Fares",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": ""
   },
   {
@@ -316,7 +316,7 @@
     "logo": "HYlogo.png",
     "note": "",
     "notification": "GDS Fares",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": ""
   },
   {
@@ -326,7 +326,7 @@
     "logo": "RMlogo.png",
     "note": "",
     "notification": "GDS Fares",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": ""
   },
   {
@@ -336,7 +336,7 @@
     "logo": "ODlogo.png",
     "note": "",
     "notification": "GDS Fares",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": ""
   },
   {
@@ -346,7 +346,7 @@
     "logo": "KLlogo.png",
     "note": "",
     "notification": "GDS Fares",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": ""
   },
   {
@@ -356,7 +356,7 @@
     "logo": "ETlogo.png",
     "note": "",
     "notification": "GDS Fares",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": ""
   },
   {
@@ -366,7 +366,7 @@
     "logo": "ETlogo.png",
     "note": "",
     "notification": "NDC Fares",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": ""
   },
   {
@@ -376,7 +376,7 @@
     "logo": "CAlogo.png",
     "note": "",
     "notification": "GDS Fares",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": ""
   },
   {
@@ -386,7 +386,7 @@
     "logo": "AFlogo.png",
     "note": "",
     "notification": "GDS Fares",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": ""
   },
   {
@@ -396,7 +396,7 @@
     "logo": "RBlogo.png",
     "note": "",
     "notification": "GDS Fares",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": ""
   },
   {
@@ -406,7 +406,7 @@
     "logo": "APGlogo.png",
     "note": "",
     "notification": "GDS Fares",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": ""
   },
   {
@@ -416,7 +416,7 @@
     "logo": "KQlogo.png",
     "note": "",
     "notification": "GDS Fares",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": ""
   },
   {
@@ -426,7 +426,7 @@
     "logo": "MUlogo.png",
     "note": "",
     "notification": "GDS Fares",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": ""
   },
   {
@@ -436,7 +436,7 @@
     "logo": "VSlogo.png",
     "note": "",
     "notification": "GDS Fares",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": ""
   },
   {
@@ -446,7 +446,7 @@
     "logo": "RJlogo.png",
     "note": "",
     "notification": "GDS Fares",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": ""
   },
   {
@@ -456,7 +456,7 @@
     "logo": "SKlogo.png",
     "note": "",
     "notification": "GDS Fares",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": ""
   },
   {
@@ -466,7 +466,7 @@
     "logo": "PHlogo.png",
     "note": "",
     "notification": "GDS Fares",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": ""
   },
   {
@@ -476,7 +476,7 @@
     "logo": "AAlogo.png",
     "note": "",
     "notification": "Per Pax PSF",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": "Prices in USD, ROE is 286"
   },
   {
@@ -486,7 +486,7 @@
     "logo": "OVlogo.png",
     "note": "",
     "notification": "GDS Fares (Sabre Only)",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": ""
   },
   {
@@ -496,7 +496,7 @@
     "logo": "C6logo.png",
     "note": "",
     "notification": "Web Fare",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": ""
   },
   {
@@ -506,7 +506,7 @@
     "logo": "RALogo.png",
     "note": "",
     "notification": "Web Fare",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": "Starting from 14 Aug"
   },
   {
@@ -516,7 +516,7 @@
     "logo": "EYlogo.png",
     "note": "EY NDC on QTB Stock Only",
     "notification": "EY GDS NDC",
-    "validity": "2026-08-31",
+    "validity": "2026-09-30",
     "instructions": "No Segment Discount"
   }
 ]
