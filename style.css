@@ -1879,3 +1879,31 @@ input:focus {
   gap: 10px;
   z-index: 1;
 }
+
+/* SEO content: readable, crawlable supporting content */
+.seo-content {
+  max-width: 1200px;
+  margin: 28px auto;
+  padding: 24px;
+  background: rgba(255,255,255,.96);
+  border-radius: 14px;
+  line-height: 1.7;
+}
+.seo-content h2 {
+  margin: 0 0 10px;
+}
+.seo-content p {
+  margin: 0 0 18px;
+}
+.seo-content .airline-directory {
+  font-size: .95rem;
+}
+.seo-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.seo-links a {
+  text-decoration: none;
+  font-weight: 600;
+}
