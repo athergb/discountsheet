@@ -1,0 +1,522 @@
+[
+  {
+    "category": "credit",
+    "airline": "PIA",
+    "discount": "-2.5%",
+    "logo": "PKlogo.png",
+    "note": "",
+    "notification": "HITIT only",
+    "validity": "2026-09-30",
+    "instructions": ""
+  },
+  {
+    "category": "credit",
+    "airline": "Serene Air",
+    "discount": "-3%",
+    "logo": "ERlogo.png",
+    "note": "Int & Dom Flights",
+    "notification": "Currently Suspended",
+    "validity": "2025-06-01",
+    "instructions": ""
+  },
+  {
+    "category": "credit",
+    "airline": "Fly Jinnah",
+    "discount": "PKR 500",
+    "logo": "FJlogo.png",
+    "note": "Int & Dom Flights",
+    "notification": "Per Pax PSF",
+    "validity": "2026-09-30",
+    "instructions": ""
+  },
+  {
+    "category": "credit",
+    "airline": "Airblue",
+    "discount": "1.0%",
+    "logo": "PAlogo.png",
+    "note": "Int & Dom Flights",
+    "notification": "PSF",
+    "validity": "2026-09-30",
+    "instructions": ""
+  },
+  {
+    "category": "credit",
+    "airline": "Airsial",
+    "discount": "1.0%",
+    "logo": "PFLOGO.png",
+    "note": "Int & Dom Flights",
+    "notification": "PSF",
+    "validity": "2026-09-30",
+    "instructions": ""
+  },
+  {
+    "category": "credit",
+    "airline": "Flynas",
+    "discount": "PKR 500",
+    "logo": "XYlogo.png",
+    "note": "",
+    "notification": "Per Pax PSF",
+    "validity": "2026-09-30",
+    "instructions": "if booked from Portal direct issuance will be done Portal will ask for OTP please contact us to get OTP and auto ticket issued"
+  },
+  {
+    "category": "credit",
+    "airline": "Salam Air",
+    "discount": "PKR 500",
+    "logo": "OVlogo.png",
+    "note": "",
+    "notification": "Per Pax PSF",
+    "validity": "2026-09-30",
+    "instructions": ""
+  },
+  {
+    "category": "credit",
+    "airline": "Flyadeal",
+    "discount": "PKR 500 ",
+    "logo": "FYlogo.png",
+    "note": "Admin Fee $ 10",
+    "notification": "Per Pax PSF",
+    "validity": "2026-09-30",
+    "instructions": ""
+  },
+  {
+    "category": "credit",
+    "airline": "PIA",
+    "discount": "0.5%",
+    "logo": "PKlogo.png",
+    "note": "",
+    "notification": "GDS Fares",
+    "validity": "2026-09-30",
+    "instructions": ""
+  },
+  {
+    "category": "credit",
+    "airline": "Emirates",
+    "discount": "0.5%",
+    "logo": "EKlogo.png",
+    "note": "",
+    "notification": "GDS & NDC ",
+    "validity": "2026-09-30",
+    "instructions": "Except Africa, Middle East and South Asia"
+  },
+  {
+    "category": "credit",
+    "airline": "Thai Airways",
+    "discount": "0.5%",
+    "logo": "TGlogo.png",
+    "note": "",
+    "notification": "GDS Fares",
+    "validity": "2026-09-30",
+    "instructions": ""
+  },
+  {
+    "category": "credit",
+    "airline": "Etihad Airways",
+    "discount": "0.5%",
+    "logo": "EYlogo.png",
+    "note": "",
+    "notification": "GDS ",
+    "validity": "2026-09-30",
+    "instructions": "GDS 0.5"
+  },
+  {
+    "category": "credit",
+    "airline": "Kuwait Airways",
+    "discount": "0.5%",
+    "logo": "KUlogo.png",
+    "note": "",
+    "notification": "GDS Fares",
+    "validity": "2026-09-30",
+    "instructions": ""
+  },
+  {
+    "category": "credit",
+    "airline": "Saudia Arabian Airlines",
+    "discount": "-2%",
+    "logo": "SVlogo.png",
+    "note": "",
+    "notification": "GDS / NDC Fares",
+    "validity": "2026-09-30",
+    "instructions": ""
+  },
+  {
+    "category": "credit",
+    "airline": "Qatar Airways",
+    "discount": "0.5%",
+    "logo": "QRlogo.png",
+    "note": "",
+    "notification": "NDC Fares",
+    "validity": "2026-09-30",
+    "instructions": ""
+  },
+  {
+    "category": "credit",
+    "airline": "Qatar Airways",
+    "discount": "0.5%",
+    "logo": "QRlogo.png",
+    "note": "",
+    "notification": "GDS Fares",
+    "validity": "2026-09-30",
+    "instructions": ""
+  },
+  {
+    "category": "credit",
+    "airline": "Oman Air",
+    "discount": "0.5%",
+    "logo": "WYlogo.png",
+    "note": "",
+    "notification": "GDS Fares",
+    "validity": "2026-09-30",
+    "instructions": ""
+  },
+  {
+    "category": "credit",
+    "airline": "Hahn Air",
+    "discount": "1.0%",
+    "logo": "HRlogo.png",
+    "note": "",
+    "notification": "Per Pax PSF",
+    "validity": "2026-09-30",
+    "instructions": ""
+  },
+  {
+    "category": "credit",
+    "airline": "Air China",
+    "discount": "-3.5%",
+    "logo": "AClogo.png",
+    "note": "",
+    "notification": "GDS Fares",
+    "validity": "2026-09-30",
+    "instructions": "Discount Applicable on EX PAK only no discount on SOTO"
+  },
+  {
+    "category": "credit",
+    "airline": "Jazeera Air",
+    "discount": "PKR 500",
+    "logo": "J9logo.png",
+    "note": "",
+    "notification": "Per Pax PSF",
+    "validity": "2026-09-30",
+    "instructions": "Jazeera Air booking hold for 20 Minutes after booking from Web Portal"
+  },
+  {
+    "category": "credit",
+    "airline": "Turkish Airlines",
+    "discount": "0.5%",
+    "logo": "TKlogo.png",
+    "note": "",
+    "notification": "NDC Fares",
+    "validity": "2026-09-30",
+    "instructions": ""
+  },
+  {
+    "category": "credit",
+    "airline": "China Southern",
+    "discount": "-4%",
+    "logo": "CZlogo.png",
+    "note": "",
+    "notification": "GDS Fares",
+    "validity": "2026-09-30",
+    "instructions": "Discount is applicable on EX-Pakistan only, no discount on SOTO Tickets"
+  },
+  {
+    "category": "credit",
+    "airline": "Somon Air",
+    "discount": "1.0%",
+    "logo": "SOlogo.png",
+    "note": "",
+    "notification": "Per Pax PSF",
+    "validity": "2026-09-30",
+    "instructions": ""
+  },
+  {
+    "category": "credit",
+    "airline": "British Airways",
+    "discount": "1.0%",
+    "logo": "BAlogo.png",
+    "note": "",
+    "notification": "GDS Fares",
+    "validity": "2026-09-30",
+    "instructions": ""
+  },
+  {
+    "category": "credit",
+    "airline": "Azerbaijan Airlines",
+    "discount": "0.5%",
+    "logo": "J2logo.png",
+    "note": "",
+    "notification": "GDS Fares",
+    "validity": "2026-09-30",
+    "instructions": ""
+  },
+  {
+    "category": "credit",
+    "airline": "SCAT Airlines",
+    "discount": "1.0%",
+    "logo": "SClogo.png",
+    "note": "",
+    "notification": "GDS Fares",
+    "validity": "2026-09-30",
+    "instructions": ""
+  },
+  {
+    "category": "credit",
+    "airline": "Gulf Air",
+    "discount": "-2%",
+    "logo": "GFlogo.png",
+    "note": "",
+    "notification": "GDS Fares",
+    "validity": "2026-09-30",
+    "instructions": ""
+  },
+  {
+    "category": "credit",
+    "airline": "Fly Dubai",
+    "discount": "0.5%",
+    "logo": "FZlogo.png",
+    "note": "",
+    "notification": "GDS Fares",
+    "validity": "2026-09-30",
+    "instructions": ""
+  },
+  {
+    "category": "credit",
+    "airline": "Fly Dubai",
+    "discount": "PKR 500",
+    "logo": "FZlogo.png",
+    "note": "",
+    "notification": "Web Fare",
+    "validity": "2026-09-30",
+    "instructions": ""
+  },
+  {
+    "category": "credit",
+    "airline": "Pegasus Airline",
+    "discount": "0.5%",
+    "logo": "PElogo.png",
+    "note": "",
+    "notification": "GDS Fares",
+    "validity": "2026-09-30",
+    "instructions": ""
+  },
+  {
+    "category": "credit",
+    "airline": "Srilankan Airlines",
+    "discount": "-3.5%",
+    "logo": "ULlogo.png",
+    "note": "",
+    "notification": "GDS Fares",
+    "validity": "2026-09-30",
+    "instructions": ""
+  },
+  {
+    "category": "credit",
+    "airline": "Uzbekistan Airways",
+    "discount": "1.0%",
+    "logo": "HYlogo.png",
+    "note": "",
+    "notification": "GDS Fares",
+    "validity": "2026-09-30",
+    "instructions": ""
+  },
+  {
+    "category": "credit",
+    "airline": "Royal Air Maroc",
+    "discount": "1.0%",
+    "logo": "RMlogo.png",
+    "note": "",
+    "notification": "GDS Fares",
+    "validity": "2026-09-30",
+    "instructions": ""
+  },
+  {
+    "category": "credit",
+    "airline": "Malindo Air",
+    "discount": "-1.5%",
+    "logo": "ODlogo.png",
+    "note": "",
+    "notification": "GDS Fares",
+    "validity": "2026-09-30",
+    "instructions": ""
+  },
+  {
+    "category": "credit",
+    "airline": "Royal Dutch Airlines",
+    "discount": "0.5%",
+    "logo": "KLlogo.png",
+    "note": "",
+    "notification": "GDS Fares",
+    "validity": "2026-09-30",
+    "instructions": ""
+  },
+  {
+    "category": "credit",
+    "airline": "Ethiopian Airlines",
+    "discount": "1.0%",
+    "logo": "ETlogo.png",
+    "note": "",
+    "notification": "GDS Fares",
+    "validity": "2026-09-30",
+    "instructions": ""
+  },
+  {
+    "category": "credit",
+    "airline": "Ethiopian Airlines",
+    "discount": "-1.5%",
+    "logo": "ETlogo.png",
+    "note": "",
+    "notification": "NDC Fares",
+    "validity": "2026-09-30",
+    "instructions": ""
+  },
+  {
+    "category": "credit",
+    "airline": "Air Canada",
+    "discount": "0.5%",
+    "logo": "CAlogo.png",
+    "note": "",
+    "notification": "GDS Fares",
+    "validity": "2026-09-30",
+    "instructions": ""
+  },
+  {
+    "category": "credit",
+    "airline": "Air France",
+    "discount": "0.5%",
+    "logo": "AFlogo.png",
+    "note": "",
+    "notification": "GDS Fares",
+    "validity": "2026-09-30",
+    "instructions": ""
+  },
+  {
+    "category": "credit",
+    "airline": "Royal Brunei",
+    "discount": "1.05",
+    "logo": "RBlogo.png",
+    "note": "",
+    "notification": "GDS Fares",
+    "validity": "2026-09-30",
+    "instructions": ""
+  },
+  {
+    "category": "credit",
+    "airline": "APG Airlines",
+    "discount": "0.5%",
+    "logo": "APGlogo.png",
+    "note": "",
+    "notification": "GDS Fares",
+    "validity": "2026-09-30",
+    "instructions": ""
+  },
+  {
+    "category": "credit",
+    "airline": "Kenya Airways",
+    "discount": "1.0%",
+    "logo": "KQlogo.png",
+    "note": "",
+    "notification": "GDS Fares",
+    "validity": "2026-09-30",
+    "instructions": ""
+  },
+  {
+    "category": "credit",
+    "airline": "Air Mauritius",
+    "discount": "1.0%",
+    "logo": "MUlogo.png",
+    "note": "",
+    "notification": "GDS Fares",
+    "validity": "2026-09-30",
+    "instructions": ""
+  },
+  {
+    "category": "credit",
+    "airline": "Virgin Atlantic",
+    "discount": "0.5%",
+    "logo": "VSlogo.png",
+    "note": "",
+    "notification": "GDS Fares",
+    "validity": "2026-09-30",
+    "instructions": ""
+  },
+  {
+    "category": "credit",
+    "airline": "Royal Jordanian",
+    "discount": "1.0%",
+    "logo": "RJlogo.png",
+    "note": "",
+    "notification": "GDS Fares",
+    "validity": "2026-09-30",
+    "instructions": ""
+  },
+  {
+    "category": "credit",
+    "airline": "Singapore Airlines",
+    "discount": "1.0%",
+    "logo": "SKlogo.png",
+    "note": "",
+    "notification": "GDS Fares",
+    "validity": "2026-09-30",
+    "instructions": ""
+  },
+  {
+    "category": "credit",
+    "airline": "Phillippine Airlines",
+    "discount": "1.0%",
+    "logo": "PHlogo.png",
+    "note": "",
+    "notification": "GDS Fares",
+    "validity": "2026-09-30",
+    "instructions": ""
+  },
+  {
+    "category": "credit",
+    "airline": "Air Asia",
+    "discount": "PKR 500",
+    "logo": "AAlogo.png",
+    "note": "",
+    "notification": "Per Pax PSF",
+    "validity": "2026-09-30",
+    "instructions": "Prices in USD, ROE is 286"
+  },
+  {
+    "category": "credit",
+    "airline": "Salam Air",
+    "discount": "1.0%",
+    "logo": "OVlogo.png",
+    "note": "",
+    "notification": "GDS Fares (Sabre Only)",
+    "validity": "2026-09-30",
+    "instructions": ""
+  },
+  {
+    "category": "credit",
+    "airline": "Centrum Air",
+    "discount": "1.0%",
+    "logo": "C6logo.png",
+    "note": "",
+    "notification": "Web Fare",
+    "validity": "2026-09-30",
+    "instructions": ""
+  },
+  {
+    "category": "credit",
+    "airline": "Riyadh Air",
+    "discount": "Net Price",
+    "logo": "RALogo.png",
+    "note": "",
+    "notification": "Web Fare",
+    "validity": "2026-09-30",
+    "instructions": "Starting from 14 Aug"
+  },
+  {
+    "category": "credit",
+    "airline": "Etihad Airways",
+    "discount": "1.0%",
+    "logo": "EYlogo.png",
+    "note": "EY NDC on QTB Stock Only",
+    "notification": "EY GDS NDC",
+    "validity": "2026-09-30",
+    "instructions": "No Segment Discount"
+  }
+]
