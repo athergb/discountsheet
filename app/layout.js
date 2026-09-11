@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import BulkValidityUpdate from "../components/BulkValidityUpdate";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -90,7 +91,10 @@ export default function RootLayout({ children }) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        {children}
+        <BulkValidityUpdate />
+      </body>
     </html>
   );
 }
