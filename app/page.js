@@ -1310,11 +1310,11 @@ export default function Home() {
         <span className="album-button-text">
 
           <strong>
-            Album
+            Available
           </strong>
 
           <small>
-            Marketing
+            Packages
           </small>
 
         </span>
