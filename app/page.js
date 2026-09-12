@@ -2185,7 +2185,7 @@ export default function Home() {
                 </span>
 
                 <h2>
-                  Marketing Album
+                  Available Packages
                 </h2>
 
                 <p>
