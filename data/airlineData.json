@@ -11,12 +11,12 @@
   },
   {
     "category": "credit",
-    "airline": "Serene Air",
-    "discount": "-3%",
-    "logo": "ERlogo.png",
-    "note": "Int & Dom Flights",
-    "notification": "Currently Suspended",
-    "validity": "2025-06-01",
+    "airline": "PIA",
+    "discount": "0.5%",
+    "logo": "PKlogo.png",
+    "note": "",
+    "notification": "GDS Fares",
+    "validity": "2026-09-30",
     "instructions": ""
   },
   {
@@ -51,6 +51,16 @@
   },
   {
     "category": "credit",
+    "airline": "Serene Air",
+    "discount": "-3%",
+    "logo": "ERlogo.png",
+    "note": "Int & Dom Flights",
+    "notification": "Currently Suspended",
+    "validity": "2025-06-01",
+    "instructions": ""
+  },
+  {
+    "category": "credit",
     "airline": "Flynas",
     "discount": "PKR 500",
     "logo": "XYlogo.png",
@@ -76,16 +86,6 @@
     "logo": "FYlogo.png",
     "note": "Admin Fee $ 10",
     "notification": "Per Pax PSF",
-    "validity": "2026-09-30",
-    "instructions": ""
-  },
-  {
-    "category": "credit",
-    "airline": "PIA",
-    "discount": "0.5%",
-    "logo": "PKlogo.png",
-    "note": "",
-    "notification": "GDS Fares",
     "validity": "2026-09-30",
     "instructions": ""
   },
@@ -118,6 +118,16 @@
     "notification": "GDS ",
     "validity": "2026-09-30",
     "instructions": "GDS 0.5"
+  },
+  {
+    "category": "credit",
+    "airline": "Etihad Airways",
+    "discount": "1.0%",
+    "logo": "EYlogo.png",
+    "note": "EY NDC on QTB Stock Only",
+    "notification": "EY GDS NDC",
+    "validity": "2026-09-30",
+    "instructions": "No Segment Discount"
   },
   {
     "category": "credit",
@@ -508,15 +518,5 @@
     "notification": "Web Fare",
     "validity": "2026-09-30",
     "instructions": "Starting from 14 Aug"
-  },
-  {
-    "category": "credit",
-    "airline": "Etihad Airways",
-    "discount": "1.0%",
-    "logo": "EYlogo.png",
-    "note": "EY NDC on QTB Stock Only",
-    "notification": "EY GDS NDC",
-    "validity": "2026-09-30",
-    "instructions": "No Segment Discount"
   }
 ]
