@@ -1313,9 +1313,9 @@ export default function Home() {
             Available
           </strong>
 
-          <small>
+          <strong style={{ color: "red" }}>
             Packages
-          </small>
+          </strong>
 
         </span>
 
