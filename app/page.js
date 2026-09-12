@@ -1126,7 +1126,7 @@ export default function Home() {
             </strong>
 
             <span>
-              Additional discount up to PKR 1600/- per ticket
+              Additional discount up to PKR 1600/- per ticket (Per Segment PKR 400)
             </span>
 
           </div>
