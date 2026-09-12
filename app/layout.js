@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import BulkValidityUpdate from "../components/BulkValidityUpdate";
 import AirlineViewToggle from "../components/AirlineViewToggle";
+import ManagerArrangementButton from "../components/ManagerArrangementButton";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -96,6 +97,7 @@ export default function RootLayout({ children }) {
         {children}
         <BulkValidityUpdate />
         <AirlineViewToggle />
+        <ManagerArrangementButton />
       </body>
     </html>
   );
