@@ -402,7 +402,7 @@
   {
     "category": "credit",
     "airline": "Royal Brunei",
-    "discount": "1.05",
+    "discount": "1.0",
     "logo": "RBlogo.png",
     "note": "",
     "notification": "GDS Fares",
