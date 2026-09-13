@@ -135,6 +135,21 @@ export default function AirlineViewToggle() {
     return () => clearInterval(timer);
   }, [mounted, pathname]);
 
+  useEffect(() => {
+    document.body.dataset.qfcView = view;
+    window.dispatchEvent(
+      new CustomEvent("qfc-view-change", {
+        detail: { view },
+      })
+    );
+
+    return () => {
+      if (document.body.dataset.qfcView === view) {
+        delete document.body.dataset.qfcView;
+      }
+    };
+  }, [view]);
+
   const filteredData = useMemo(() => {
     const searchText = search.toLowerCase().trim();
 
