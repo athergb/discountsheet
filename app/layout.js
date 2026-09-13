@@ -3,6 +3,7 @@ import "./globals.css";
 import BulkValidityUpdate from "../components/BulkValidityUpdate";
 import AirlineViewToggle from "../components/AirlineViewToggle";
 import ManagerArrangementButton from "../components/ManagerArrangementButton";
+import TableExportBridge from "../components/TableExportBridge";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -98,6 +99,7 @@ export default function RootLayout({ children }) {
         <BulkValidityUpdate />
         <AirlineViewToggle />
         <ManagerArrangementButton />
+        <TableExportBridge />
       </body>
     </html>
   );
