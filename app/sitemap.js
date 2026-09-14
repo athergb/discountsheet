@@ -1,25 +1,27 @@
 export default function sitemap() {
+  const baseUrl = "https://discountsheet.vercel.app";
+
   return [
     {
-      url: "https://discountsheet.vercel.app/",
+      url: `${baseUrl}/`,
       lastModified: new Date(),
       changeFrequency: "daily",
-      priority: 1,
+      priority: 1.0,
     },
     {
-      url: "https://discountsheet.vercel.app/airline-discount-sheet-pakistan/",
+      url: `${baseUrl}/airline-discount-sheet-pakistan/`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.9,
     },
     {
-      url: "https://discountsheet.vercel.app/gds-airline-discounts/",
+      url: `${baseUrl}/gds-airline-discounts/`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.8,
     },
     {
-      url: "https://discountsheet.vercel.app/airline-discount-calculator/",
+      url: `${baseUrl}/airline-discount-calculator/`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.8,
