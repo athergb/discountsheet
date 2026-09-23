@@ -127,7 +127,7 @@
     "note": "EY NDC on QTB Stock Only",
     "notification": "EY GDS NDC",
     "validity": "2026-09-30",
-    "instructions": "No Segment Discount"
+    "instructions": "Segment Discount Apply"
   },
   {
     "category": "credit",
