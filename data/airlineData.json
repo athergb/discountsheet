@@ -528,5 +528,15 @@
     "notification": "Web",
     "validity": "2026-09-30",
     "instructions": "https://z8.southair.com.pk:7777/login\nID.    ather@qfcgroup.com.pk\nPass Rafaqat@2026"
+  },
+  {
+    "category": "Credit",
+    "airline": "South Air",
+    "discount": "-4%",
+    "logo": "SAlogo.png",
+    "note": "Domestic",
+    "notification": "Web",
+    "validity": "2026-09-30",
+    "instructions": "https://z8.southair.com.pk:7777/login\nID.    ather@qfcgroup.com.pk\nPass Rafaqat@2026"
   }
 ]
