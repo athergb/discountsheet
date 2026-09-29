@@ -15,13 +15,13 @@ export const metadata = {
   ],
   alternates: {
     canonical:
-      "https://discountsheet.vercel.app/airline-discount-calculator/",
+      "https://discountsheet.vercel.app/airline-discount-calculator",
   },
   openGraph: {
     title: "Airline Discount Calculator Pakistan | QFC Group",
     description:
       "Calculate airline discounts, PSF and segment-related ticketing amounts with the QFC airline discount calculator.",
-    url: "https://discountsheet.vercel.app/airline-discount-calculator/",
+    url: "https://discountsheet.vercel.app/airline-discount-calculator",
     siteName: "QFC Group",
     locale: "en_PK",
     type: "website",
@@ -146,7 +146,7 @@ export default function AirlineDiscountCalculator() {
             </Link>
 
             <Link
-              href="/airline-discount-sheet-pakistan/"
+              href="/airline-discount-sheet-pakistan"
               style={{
                 display: "inline-block",
                 padding: "13px 24px",
@@ -323,7 +323,7 @@ export default function AirlineDiscountCalculator() {
             }}
           >
             <Link
-              href="/airline-discount-sheet-pakistan/"
+              href="/airline-discount-sheet-pakistan"
               style={{
                 color: "#087f94",
                 fontWeight: 700,
@@ -334,7 +334,7 @@ export default function AirlineDiscountCalculator() {
             </Link>
 
             <Link
-              href="/gds-airline-discounts/"
+              href="/gds-airline-discounts"
               style={{
                 color: "#087f94",
                 fontWeight: 700,
