@@ -14,13 +14,13 @@ export const metadata = {
     "QFC GDS discounts",
   ],
   alternates: {
-    canonical: "https://discountsheet.vercel.app/gds-airline-discounts/",
+    canonical: "https://discountsheet.vercel.app/gds-airline-discounts",
   },
   openGraph: {
     title: "GDS Airline Discounts Pakistan | QFC Group",
     description:
       "GDS airline discounts and travel agent offers for Amadeus, Galileo and Sabre users in Pakistan.",
-    url: "https://discountsheet.vercel.app/gds-airline-discounts/",
+    url: "https://discountsheet.vercel.app/gds-airline-discounts",
     siteName: "QFC Group",
     locale: "en_PK",
     type: "website",
@@ -149,7 +149,7 @@ export default function GdsAirlineDiscounts() {
             </Link>
 
             <Link
-              href="/airline-discount-sheet-pakistan/"
+              href="/airline-discount-sheet-pakistan"
               style={{
                 display: "inline-block",
                 padding: "13px 24px",
@@ -285,7 +285,7 @@ export default function GdsAirlineDiscounts() {
             }}
           >
             <Link
-              href="/airline-discount-sheet-pakistan/"
+              href="/airline-discount-sheet-pakistan"
               style={{
                 color: "#087f94",
                 fontWeight: 700,
@@ -296,7 +296,7 @@ export default function GdsAirlineDiscounts() {
             </Link>
 
             <Link
-              href="/airline-discount-calculator/"
+              href="/airline-discount-calculator"
               style={{
                 color: "#087f94",
                 fontWeight: 700,
