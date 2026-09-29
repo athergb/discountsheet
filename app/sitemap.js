@@ -9,19 +9,19 @@ export default function sitemap() {
       priority: 1.0,
     },
     {
-      url: `${baseUrl}/airline-discount-sheet-pakistan/`,
+      url: `${baseUrl}/airline-discount-sheet-pakistan`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.9,
     },
     {
-      url: `${baseUrl}/gds-airline-discounts/`,
+      url: `${baseUrl}/gds-airline-discounts`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/airline-discount-calculator/`,
+      url: `${baseUrl}/airline-discount-calculator`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.8,
