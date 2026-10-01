@@ -252,10 +252,10 @@
   {
     "category": "credit",
     "airline": "Azerbaijan Airlines",
-    "discount": "0.5%",
+    "discount": "1%",
     "logo": "J2logo.png",
-    "note": "",
-    "notification": "GDS Fares",
+    "note": "UPTO 6% Discount",
+    "notification": "GDS Fares FCT",
     "validity": "2026-09-30",
     "instructions": ""
   },
