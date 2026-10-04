@@ -51,16 +51,6 @@
   },
   {
     "category": "Credit",
-    "airline": "Serene Air",
-    "discount": "-3%",
-    "logo": "ERlogo.png",
-    "note": "Int & Dom Flights",
-    "notification": "Currently Suspended",
-    "validity": "2025-06-30",
-    "instructions": ""
-  },
-  {
-    "category": "Credit",
     "airline": "Flynas",
     "discount": "PKR 500",
     "logo": "XYlogo.png",
