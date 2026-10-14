@@ -134,7 +134,7 @@
     "airline": "Saudia Arabian Airlines",
     "discount": "-3.5%",
     "logo": "SVlogo.png",
-    "note": "",
+    "note": "GDS Discount Applicable",
     "notification": "GDS / NDC Fares",
     "validity": "2026-10-31",
     "instructions": "offer outbound till 31stDec26 inbound 2027 is included"
